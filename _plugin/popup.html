@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>eXtragone</title>
+  <style>
+    body {
+      font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      font-size:14px;
+      min-width: 285px;
+      padding: 0px;
+      margin: 0px;
+      background: #f4f4f4;
+    }
+    .alt-link {
+      display: block;
+      padding: 5px;
+      color: #0056d6;
+      text-decoration: none;
+    }
+    .alt-link:hover {
+      background: #C0D9FF;
+    }
+    .empty {
+      margin: 5px;
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 6px 10px;
+      border: none;
+      background-color: #0056d6;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    h3 {
+      margin: 10px;
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    .center { text-align: center }
+    #is-french {
+      display: none;
+      padding: 5px;
+      text-align: center;
+    }
+    #logo { cursor: pointer }
+  </style>
+</head>
+<body>
+  <h3><img id="logo" src="icons/icon16.png" title="Aller sur le portail eXtragone" alt="" />&nbsp; Alternatives françaises </h3>
+  
+  <!-- Alternatives -->
+  <div id="alternatives"></div>
+  
+  <!-- Si français -->
+  <div id="is-french">Cet outil est une alternative française ✅.</div>
+
+  <!-- Pas d'alternative -->
+  <div id="no-alternative" class="empty center" style="display: none;">
+    Aucune alternative connue pour ce site ☹️.
+  </div>
+  
+  <p class="center"><button id="suggest-btn" style="display: none;">Proposer une alternative</button></p>
+  <script src="popup.js"></script>
+</body>
+</html>

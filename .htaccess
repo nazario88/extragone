@@ -1,0 +1,19 @@
+Options +FollowSymLinks -MultiViews
+RewriteEngine On
+
+#RewriteBase /
+#RewriteCond %{HTTP_HOST} !^www\.
+#RewriteRule ^(.*)$ https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+#RewriteCond %{HTTPS} off
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteRule ^outils$ 					outils.php [L]
+RewriteRule ^outils/categorie/(.*)		outils.php?categorie=$1 [L]
+RewriteRule ^outil/(.*)$ 				outil.php?nom=$1 [L]
+RewriteRule ^ajouter					ajouter.php [L]
+RewriteRule ^categories$				categories.php [L]
+RewriteRule ^admin$						admin/dashboard.php [L]
+RewriteRule ^admin/$					admin/dashboard.php [L]
+RewriteRule ^contact$					contact.php [L]
+
+RewriteRule ^article/(.*)$				article.php?slug=$1 [L]

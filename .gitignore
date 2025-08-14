@@ -1,0 +1,27 @@
+# Fichier de configuration
+includes/config.php
+
+# Fichiers contenants les images etc de la page Plugin, ou zip
+/_others/
+_pluginv0.1.zip
+_pluginv0.zip
+*.zip
+
+# Fichiers contenant le module admin
+/admin/
+
+# Fichiers contenant les fichiers cache
+/cache/
+
+# Dossiers contenant les sitemaps
+/sitemaps/
+
+# Dossier contenant les images
+/uploads/
+
+# Fichier Google
+googledc3aeeb7e638e301.html
+
+# Système d'exploitation
+.DS_Store
+Thumbs.db

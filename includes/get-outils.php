@@ -1,0 +1,43 @@
+<?php
+
+header("Access-Control-Allow-Origin: https://www.extrag.one");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
+
+// Gestion requête OPTIONS (préflight)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
+include 'config.php';
+
+$cacheTime = '3600';
+$cacheDir = '../cache/';
+$nameFile = md5('nom_outils');
+
+// Si fichier cache existe
+if((file_exists($cacheDir.$nameFile)) && (time()-filemtime($cacheDir.$nameFile) < $cacheTime)) {
+	$content = file_get_contents($cacheDir.$nameFile);
+}
+// Sinon, on le créé
+else {
+	ob_start();
+
+	// Requête
+	$stmt = $pdo->query("SELECT nom, description FROM extra_tools ORDER BY nom ASC");
+
+	// Récupération des résultats
+	$outils = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+	echo json_encode($outils);
+	$content = ob_get_contents();
+
+	// On enregistre le cache
+	file_put_contents($cacheDir.$nameFile, $content);
+
+	ob_end_clean();
+}
+
+echo $content;
