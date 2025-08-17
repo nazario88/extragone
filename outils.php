@@ -116,34 +116,34 @@ include 'includes/header.php';
         <hr class="h-[1px] border-0 bg-gradient-to-r from-primary via-white to-secondary">
 
         <!-- Affichages des cartes -->
-            <?php if ($outils): ?>
-                <div class="px-5 py-5 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 gap-6">
-                <?php foreach ($outils as $outil): ?>
-                    <?php
-                    if(empty($outil['logo'])) $outil['logo'] = 'assets/link.jpg';
-                    $drapeau = ($outil['is_french']) ? $flag_FR : '';
-                    ?>
-                    <div class="bg-slate-100 hover:bg-white rounded-xl shadow p-4 flex flex-col items-center text-center border border-slate-200 dark:bg-slate-800 dark:border-slate-700 hover:dark:bg-slate-700 transition-colors duration-300">
-                        <a href="outil/<?php echo $outil['slug']; ?>" title="En savoir +">
-                            <h2 class="text-xl font-bold mb-2 flex gap-2"><?php echo htmlspecialchars($outil['nom']).$drapeau ?></h2>
-                        </a>
-                            <div class="h-[100px]">
-                                <a href="outil/<?php echo $outil['slug']; ?>" title="En savoir +">
-                                    <img class="w-full h-auto mb-2 maxrounded-md transition-transform duration-300 ease-in-out hover:scale-105 max-h-[100px]" src="<?php echo htmlspecialchars($outil['logo']); ?>" alt="Logo de <?php echo htmlspecialchars($outil['nom']); ?>">
-                                </a>
-                            </div>
-                            <p class="text-sm"><?php echo htmlspecialchars($outil['description']); ?></p>
-                        </a>
-                    </div>
-                <?php endforeach; ?>
+        <?php if ($outils): ?>
+            <div class="px-5 py-5 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 gap-6">
+            <?php foreach ($outils as $outil): ?>
+                <?php
+                if(empty($outil['logo'])) $outil['logo'] = 'assets/link.jpg';
+                $drapeau = ($outil['is_french']) ? $flag_FR : '';
+                ?>
+                <div class="bg-slate-100 hover:bg-white rounded-xl shadow p-4 flex flex-col items-center text-center border border-slate-200 dark:bg-slate-800 dark:border-slate-700 hover:dark:bg-slate-700 transition-colors duration-300">
+                    <a href="outil/<?php echo $outil['slug']; ?>" title="En savoir +">
+                        <h2 class="text-xl font-bold mb-2 flex gap-2"><?php echo htmlspecialchars($outil['nom']).$drapeau ?></h2>
+                    </a>
+                        <div class="h-[100px]">
+                            <a href="outil/<?php echo $outil['slug']; ?>" title="En savoir +">
+                                <img class="w-full h-auto mb-2 maxrounded-md transition-transform duration-300 ease-in-out hover:scale-105 max-h-[100px]" src="<?php echo htmlspecialchars($outil['logo']); ?>" alt="Logo de <?php echo htmlspecialchars($outil['nom']); ?>">
+                            </a>
+                        </div>
+                        <p class="text-sm"><?php echo htmlspecialchars($outil['description']); ?></p>
+                    </a>
                 </div>
-            <?php else: ?>
-            <p class="text-center m-5">
-                Aucun outil trouvé ☹️.
-            </p>
-            <?php endif; ?>
+            <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+        <p class="text-center m-5">
+            Aucun outil trouvé ☹️.
+        </p>
+        <?php endif; ?>
 
-        <!-- Footer -->
+    <!-- Footer -->
 <?php
 include 'includes/footer.php';
 ?>

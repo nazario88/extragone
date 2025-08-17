@@ -5,14 +5,23 @@ $title = "Trouver des outils et des alternatives françaises !";
 $description = "Extragone recense les meilleures alternatives françaises aux outils web. Toi aussi, soutiens la French tech' !";
 include 'includes/header.php';
 
+$stmt = $pdo->query('
+    SELECT a.* 
+    FROM extra_articles a
+    ORDER BY a.created_at DESC
+    LIMIT 4
+');
+
+$articles = $stmt->fetchAll();
+
 ?>
 
 <div class="w-full lg:w-1/2 mx-auto">
     <!-- Accroche -->
-    <p class="p-4 m-4 mx-auto text-xl md:text-4xl  text-center font-bold tracking-tight dark:text-slate-500">
+    <h1 class="p-4 m-4 mx-auto text-xl md:text-4xl  text-center font-bold tracking-tight dark:text-slate-500">
         <img src="assets/img/logo.webp" class="w-1/3 mx-auto" alt="Logo d'Extragone">
         Trouve <span class="dark:text-white font-semibold">l'équivalent français</span> d'un outil !
-    </p>
+    </h1>
 
   <!-- Barre de recherche -->
 <div class="w-full mx-auto mb-8 sm:px-6 lg:px-8 relative">
@@ -45,20 +54,61 @@ include 'includes/header.php';
 
     <!-- Explications -->
     <div class="w-full px-5 py-5">
-        <p class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">extragone, c'est quoi ?</p>
-        <p class="p-2 m-2">
-            eXtragone a pour objectif de recenser les outils web les plus utilisés, de les classer par catégorie et de les rendre facilement accessibles. Mais surtout, son moteur de recherche permet de <span class="font-bold">trouver des alternatives françaises</span>, pour mettre en valeur nos solutions locales et favoriser l’usage de produits made in France.
+        <h2 class="font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">extragone, c'est quoi ?</h2>
+        <div class="flex gap-4 m-2">
+            <div class="hidden text-center md:flex md:items-center w-[100px]"><i class="my-auto fas fa-question text-primary text-xl md:text-4xl"></i></div>
+            <p class="text-sm text-justify">
+                eXtragone a pour objectif de recenser les outils web les plus utilisés, de les classer par catégorie et de les rendre facilement accessibles. Mais surtout, son moteur de recherche permet de <span class="font-bold">trouver des alternatives françaises</span>, pour mettre en valeur nos solutions locales et favoriser l’usage de produits made in France.
+            </p>
+        </div>
+        <p class="mt-3">
+            <a href="outils" role="button" class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-700 transition">
+                <i class="fas fa-arrow-right"></i> Voir les outils
+            </a>
         </p>
-        <a href="outils" class="border-b-2 border-blue-500 hover:border-dotted">&rarr; Consulter l'ensemble des outils</a>
     </div>
 
     <!-- Plugin -->
     <div class="w-full px-5 py-5">
-        <p class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">Un plugin, vraiment ?</p>
-        <p class="p-2 m-2">
-            Pour trouver systématiquement les alternatives françaises, quoi de mieux qu'une extension Google Chrome ? L'icône clignote pour vous informer qu'un équivalent existe, et d'un simple clic, vous pouvez consulter les propositions. <span class="font-bold">De quoi ne plus passer à côté des outils locaux !</span> L'extension est légère, rapide, et ne collecte aucune donnée personnelle. N'hésitez pas à donner votre avis sur la fiche Google pour encourager le projet !
+        <h2 class="font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">Un plugin, vraiment ?</h2>
+        <div class="flex gap-4 m-2">
+            <div class="hidden text-center md:flex md:items-center w-[100px]"><i class="my-auto fab fa-chrome text-primary text-xl md:text-4xl"></i></div>
+            <p class="text-sm text-justify">
+                Pour trouver systématiquement les alternatives françaises, quoi de mieux qu'une extension Google Chrome ? L'icône clignote pour vous informer qu'un équivalent existe, et d'un simple clic, vous pouvez consulter les propositions. <span class="font-bold">De quoi ne plus passer à côté des outils locaux !</span> L'extension est légère, rapide, et ne collecte aucune donnée personnelle. N'hésitez pas à donner votre avis sur la fiche Google pour encourager le projet !
+            </p>
+        </div>
+        <p class="mt-3">
+            <a href="https://chromewebstore.google.com/detail/fjcfkhkhplfpngmffdkfekcpelkaggof?utm_source=item-share-cb" role="button" target="_blank" class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-700 transition">
+                <i class="fas fa-download"></i> Télécharger l'extension
+            </a>
         </p>
-        <a href="https://chromewebstore.google.com/detail/fjcfkhkhplfpngmffdkfekcpelkaggof?utm_source=item-share-cb" target="_blank" class="border-b-2 border-blue-500 hover:border-dotted">&rarr; Consulter l'extension Google Chrome</a>
+    </div>
+
+    <!-- Separateur -->
+    <hr class="mt-16 h-[1px] border-0 bg-gradient-to-r from-primary via-white to-secondary">
+
+    <!-- Derniers articles -->
+    <div class="w-full px-5 py-5">
+        <h2 class="font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">derniers articles</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 rounded-xl relative z-20 p-8 sm:p-4">
+            <!-- Articles -->
+            <?php foreach ($articles as $article): ?>
+            <article class="p-2 flex flex-col justify-between">
+                <a href="article/<?=htmlspecialchars($article['slug'], ENT_QUOTES, 'UTF-8')?>" class="group">
+                    <img class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105 rounded-xl" src="<?=htmlspecialchars($article['image'], ENT_QUOTES, 'UTF-8')?>" alt="<?=htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8')?>">
+                </a>
+                <div class="p-2 flex flex-col flex-grow">
+                    <h3 class="text-lg font-semibold mb-2"><?=htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8')?></h3>
+                    <p class="flex-grow text-sm text-justify"><?=htmlspecialchars($article['description'], ENT_QUOTES, 'UTF-8')?></p>
+                    <div class="mt-4">
+                        <a href="article/<?=htmlspecialchars($article['slug'], ENT_QUOTES, 'UTF-8')?>" role="button" class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-700 transition">
+                            <i class="fas fa-arrow-right"></i> Consulter l'article
+                        </a>
+                    </div>
+                </div>
+            </article>
+            <?php endforeach; ?>
+        </div>
     </div>
 </div>
 
