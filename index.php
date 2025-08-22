@@ -8,6 +8,7 @@ include 'includes/header.php';
 $stmt = $pdo->query('
     SELECT a.* 
     FROM extra_articles a
+    WHERE image IS NOT NULL 
     ORDER BY a.created_at DESC
     LIMIT 4
 ');
