@@ -37,13 +37,13 @@ include 'includes/header.php';
 
 <div class="px-5 py-5 grid grid-cols-4 gap-6">
     <?php foreach ($categories as $categorie): ?>
-    <div class="bg-slate-100 hover:bg-white rounded-xl shadow p-4 flex flex-col items-center text-center border border-slate-200 dark:bg-slate-800 dark:border-slate-700 hover:dark:bg-slate-700 transition-colors duration-300">      
-         <a class="font-medium" href="outils/categorie/<?=$categorie['slug']; ?>" title="Naviguer vers la catégorie">
-            <i class="w-full text-3xl text-primary <?=$categorie['class_icon']; ?>"></i>
-            <?php echo $categorie['nom']; ?>
-         </a>
-         <p class="text-sm"><?=$categorie['description'];?></p>
-     </div>
+    <a href="outils/categorie/<?=$categorie['slug']; ?>" title="Naviguer vers la catégorie" class="block transform transition duration-300 hover:scale-105">
+        <div class="bg-slate-100 hover:bg-white rounded-xl shadow p-4 flex flex-col items-center text-center border border-slate-200 dark:bg-slate-800 dark:border-slate-700 hover:dark:bg-slate-700 transition-colors duration-300">      
+                <i class="w-full text-3xl text-primary <?=$categorie['class_icon']; ?>"></i>
+                <p class="font-medium"><?php echo $categorie['nom']; ?></p>
+            <p class="text-sm"><?=$categorie['description'];?></p>
+        </div>
+    </a>
      <?php endforeach; ?>
  </div>
 
