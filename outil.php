@@ -51,8 +51,9 @@ if($data_outil['id']) {
 /* SEO
 ——————————————————————————————————————————————————*/
 $title = $data_outil['nom'].' — eXtragone';
-$description = $data_outil['description'];
+$description = mb_strimwidth($data_outil['description'] . ' ' . $data_outil['description_longue'], 0, 150) . '...'; 
 $image_seo = $data_outil['screenshot'];
+
 
 require_once 'admin/includes/auth.php';
 
