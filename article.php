@@ -61,7 +61,7 @@ include 'includes/header.php';
 </div>
 
 <!-- Container -->
-<div class="w-full w-full px-2 md:px-4">
+<div class="w-full px-2 md:px-4">
 
     <!-- Détail de l'article -->
     <div class="bg-white rounded-xl shadow p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
@@ -83,7 +83,14 @@ include 'includes/header.php';
            ';
         }
         ?>
-        </div>
+    </div>
+
+    <!-- Bouton voir tous les articles -->
+    <div class="text-center my-4 pt-6">
+        <a href="articles" class="w-full md:w-auto px-6 py-3 bg-blue-500 border-blue-600 dark:bg-slate-900 dark:border-slate-950 text-white fill-white active:scale-95 duration-100 border will-change-transform overflow-hidden relative rounded-xl transition-all hover:border-blue-400 dark:hover:border-blue-950 transition-all duration-200 group">
+            <span>Voir tous les articles</span>
+            <i class="fas fa-arrow-right ml-2 transition-transform duration-200 group-hover:translate-x-1"></i>
+        </a>
     </div>
 </div>
 <?php

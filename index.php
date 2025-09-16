@@ -111,6 +111,14 @@ $articles = $stmt->fetchAll();
             <?php endforeach; ?>
         </div>
     </div>
+
+    <!-- Bouton voir tous les articles -->
+    <div class="text-center mb-6">
+        <a href="articles" class="w-full md:w-auto px-6 py-3 bg-blue-500 border-blue-600 dark:bg-slate-900 dark:border-slate-950 text-white fill-white active:scale-95 duration-100 border will-change-transform overflow-hidden relative rounded-xl transition-all hover:border-blue-400 dark:hover:border-blue-950 transition-all duration-200 group">
+            <span>Voir tous les articles</span>
+            <i class="fas fa-arrow-right ml-2 transition-transform duration-200 group-hover:translate-x-1"></i>
+        </a>
+    </div>
 </div>
 
 <?php
