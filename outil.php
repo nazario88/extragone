@@ -243,15 +243,18 @@ $largeur_premier_div = (isset($data_outil['is_french']) && $data_outil['is_frenc
         }
         ?>
 
-
         <!-- Capture d'écran -->
         <?php
         if($data_outil['screenshot']) {
             echo '
                 <h3 class="font-bold mt-2">Capture d\'écran</h3>
-                <a href="'.$data_outil['screenshot'].'" target="_blank">
-                    <img class="mx-auto h-auto my-3 rounded-md transition-transform duration-300 ease-in-out hover:scale-105" style="max-height: 200px" src="'.$data_outil['screenshot'].'" alt="Logo de '.$data_outil['nom'].'">
-                </a>
+                <div class="screenshot-container">
+                    <img class="mx-auto h-auto my-3 rounded-md transition-transform duration-300 ease-in-out hover:scale-105 cursor-pointer" 
+                        style="max-height: 200px" 
+                        src="'.$data_outil['screenshot'].'" 
+                        alt="Screenshot de '.$data_outil['nom'].'"
+                        onclick="openImageModal(this)">
+                </div>
             ';
         }
         ?>
