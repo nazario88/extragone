@@ -61,7 +61,7 @@ include 'includes/header.php';
             <!-- Description courte -->
             <div class="mb-4">
                 <label for="description" class="block font-medium">Description</label>
-                <textarea id="description" name="description" placeholder="Que fait l'outil ?" rows=2 class="w-full px-3 py-1 rounded-md text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring" required minlength="20"><?=$add_description;?></textarea>
+                <textarea id="description" name="description" placeholder="Que fait l'outil ?" rows=2 class="w-full px-3 py-1 rounded-md text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring" minlength="20"><?=$add_description;?></textarea>
             </div>
 
 
