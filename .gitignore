@@ -1,27 +1,27 @@
 # Fichier de configuration
-/includes/config.php
-/includes/autopublish.php
+includes/config.php
+includes/autopublish.php
 
 # Fichiers RSS (sert à automatiser la création d'articles)
 /rss/
 
 # Fichiers contenants les images etc de la page Plugin, ou zip
-/_others/
+_others/
 _pluginv0.1.zip
 _pluginv0.zip
 *.zip
 
 # Fichiers contenant le module admin
-/admin/
+admin/
 
 # Fichiers contenant les fichiers cache
-/cache/
+cache/
 
 # Dossiers contenant les sitemaps
-/sitemaps/
+sitemaps/
 
 # Dossier contenant les images
-/uploads/
+uploads/
 
 # Fichier Google
 googledc3aeeb7e638e301.html
