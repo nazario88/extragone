@@ -1,5 +1,9 @@
 # Fichier de configuration
 includes/config.php
+includes/autopublish.php
+
+# Fichiers RSS (sert à automatiser la création d'articles)
+rss/
 
 # Fichiers contenants les images etc de la page Plugin, ou zip
 /_others/
