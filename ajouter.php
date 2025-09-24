@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $title = "Ajouter un nouvel outil";
 $description = "Proposer un nouvel outil à ajouter dans la liste eXtragone.";
 
-$url_canon = 'https://extrag.one/ajouter';
+$url_canon = 'https://www.extrag.one/ajouter';
 
 include 'includes/header.php';
 ?>

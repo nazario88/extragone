@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 $title = "À propos d'eXtragone";
 $description = "Une question, suggestion ? N'hésite pas à prendre contact avec l'équipe eXtragone.";
 
-$url_canon = 'https://extrag.one/contact';
+$url_canon = 'https://www.extrag.one/contact';
 
 include 'includes/header.php';
 ?>

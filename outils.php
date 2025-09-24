@@ -103,7 +103,7 @@ if(!$outils) {
 
 $title = "Liste des outils référencés";
 
-$url_canon = 'https://extrag.one/outils';
+$url_canon = 'https://www.extrag.one/outils';
 
 include 'includes/header.php';
 

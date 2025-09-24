@@ -1,11 +1,12 @@
 Options +FollowSymLinks -MultiViews
 RewriteEngine On
 
-#RewriteBase /
-#RewriteCond %{HTTP_HOST} !^www\.
-#RewriteRule ^(.*)$ https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-#RewriteCond %{HTTPS} off
-#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteBase /
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteCond %{HTTP_HOST} !^nomi\.extrag\.one$ [NC]
+RewriteRule ^(.*)$ https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 RewriteRule ^outils$ 					outils.php [L]
 RewriteRule ^outils/categorie/(.*)		outils.php?categorie=$1 [L]
@@ -18,3 +19,6 @@ RewriteRule ^contact$					contact.php [L]
 
 RewriteRule ^article/(.*)$				article.php?slug=$1 [L]
 RewriteRule ^articles$					articles.php [L]
+
+RewriteRule ^nomi$ nomi/index.php [L]
+RewriteRule ^nomi/(.*)$ nomi/$1 [L]

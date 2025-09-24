@@ -16,7 +16,7 @@ $categories = $stmt->fetchAll();
 
 require_once 'admin/includes/auth.php';
 
-$url_canon = 'https://extrag.one/categories';
+$url_canon = 'https://www.extrag.one/categories';
 
 include 'includes/header.php';
 ?>
