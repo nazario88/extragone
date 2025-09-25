@@ -68,7 +68,7 @@ function slugify(text) {
 let outils = [];
 
 window.addEventListener('DOMContentLoaded', () => {
-  fetch('includes/get-outils.php')
+  fetch('https://www.extrag.one/includes/get-outils.php')
     .then(response => response.json())
     .then(data => {
       outils = data;

@@ -6,7 +6,7 @@ $description = "Décris ton idée en quelques mots et laisse Nomi générer des 
 
 $url_canon = 'https://nomi.extrag.one';
 
-include '../includes/header.php';
+include 'includes/header.php';
 ?>
 
 <style>
@@ -172,5 +172,5 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <?php
-include '../includes/footer.php';
+include 'includes/footer.php';
 ?>

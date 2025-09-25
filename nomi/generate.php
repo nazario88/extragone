@@ -11,7 +11,13 @@ $project_description = $example_names = $keywords = $message = '';
 $preferences_length = 'moyen';
 $preferences_style = 'moderne';
 
-include '../includes/header.php';
+// Affichage des messages d'erreur
+if (isset($_SESSION['error'])) {
+    $message = '<div class="mx-auto text-center p-3 bg-red-100 text-red-800 rounded-xl border border-red-200 mt-4">' . $_SESSION['error'] . '</div>';
+    unset($_SESSION['error']);
+}
+
+include 'includes/header.php';
 ?>
 
 <div class="w-full lg:w-3/4 xl:w-2/3 2xl:w-1/2 mx-auto">
@@ -32,7 +38,7 @@ include '../includes/header.php';
     <!-- Formulaire -->
     <div class="px-5">
         <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 border border-slate-200 dark:border-slate-700">
-            <form method="post" action="process" name="generate_names" id="generateForm">
+            <form method="post" action="functions/process.php" name="generate_names" id="generateForm">
                 
                 <!-- Description du projet -->
                 <div class="mb-6">
@@ -204,5 +210,5 @@ document.getElementById('project_description').addEventListener('input', functio
 </script>
 
 <?php
-include '../includes/footer.php';
+include 'includes/footer.php';
 ?>

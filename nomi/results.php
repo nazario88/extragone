@@ -31,7 +31,7 @@ if (!$generated_data) {
 $title = "Résultats de génération — Nomi";
 $description = "Découvre les 50 noms générés pour ton projet avec explications et vérification de disponibilité.";
 
-$url_canon = 'https://nomi.extrag.one/results?token=' . $share_token;
+$url_canon = 'https://extrag.one/nomi/results?token=' . $share_token;
 
 include '../includes/header.php';
 ?>
@@ -43,17 +43,26 @@ include '../includes/header.php';
 .name-card:hover {
     transform: translateY(-2px);
 }
-.domain-check {
+.domain-btn {
     cursor: pointer;
+    font-weight: 600;
+    min-width: 40px;
 }
-.domain-available {
-    color: #10b981;
+.domain-btn.available {
+    background-color: #10b981;
+    border-color: #059669;
+    color: white;
 }
-.domain-taken {
-    color: #ef4444;
+.domain-btn.taken {
+    background-color: #ef4444;
+    border-color: #dc2626;
+    color: white;
 }
-.domain-checking {
-    color: #f59e0b;
+.domain-btn.checking {
+    background-color: #f59e0b;
+    border-color: #d97706;
+    color: white;
+    cursor: not-allowed;
 }
 </style>
 
@@ -104,7 +113,7 @@ include '../includes/header.php';
                 <div class="ml-auto">
                     <button onclick="checkAllDomains()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all text-sm">
                         <i class="fas fa-globe mr-1"></i>
-                        Vérifier tous les domaines
+                        Vérifier tous (.com & .fr)
                     </button>
                 </div>
             </div>
@@ -144,7 +153,7 @@ include '../includes/header.php';
                         <h3 class="font-bold text-lg text-gray-900 dark:text-white">
                             <?= htmlspecialchars($name) ?>
                         </h3>
-                        <button onclick="addToFavorites('<?= htmlspecialchars($name) ?>', '<?= htmlspecialchars($category['name']) ?>', '<?= htmlspecialchars($explanation) ?>')" 
+                        <button onclick="addToFavorites(<?= htmlspecialchars(json_encode($name), ENT_QUOTES, 'UTF-8') ?>, <?= htmlspecialchars(json_encode($category['name']), ENT_QUOTES, 'UTF-8') ?>, <?= htmlspecialchars(json_encode($explanation), ENT_QUOTES, 'UTF-8') ?>)" 
                                 class="favorite-btn text-gray-400 hover:text-red-500 transition-colors" 
                                 title="Ajouter aux favoris">
                             <i class="far fa-heart"></i>
@@ -161,15 +170,22 @@ include '../includes/header.php';
                         <span class="text-xs text-gray-500">
                             <?= $nameLength ?> lettres
                         </span>
-                        <div class="flex items-center gap-2">
-                            <!-- Vérification domaine -->
-                            <span class="domain-check text-xs" 
-                                  onclick="checkDomain('<?= strtolower($name) ?>', this)"
-                                  data-domain="<?= strtolower($name) ?>"
-                                  title="Cliquer pour vérifier la disponibilité .com">
-                                <i class="fas fa-globe mr-1"></i>
-                                <span class="domain-status">Vérifier</span>
-                            </span>
+                        <div class="flex items-center gap-1">
+                            <!-- Vérification domaines .com et .fr -->
+                            <button class="domain-btn text-xs px-2 py-1 rounded border text-gray-600 border-gray-300 hover:border-gray-400 transition-all"
+                                    onclick="checkDomain('<?= strtolower($name) ?>', 'com', this)"
+                                    data-domain="<?= strtolower($name) ?>"
+                                    data-tld="com"
+                                    title="Vérifier disponibilité .com">
+                                .COM
+                            </button>
+                            <button class="domain-btn text-xs px-2 py-1 rounded border text-gray-600 border-gray-300 hover:border-gray-400 transition-all"
+                                    onclick="checkDomain('<?= strtolower($name) ?>', 'fr', this)"
+                                    data-domain="<?= strtolower($name) ?>"
+                                    data-tld="fr"
+                                    title="Vérifier disponibilité .fr">
+                                .FR
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -242,8 +258,8 @@ function filterByAvailability(filter) {
         let show = true;
         
         if (filter === 'available') {
-            const domainStatus = card.querySelector('.domain-status');
-            show = domainStatus && domainStatus.textContent === 'Disponible';
+            const domainButtons = card.querySelectorAll('.domain-btn');
+            show = Array.from(domainButtons).some(btn => btn.classList.contains('available'));
         } else if (filter === 'short') {
             const length = parseInt(card.dataset.length);
             show = length <= 6;
@@ -254,43 +270,54 @@ function filterByAvailability(filter) {
 }
 
 // Vérification des domaines
-async function checkDomain(domain, element) {
-    const statusElement = element.querySelector('.domain-status');
-    statusElement.textContent = 'Vérification...';
-    statusElement.className = 'domain-status domain-checking';
+async function checkDomain(domain, tld, button) {
+    // Éviter les clics multiples
+    if (button.classList.contains('checking')) return;
+    
+    button.classList.add('checking');
+    button.textContent = '...';
     
     try {
-        const response = await fetch('check-domain.php', {
+        const response = await fetch('https://nomi.extrag.one/functions/check-domain.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ domain: domain + '.com' })
+            body: JSON.stringify({ domain: domain + '.' + tld })
         });
         
         const result = await response.json();
         
+        button.classList.remove('checking');
+        
         if (result.available) {
-            statusElement.textContent = 'Disponible';
-            statusElement.className = 'domain-status domain-available';
+            button.classList.add('available');
+            button.classList.remove('taken');
+            button.textContent = '.' + tld.toUpperCase();
+            button.title = 'Domaine .' + tld + ' disponible !';
         } else {
-            statusElement.textContent = 'Pris';
-            statusElement.className = 'domain-status domain-taken';
+            button.classList.add('taken');
+            button.classList.remove('available');
+            button.textContent = '.' + tld.toUpperCase();
+            button.title = 'Domaine .' + tld + ' pris';
         }
     } catch (error) {
-        statusElement.textContent = 'Erreur';
-        statusElement.className = 'domain-status domain-taken';
+        button.classList.remove('checking');
+        button.classList.add('taken');
+        button.textContent = '.' + tld.toUpperCase();
+        button.title = 'Erreur de vérification';
     }
 }
 
 // Vérifier tous les domaines
 function checkAllDomains() {
-    const domainCheckers = document.querySelectorAll('.domain-check');
-    domainCheckers.forEach((checker, index) => {
+    const domainButtons = document.querySelectorAll('.domain-btn');
+    domainButtons.forEach((button, index) => {
         setTimeout(() => {
-            const domain = checker.dataset.domain;
-            checkDomain(domain, checker);
-        }, index * 200); // Délai pour éviter de surcharger l'API
+            const domain = button.dataset.domain;
+            const tld = button.dataset.tld;
+            checkDomain(domain, tld, button);
+        }, index * 300); // Délai pour éviter de surcharger l'API
     });
 }
 

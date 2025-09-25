@@ -6,11 +6,11 @@ RewriteRule ^$ index.php [L]
 
 # Routes pour Nomi
 RewriteRule ^generate$ generate.php [L]
-RewriteRule ^process$ process.php [L]
+RewriteRule ^process$ functions/process.php [L]
 RewriteRule ^results$ results.php [L]
 
 # API endpoints
-RewriteRule ^check-domain$ check-domain.php [L]
+RewriteRule ^check-domain$ functions/check-domain.php [L]
 
 # Empêcher l'accès direct aux fichiers sensibles
 <Files "*.php">

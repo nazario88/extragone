@@ -1,9 +1,9 @@
 <?php
-include '../includes/config.php';
+include '../../includes/config.php';
 
 // Vérifier que c'est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: generate');
+    header('Location: https://nomi.extrag.one/generate');
     exit;
 }
 
@@ -17,7 +17,15 @@ $preferences_style = $_POST['preferences_style'] ?? 'moderne';
 // Validation basique
 if (empty($project_description) || strlen($project_description) < 20) {
     $_SESSION['error'] = 'La description du projet doit contenir au moins 20 caractères.';
-    header('Location: generate');
+    header('Location: https://nomi.extrag.one/generate');
+    exit;
+}
+
+// Vérifier la clé API
+if (empty($_ENV['MISTRAL_API_KEY'])) {
+    error_log('Nomi Error - Clé API Mistral manquante');
+    $_SESSION['error'] = 'Configuration API manquante.';
+    header('Location: https://nomi.extrag.one/generate');
     exit;
 }
 
@@ -76,13 +84,13 @@ try {
     ]);
     
     // Redirection vers les résultats
-    header('Location: results?token=' . $share_token);
+    header('Location: https://nomi.extrag.one/results?token=' . $share_token);
     exit;
     
 } catch (Exception $e) {
     error_log('Nomi generation error: ' . $e->getMessage());
     $_SESSION['error'] = 'Une erreur est survenue lors de la génération. Veuillez réessayer.';
-    header('Location: generate');
+    header('Location: https://nomi.extrag.one/generate');
     exit;
 }
 
@@ -90,17 +98,18 @@ try {
  * Génère des noms avec l'API Mistral AI
  */
 function generateNamesWithMistral($description, $examples, $keywords, $length, $style) {
-    $api_key = $_ENV['MISTRAL_API_KEY'];
+    // Essayer plusieurs méthodes pour récupérer la clé API
+    $api_key = $_ENV['MISTRAL_API_KEY'] ?? getenv('MISTRAL_API_KEY') ?? null;
     
     if (empty($api_key)) {
         throw new Exception('Clé API Mistral non configurée');
     }
     
-    // Construction du prompt
-    $prompt = buildPrompt($description, $examples, $keywords, $length, $style);
+    // Construction du prompt - VERSION SIMPLIFIEE pour éviter les timeouts
+    $prompt = buildSimplePrompt($description, $examples, $keywords, $length, $style);
     
     $data = [
-        'model' => 'mistral-large-latest',
+        'model' => 'mistral-small-latest', // Modèle plus rapide
         'messages' => [
             [
                 'role' => 'user',
@@ -108,7 +117,7 @@ function generateNamesWithMistral($description, $examples, $keywords, $length, $
             ]
         ],
         'temperature' => 0.8,
-        'max_tokens' => 4000
+        'max_tokens' => 2000 // Réduire pour accélérer
     ];
     
     $ch = curl_init();
@@ -121,7 +130,8 @@ function generateNamesWithMistral($description, $examples, $keywords, $length, $
             'Content-Type: application/json',
             'Authorization: Bearer ' . $api_key
         ],
-        CURLOPT_TIMEOUT => 30
+        CURLOPT_TIMEOUT => 60, // Augmenter le timeout à 60 secondes
+        CURLOPT_CONNECTTIMEOUT => 10 // Timeout de connexion
     ]);
     
     $response = curl_exec($ch);
@@ -135,7 +145,14 @@ function generateNamesWithMistral($description, $examples, $keywords, $length, $
     curl_close($ch);
     
     if ($http_code !== 200) {
-        throw new Exception('Erreur API Mistral: HTTP ' . $http_code);
+        $error_details = '';
+        if ($response) {
+            $error_data = json_decode($response, true);
+            if (isset($error_data['message'])) {
+                $error_details = ' - ' . $error_data['message'];
+            }
+        }
+        throw new Exception('Erreur API Mistral: HTTP ' . $http_code . $error_details);
     }
     
     $result = json_decode($response, true);
@@ -151,7 +168,41 @@ function generateNamesWithMistral($description, $examples, $keywords, $length, $
 }
 
 /**
- * Construit le prompt pour l'API
+ * Version simplifiée du prompt pour éviter les timeouts
+ */
+function buildSimplePrompt($description, $examples, $keywords, $length, $style) {
+    $prompt = "Génère 20 noms créatifs pour ce projet : {$description}";
+    
+    if (!empty($examples)) {
+        $prompt .= "\nExemples aimés: {$examples}";
+    }
+    
+    if (!empty($keywords)) {
+        $prompt .= "\nMots-clés: {$keywords}";
+    }
+    
+    $prompt .= "\nStyle: {$style}, Longueur: {$length}";
+    
+    $prompt .= "\n\nRéponds en JSON strict :
+{
+  \"categories\": [
+    {
+      \"name\": \"Noms Créatifs\",
+      \"description\": \"Noms innovants pour ton projet\",
+      \"names\": [
+        {\"name\": \"NomExemple\", \"explanation\": \"Courte explication\"}
+      ]
+    }
+  ]
+}
+
+IMPORTANT: Génère exactement 20 noms dans UNE SEULE catégorie. JSON uniquement, sans texte avant/après.";
+
+    return $prompt;
+}
+
+/**
+ * Construit le prompt pour l'API (version complète - gardée pour plus tard)
  */
 function buildPrompt($description, $examples, $keywords, $length, $style) {
     $length_desc = [
