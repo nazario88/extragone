@@ -1,7 +1,7 @@
 <?php
 include '../includes/config.php';
 
-$title = "Trouve le nom parfait pour ton projet — Nomi by eXtragone";
+$title = "Trouve le nom parfait pour ton projet";
 $description = "Décris ton idée en quelques mots et laisse Nomi générer des dizaines de propositions créatives, avec explications et vérification de disponibilité.";
 
 $url_canon = 'https://nomi.extrag.one';
@@ -43,18 +43,14 @@ include 'includes/header.php';
 <div class="w-full lg:w-3/4 xl:w-2/3 2xl:w-1/2 mx-auto">
     <!-- Hero Section -->
     <div class="px-5 py-12 text-center">
-        <!-- Logo/Branding -->
-        <div class="mb-8 opacity-0 animate-fadeInUp">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4">
-                <span class="text-blue-600">Nomi</span>
-                <span class="text-gray-600 dark:text-gray-400 text-lg">by eXtragone</span>
-            </h1>
-        </div>
+        <?php
+        // Eventuellement, insérer ici une image d'exemple ? / gif ?
+        ?>        
 
         <!-- Titre principal -->
         <div class="mb-6 opacity-0 animate-fadeInUp animate-delay-200">
-            <h2 class="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                Trouve le nom parfait pour ton projet
+            <h2 class="text-2xl md:text-4xl font-bold tracking-tight dark:text-slate-500 mb-4">
+                Trouve <span class="dark:text-white font-semibold">le nom de projet</span> parfait !
             </h2>
             
             <!-- Animation des mots -->
@@ -73,8 +69,8 @@ include 'includes/header.php';
 
         <!-- CTA Principal -->
         <div class="mb-8 opacity-0 animate-fadeInUp animate-delay-400">
-            <a href="generate" class="inline-block px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <i class="fas fa-magic mr-2"></i>
+            <a href="generate" class="inline-block px-8 py-4 bg-blue-500 hover:bg-blue-700 text-white font-semibold text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
                 Générer des noms
             </a>
         </div>
@@ -88,41 +84,41 @@ include 'includes/header.php';
     </div>
 
     <!-- Séparateur -->
-    <hr class="my-16 h-[1px] border-0 bg-gradient-to-r from-primary via-white to-secondary">
+    <hr class="my-2 h-[1px] border-0 bg-gradient-to-r from-primary via-white to-secondary">
 
     <!-- Section explicative -->
-    <div class="px-5 py-8">
+    <div class="px-5 py-2">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Étape 1 -->
             <div class="text-center p-6">
                 <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-edit text-blue-600 dark:text-blue-400 text-xl"></i>
+                    <i class="fa-solid fa-pen-to-square text-blue-600 dark:text-blue-400 text-xl"></i>
                 </div>
                 <h3 class="text-lg font-semibold mb-2">1. Décris ton projet</h3>
                 <p class="text-gray-600 dark:text-gray-300 text-sm">
-                    Une phrase simple sur l'objectif, quelques mots-clés et tes préférences de style
+                    Une phrase simple sur l'objectif, quelques mots-clés et tes préférences de style.
                 </p>
             </div>
 
             <!-- Étape 2 -->
             <div class="text-center p-6">
                 <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-robot text-green-600 dark:text-green-400 text-xl"></i>
+                    <i class="fa-solid fa-robot robot text-green-600 dark:text-green-400 text-xl"></i>
                 </div>
                 <h3 class="text-lg font-semibold mb-2">2. L'IA génère</h3>
                 <p class="text-gray-600 dark:text-gray-300 text-sm">
-                    50 propositions créatives organisées par thèmes avec explications détaillées
+                    Des propositions créatives organisées par thèmes avec explications détaillées.
                 </p>
             </div>
 
             <!-- Étape 3 -->
             <div class="text-center p-6">
                 <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-globe text-purple-600 dark:text-purple-400 text-xl"></i>
+                    <i class="fa-solid fa-globe text-purple-600 dark:text-purple-400 text-xl"></i>
                 </div>
                 <h3 class="text-lg font-semibold mb-2">3. Vérifie & choisis</h3>
                 <p class="text-gray-600 dark:text-gray-300 text-sm">
-                    Disponibilité des domaines, concurrence et partage facile de tes favoris
+                    Disponibilité des domaines, concurrence et partage facile de tes favoris.
                 </p>
             </div>
         </div>
@@ -132,7 +128,7 @@ include 'includes/header.php';
     <div class="text-center py-8">
         <a href="generate" class="px-6 py-3 bg-white dark:bg-slate-800 border-2 border-blue-600 text-blue-600 font-semibold rounded-xl hover:bg-blue-50 dark:hover:bg-slate-700 transition-all duration-300">
             Commencer maintenant
-            <i class="fas fa-arrow-right ml-2"></i>
+            <i class="fa-solid fa-arrow-right ml-2"></i>
         </a>
     </div>
 </div>

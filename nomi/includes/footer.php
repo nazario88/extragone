@@ -5,7 +5,10 @@
         <div class="container mx-auto flex flex-wrap items-center justify-between">
             <div class="w-full md:w-1/2 md:text-center md:mb-0 mb-8">
                 <p class="text-center text-xs">
-                    <img class="mx-auto w-auto h-auto inline" src="https://www.extrag.one/assets/img/extrag.one.png" alt="eXtragone, portail pour trouver des outils et équivalents français" title="eXtrag.one" />
+                    Propulsé par
+                    <a href="https://mistral.ai" target="_blank">
+                        <img class="mx-auto w-auto h-5 inline" src="images/mistral.png" alt="API Mistral utilisée" title="Mistral.ai" />
+                    </a>
                 </p>
             </div>
             <div class="w-full md:w-1/2 md:text-center md:mb-0 mb-8">

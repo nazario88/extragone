@@ -84,10 +84,10 @@ include '../includes/header.php';
             </div>
             <div class="mt-4 lg:mt-0 flex gap-2">
                 <button onclick="shareResults()" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all">
-                    <i class="fas fa-share mr-2"></i>Partager
+                    <i class="fa-solid fa-share mr-2"></i>Partager
                 </button>
                 <a href="generate" class="px-4 py-2 bg-gray-600 text-white rounded-xl hover:bg-gray-700 transition-all">
-                    <i class="fas fa-plus mr-2"></i>Nouvelle génération
+                    <i class="fa-solid fa-plus mr-2"></i>Nouvelle génération
                 </a>
             </div>
         </div>
@@ -98,7 +98,7 @@ include '../includes/header.php';
         <div class="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
             <div class="flex flex-wrap items-center gap-4">
                 <div class="flex items-center gap-2">
-                    <i class="fas fa-filter text-gray-500"></i>
+                    <i class="fa-solid fa-filter text-gray-500"></i>
                     <span class="text-sm font-medium">Filtres :</span>
                 </div>
                 <button onclick="filterByAvailability('all')" class="filter-btn active px-3 py-1 rounded-lg text-sm transition-all">
@@ -112,7 +112,7 @@ include '../includes/header.php';
                 </button>
                 <div class="ml-auto">
                     <button onclick="checkAllDomains()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all text-sm">
-                        <i class="fas fa-globe mr-1"></i>
+                        <i class="fa-solid fa-globe mr-1"></i>
                         Vérifier tous (.com & .fr)
                     </button>
                 </div>
@@ -199,7 +199,7 @@ include '../includes/header.php';
     <div class="px-5 py-8">
         <div id="favorites-section" class="hidden">
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                <i class="fas fa-heart text-red-500 mr-2"></i>
+                <i class="fa-solid fa-heart text-red-500 mr-2"></i>
                 Tes favoris
             </h2>
             <div id="favorites-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -207,7 +207,7 @@ include '../includes/header.php';
             </div>
             <div class="mt-4 text-center">
                 <button onclick="exportFavorites()" class="px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-all">
-                    <i class="fas fa-download mr-2"></i>
+                    <i class="fa-solid fa-download mr-2"></i>
                     Exporter mes favoris
                 </button>
             </div>
@@ -226,7 +226,7 @@ include '../includes/header.php';
                        value="<?= $url_canon ?>"
                        class="flex-1 px-3 py-2 border rounded-l-lg bg-gray-50 dark:bg-gray-700">
                 <button onclick="copyShareUrl()" class="px-4 py-2 bg-blue-600 text-white rounded-r-lg hover:bg-blue-700">
-                    <i class="fas fa-copy"></i>
+                    <i class="fa-solid fa-copy"></i>
                 </button>
             </div>
         </div>
@@ -350,7 +350,7 @@ function updateFavoritesDisplay() {
             <div class="flex items-start justify-between mb-2">
                 <h4 class="font-bold text-lg">${fav.name}</h4>
                 <button onclick="removeFromFavorites('${fav.name}')" class="text-red-500 hover:text-red-700">
-                    <i class="fas fa-times"></i>
+                    <i class="fa-solid fa-times"></i>
                 </button>
             </div>
             <p class="text-sm text-gray-600 dark:text-gray-300 mb-1">${fav.explanation}</p>
@@ -407,9 +407,9 @@ function copyShareUrl() {
     document.execCommand('copy');
     
     const btn = event.target;
-    btn.innerHTML = '<i class="fas fa-check"></i>';
+    btn.innerHTML = '<i class="fa-solid fa-check"></i>';
     setTimeout(() => {
-        btn.innerHTML = '<i class="fas fa-copy"></i>';
+        btn.innerHTML = '<i class="fa-solid fa-copy"></i>';
     }, 2000);
 }
 </script>

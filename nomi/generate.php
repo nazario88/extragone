@@ -43,7 +43,7 @@ include 'includes/header.php';
                 <!-- Description du projet -->
                 <div class="mb-6">
                     <label for="project_description" class="block font-semibold text-gray-900 dark:text-white mb-2">
-                        <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                        <i class="fa-solid fa-lightbulb text-yellow-500 mr-2"></i>
                         Description de ton projet *
                     </label>
                     <textarea 
@@ -61,7 +61,7 @@ include 'includes/header.php';
                 <!-- Noms d'exemple -->
                 <div class="mb-6">
                     <label for="example_names" class="block font-semibold text-gray-900 dark:text-white mb-2">
-                        <i class="fas fa-heart text-red-500 mr-2"></i>
+                        <i class="fa-solid fa-heart text-red-500 mr-2"></i>
                         Noms que tu aimes (optionnel)
                     </label>
                     <input 
@@ -77,7 +77,7 @@ include 'includes/header.php';
                 <!-- Mots-clés -->
                 <div class="mb-6">
                     <label for="keywords" class="block font-semibold text-gray-900 dark:text-white mb-2">
-                        <i class="fas fa-tags text-blue-500 mr-2"></i>
+                        <i class="fa-solid fa-tags text-blue-500 mr-2"></i>
                         Mots-clés associés (optionnel)
                     </label>
                     <input 
@@ -96,7 +96,7 @@ include 'includes/header.php';
                     <!-- Longueur -->
                     <div>
                         <label class="block font-semibold text-gray-900 dark:text-white mb-3">
-                            <i class="fas fa-ruler text-green-500 mr-2"></i>
+                            <i class="fa-solid fa-ruler text-green-500 mr-2"></i>
                             Longueur préférée
                         </label>
                         <div class="space-y-2">
@@ -121,7 +121,7 @@ include 'includes/header.php';
                     <!-- Style -->
                     <div>
                         <label class="block font-semibold text-gray-900 dark:text-white mb-3">
-                            <i class="fas fa-palette text-purple-500 mr-2"></i>
+                            <i class="fa-solid fa-palette text-purple-500 mr-2"></i>
                             Style préféré
                         </label>
                         <div class="space-y-2">
@@ -156,11 +156,11 @@ include 'includes/header.php';
                         id="generateBtn"
                         class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
                         <span id="btnText">
-                            <i class="fas fa-magic mr-2"></i>
+                            <i class="fa-solid fa-magic mr-2"></i>
                             Générer 50 noms créatifs
                         </span>
                         <span id="btnLoading" class="hidden">
-                            <i class="fas fa-spinner fa-spin mr-2"></i>
+                            <i class="fa-solid fa-spinner fa-spin mr-2"></i>
                             Génération en cours...
                         </span>
                     </button>
@@ -177,7 +177,7 @@ include 'includes/header.php';
     <div class="px-5 py-8">
         <div class="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-6 border border-blue-200 dark:border-blue-800">
             <h3 class="font-semibold text-blue-900 dark:text-blue-100 mb-3">
-                <i class="fas fa-lightbulb mr-2"></i>
+                <i class="fa-solid fa-lightbulb mr-2"></i>
                 Conseils pour de meilleurs résultats
             </h3>
             <ul class="text-sm text-blue-800 dark:text-blue-200 space-y-1">
