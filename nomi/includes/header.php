@@ -1,8 +1,9 @@
 <?php
-$base = "https://nomi.extrag.one"; //defaut)
-if(!isset($url_canon)) $url_canon = "https://nomi.extrag.one"; //defaut)
+$base = "https://nomi.extrag.one"; //defaut
+if(!isset($url_canon)) $url_canon = "https://nomi.extrag.one"; //defaut
 if(!isset($recherche)) $recherche = "";
 if(!isset($image_seo)) $image_seo = "https://www.extrag.one/assets/img/image-og.png"; // a changer apres MEP
+if(!isset($noindex)) $noindex = FALSE;
 ?>
 <!DOCTYPE html>
 <html lang="fr" class="dark">
@@ -10,6 +11,14 @@ if(!isset($image_seo)) $image_seo = "https://www.extrag.one/assets/img/image-og.
     <title><?=$title?></title>
     <!-- Meta -->
     <meta charset="UTF-8" />
+
+    <?php
+    if($noindex) {
+      echo '
+    <meta name="robots" content="noindex">
+      ';
+    }
+    ?>
     
     <meta name="application-name" content="eXtragone"/>
     <meta name="author"           content="InnoSpira"/>

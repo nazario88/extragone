@@ -24,7 +24,7 @@ include 'includes/header.php';
     
     <div class="w-full px-5 py-5">
         <p class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">
-            <a href="./" class="hover:text-blue-600">&larr; Nomi</a> → Générer
+            &larr; génération avec l'IA
         </p>
         <h1 class="mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
             Générer des noms pour ton projet
@@ -157,7 +157,7 @@ include 'includes/header.php';
                         class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
                         <span id="btnText">
                             <i class="fa-solid fa-magic mr-2"></i>
-                            Générer 50 noms créatifs
+                            Générer 20 noms créatifs
                         </span>
                         <span id="btnLoading" class="hidden">
                             <i class="fa-solid fa-spinner fa-spin mr-2"></i>

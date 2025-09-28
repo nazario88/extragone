@@ -29,16 +29,20 @@ if (!$generated_data) {
 }
 
 $title = "Résultats de génération — Nomi";
-$description = "Découvre les 50 noms générés pour ton projet avec explications et vérification de disponibilité.";
+$description = "Découvre les noms générés pour ton projet avec explications et vérification de disponibilité.";
 
 $url_canon = 'https://extrag.one/nomi/results?token=' . $share_token;
+$noindex = TRUE; // On indexe pas les résultats
 
-include '../includes/header.php';
+include 'includes/header.php';
 ?>
 
 <style>
 .name-card {
     transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 .name-card:hover {
     transform: translateY(-2px);
@@ -64,6 +68,12 @@ include '../includes/header.php';
     color: white;
     cursor: not-allowed;
 }
+.no-results {
+    grid-column: 1 / -1; /* Prend toute la largeur de la grille */
+    padding: 2rem;
+    margin: 1rem 0;
+}
+
 </style>
 
 <div class="w-full max-w-7xl mx-auto">
@@ -71,22 +81,22 @@ include '../includes/header.php';
     <!-- Header -->
     <div class="w-full px-5 py-5">
         <p class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">
-            <a href="./" class="hover:text-blue-600">&larr; Nomi</a> → Résultats
+            &rarr; résultats
         </p>
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
             <div>
                 <h1 class="mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
-                    50 noms pour ton projet
+                    20 noms pour ton projet
                 </h1>
                 <p class="mt-2 text-gray-600 dark:text-gray-300 max-w-2xl">
                     <?= htmlspecialchars($generation['project_description']) ?>
                 </p>
             </div>
             <div class="mt-4 lg:mt-0 flex gap-2">
-                <button onclick="shareResults()" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all">
+                <button onclick="shareResults()" class="px-3 py-1 text-sm rounded border bg-orange-500 text-white hover:bg-orange-600 border-orange-700 transition">
                     <i class="fa-solid fa-share mr-2"></i>Partager
                 </button>
-                <a href="generate" class="px-4 py-2 bg-gray-600 text-white rounded-xl hover:bg-gray-700 transition-all">
+                <a href="generate" class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-700 transition">
                     <i class="fa-solid fa-plus mr-2"></i>Nouvelle génération
                 </a>
             </div>
@@ -111,9 +121,9 @@ include '../includes/header.php';
                     Noms courts
                 </button>
                 <div class="ml-auto">
-                    <button onclick="checkAllDomains()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all text-sm">
+                    <button onclick="checkAllDomains()" class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-700 transition">
                         <i class="fa-solid fa-globe mr-1"></i>
-                        Vérifier tous (.com & .fr)
+                        Vérifier les domaines (.com & .fr)
                     </button>
                 </div>
             </div>
@@ -161,25 +171,25 @@ include '../includes/header.php';
                     </div>
                     
                     <!-- Explication -->
-                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-3 flex-grow">
                         <?= htmlspecialchars($explanation) ?>
                     </p>
                     
                     <!-- Infos et actions -->
                     <div class="flex items-center justify-between">
-                        <span class="text-xs text-gray-500">
+                        <span class="text-xs text-gray-500 uppercase">
                             <?= $nameLength ?> lettres
                         </span>
                         <div class="flex items-center gap-1">
                             <!-- Vérification domaines .com et .fr -->
-                            <button class="domain-btn text-xs px-2 py-1 rounded border text-gray-600 border-gray-300 hover:border-gray-400 transition-all"
+                            <button class="domain-btn text-xs px-2 py-1 rounded border text-gray-600 border-gray-300 dark:text-gray-500 dark:border-gray-500 hover:border-gray-400 transition-all"
                                     onclick="checkDomain('<?= strtolower($name) ?>', 'com', this)"
                                     data-domain="<?= strtolower($name) ?>"
                                     data-tld="com"
                                     title="Vérifier disponibilité .com">
                                 .COM
                             </button>
-                            <button class="domain-btn text-xs px-2 py-1 rounded border text-gray-600 border-gray-300 hover:border-gray-400 transition-all"
+                            <button class="domain-btn text-xs px-2 py-1 rounded border text-gray-600 border-gray-300 dark:text-gray-500 dark:border-gray-500 hover:border-gray-400 transition-all"
                                     onclick="checkDomain('<?= strtolower($name) ?>', 'fr', this)"
                                     data-domain="<?= strtolower($name) ?>"
                                     data-tld="fr"
@@ -190,6 +200,17 @@ include '../includes/header.php';
                     </div>
                 </div>
                 <?php endforeach; ?>
+
+                <!-- Message si aucun résultat après filtre -->
+                <div class="no-results hidden text-center py-8">
+                    <div class="text-gray-400 mb-2">
+                        <i class="fa-solid fa-search text-3xl"></i>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400">Aucun résultat avec ce filtre 😣.</p>
+                    <button onclick="filterByAvailability('all')" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all text-sm">
+                        Réinitialiser les filtres
+                    </button>
+                </div>
             </div>
         </div>
         <?php endforeach; ?>
@@ -206,7 +227,7 @@ include '../includes/header.php';
                 <!-- Les favoris seront ajoutés ici via JavaScript -->
             </div>
             <div class="mt-4 text-center">
-                <button onclick="exportFavorites()" class="px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-all">
+                <button onclick="exportFavorites()" class="px-6 py-3 rounded-xl text-white border bg-blue-500 border-blue-600 dark:bg-slate-900 dark:border-slate-950 hover:border-blue-400 dark:hover:border-blue-950 transition-all">
                     <i class="fa-solid fa-download mr-2"></i>
                     Exporter mes favoris
                 </button>
@@ -224,7 +245,7 @@ include '../includes/header.php';
             <div class="flex">
                 <input id="shareUrl" type="text" readonly 
                        value="<?= $url_canon ?>"
-                       class="flex-1 px-3 py-2 border rounded-l-lg bg-gray-50 dark:bg-gray-700">
+                       class="flex-1 px-3 py-2 border border-blue-600 rounded-l-lg bg-gray-50 dark:bg-gray-700">
                 <button onclick="copyShareUrl()" class="px-4 py-2 bg-blue-600 text-white rounded-r-lg hover:bg-blue-700">
                     <i class="fa-solid fa-copy"></i>
                 </button>
@@ -253,6 +274,7 @@ function filterByAvailability(filter) {
     event.target.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
     
     const cards = document.querySelectorAll('.name-card');
+    let visibleCount = 0;
     
     cards.forEach(card => {
         let show = true;
@@ -266,6 +288,13 @@ function filterByAvailability(filter) {
         }
         
         card.style.display = show ? 'block' : 'none';
+        if (show) visibleCount++;
+    });
+    
+    // Afficher/masquer le message "aucun résultat"
+    const noResultsElements = document.querySelectorAll('.no-results');
+    noResultsElements.forEach(element => {
+        element.classList.toggle('hidden', visibleCount > 0);
     });
 }
 
@@ -415,5 +444,5 @@ function copyShareUrl() {
 </script>
 
 <?php
-include '../includes/footer.php';
+include 'includes/footer.php';
 ?>

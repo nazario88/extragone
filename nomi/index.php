@@ -91,9 +91,10 @@ include 'includes/header.php';
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Étape 1 -->
             <div class="text-center p-6">
-                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fa-solid fa-pen-to-square text-blue-600 dark:text-blue-400 text-xl"></i>
+                <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-pen-to-square text-xl"></i>
                 </div>
+
                 <h3 class="text-lg font-semibold mb-2">1. Décris ton projet</h3>
                 <p class="text-gray-600 dark:text-gray-300 text-sm">
                     Une phrase simple sur l'objectif, quelques mots-clés et tes préférences de style.
@@ -102,8 +103,8 @@ include 'includes/header.php';
 
             <!-- Étape 2 -->
             <div class="text-center p-6">
-                <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fa-solid fa-robot robot text-green-600 dark:text-green-400 text-xl"></i>
+                <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-robot robot text-xl"></i>
                 </div>
                 <h3 class="text-lg font-semibold mb-2">2. L'IA génère</h3>
                 <p class="text-gray-600 dark:text-gray-300 text-sm">
@@ -113,8 +114,8 @@ include 'includes/header.php';
 
             <!-- Étape 3 -->
             <div class="text-center p-6">
-                <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fa-solid fa-globe text-purple-600 dark:text-purple-400 text-xl"></i>
+                <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-globe text-xl"></i>
                 </div>
                 <h3 class="text-lg font-semibold mb-2">3. Vérifie & choisis</h3>
                 <p class="text-gray-600 dark:text-gray-300 text-sm">
@@ -126,9 +127,9 @@ include 'includes/header.php';
 
     <!-- CTA secondaire -->
     <div class="text-center py-8">
-        <a href="generate" class="px-6 py-3 bg-white dark:bg-slate-800 border-2 border-blue-600 text-blue-600 font-semibold rounded-xl hover:bg-blue-50 dark:hover:bg-slate-700 transition-all duration-300">
+        <a href="generate" class="w-full md:w-auto px-6 py-3 bg-blue-500 border-blue-600 dark:bg-slate-900 dark:border-slate-950 text-white fill-white active:scale-95 duration-100 border will-change-transform overflow-hidden relative rounded-xl transition-all hover:border-blue-400 dark:hover:border-blue-950 transition-all duration-200 group">
             Commencer maintenant
-            <i class="fa-solid fa-arrow-right ml-2"></i>
+            <i class="fa-solid fa-arrow-right ml-2 transition-transform duration-200 group-hover:translate-x-1"></i>
         </a>
     </div>
 </div>
