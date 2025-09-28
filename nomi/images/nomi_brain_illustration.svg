@@ -1,0 +1,223 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="robotGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1D4ED8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E40AF;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="robotAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06B6D4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0891B2;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="bubbleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.95" />
+      <stop offset="100%" style="stop-color:#F1F5F9;stop-opacity:0.95" />
+    </linearGradient>
+    
+    <linearGradient id="screenGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="nameTag1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#D97706;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <linearGradient id="nameTag2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#7C3AED;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <linearGradient id="nameTag3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#EF4444;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#DC2626;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <linearGradient id="nameTag4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <!-- Animations -->
+    <style>
+      .floating {
+        animation: float 3s ease-in-out infinite;
+      }
+      .floating-delayed {
+        animation: float 3s ease-in-out infinite;
+        animation-delay: 1s;
+      }
+      .floating-delayed2 {
+        animation: float 3s ease-in-out infinite;
+        animation-delay: 2s;
+      }
+      .floating-delayed3 {
+        animation: float 3s ease-in-out infinite;
+        animation-delay: 0.5s;
+      }
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+      
+      .blink {
+        animation: blink 4s ease-in-out infinite;
+      }
+      @keyframes blink {
+        0%, 90%, 100% { opacity: 1; }
+        95% { opacity: 0.3; }
+      }
+      
+      .pulse {
+        animation: pulse 2s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.05); opacity: 0.8; }
+      }
+      
+      .rotate {
+        animation: rotate 20s linear infinite;
+        transform-origin: center;
+      }
+      @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      
+      .glow {
+        filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.5));
+      }
+      
+      .sparkle {
+        animation: sparkle 1.5s ease-in-out infinite;
+      }
+      @keyframes sparkle {
+        0%, 100% { opacity: 0.4; transform: scale(0.8); }
+        50% { opacity: 1; transform: scale(1.2); }
+      }
+    </style>
+  </defs>
+  
+  <!-- Background tech circles -->
+  <circle cx="200" cy="220" r="80" fill="url(#robotGradient)" opacity="0.05" class="rotate"/>
+  <circle cx="200" cy="220" r="60" fill="url(#robotAccent)" opacity="0.03" class="pulse"/>
+  
+  <!-- Robot Body -->
+  <g class="floating">
+    <!-- Corps principal -->
+    <rect x="160" y="180" width="80" height="90" rx="15" fill="url(#robotGradient)" stroke="#1E40AF" stroke-width="2"/>
+    
+    <!-- Tête -->
+    <rect x="170" y="150" width="60" height="50" rx="12" fill="url(#robotGradient)" stroke="#1E40AF" stroke-width="2"/>
+    
+    <!-- Écran/visage -->
+    <rect x="175" y="155" width="50" height="40" rx="8" fill="url(#screenGlow)" class="glow"/>
+    
+    <!-- Yeux -->
+    <circle cx="185" cy="170" r="6" fill="#FFFFFF" class="blink"/>
+    <circle cx="215" cy="170" r="6" fill="#FFFFFF" class="blink"/>
+    <circle cx="185" cy="170" r="3" fill="#1F2937"/>
+    <circle cx="215" cy="170" r="3" fill="#1F2937"/>
+    
+    <!-- Bouche souriante -->
+    <path d="M 185 185 Q 200 195 215 185" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- Antennes -->
+    <line x1="185" y1="150" x2="185" y2="140" stroke="#06B6D4" stroke-width="3" stroke-linecap="round"/>
+    <line x1="215" y1="150" x2="215" y2="140" stroke="#06B6D4" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="185" cy="140" r="3" fill="#F59E0B" class="pulse"/>
+    <circle cx="215" cy="140" r="3" fill="#EF4444" class="pulse"/>
+    
+    <!-- Détails du corps -->
+    <rect x="175" y="200" width="15" height="15" rx="3" fill="url(#robotAccent)"/>
+    <rect x="210" y="200" width="15" height="15" rx="3" fill="url(#robotAccent)"/>
+    
+    <!-- Boutons sur le corps -->
+    <circle cx="190" cy="230" r="4" fill="#F59E0B"/>
+    <circle cx="210" cy="230" r="4" fill="#EF4444"/>
+    
+    <!-- Bras -->
+    <rect x="140" y="190" width="20" height="40" rx="10" fill="url(#robotGradient)" stroke="#1E40AF" stroke-width="2"/>
+    <rect x="240" y="190" width="20" height="40" rx="10" fill="url(#robotGradient)" stroke="#1E40AF" stroke-width="2"/>
+    
+    <!-- Mains -->
+    <circle cx="150" cy="240" r="8" fill="url(#robotAccent)" stroke="#0891B2" stroke-width="2"/>
+    <circle cx="250" cy="240" r="8" fill="url(#robotAccent)" stroke="#0891B2" stroke-width="2"/>
+  </g>
+  
+  <!-- Bulle de pensée principale -->
+  <g class="floating-delayed">
+    <ellipse cx="280" cy="80" rx="95" ry="60" fill="url(#bubbleGradient)" stroke="#E2E8F0" stroke-width="2" opacity="0.95"/>
+    
+    <!-- Queue de la bulle -->
+    <circle cx="240" cy="120" r="8" fill="url(#bubbleGradient)" stroke="#E2E8F0" stroke-width="2"/>
+    <circle cx="225" cy="135" r="5" fill="url(#bubbleGradient)" stroke="#E2E8F0" stroke-width="2"/>
+    <circle cx="215" cy="145" r="3" fill="url(#bubbleGradient)" stroke="#E2E8F0" stroke-width="1"/>
+  </g>
+  
+  <!-- Noms dans la bulle de pensée -->
+  <!-- Nom 1 - Nova -->
+  <g class="floating">
+    <rect x="230" y="45" width="42" height="22" rx="11" fill="url(#nameTag1)" stroke="white" stroke-width="1"/>
+    <text x="251" y="59" text-anchor="middle" fill="white" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="600">Nova</text>
+  </g>
+  
+  <!-- Nom 2 - Zenyx -->
+  <g class="floating-delayed2">
+    <rect x="295" y="40" width="45" height="22" rx="11" fill="url(#nameTag2)" stroke="white" stroke-width="1"/>
+    <text x="317" y="54" text-anchor="middle" fill="white" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="600">Zenyx</text>
+  </g>
+  
+  <!-- Nom 3 - Vibe -->
+  <g class="floating-delayed">
+    <rect x="225" y="75" width="38" height="22" rx="11" fill="url(#nameTag3)" stroke="white" stroke-width="1"/>
+    <text x="244" y="89" text-anchor="middle" fill="white" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="600">Vibe</text>
+  </g>
+  
+  <!-- Nom 4 - Flux -->
+  <g class="floating-delayed3">
+    <rect x="315" y="75" width="38" height="22" rx="11" fill="url(#nameTag4)" stroke="white" stroke-width="1"/>
+    <text x="334" y="89" text-anchor="middle" fill="white" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="600">Flux</text>
+  </g>
+  
+  <!-- Nom 5 - Echo -->
+  <g class="floating">
+    <rect x="265" y="100" width="40" height="22" rx="11" fill="url(#nameTag1)" stroke="white" stroke-width="1"/>
+    <text x="285" y="114" text-anchor="middle" fill="white" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="600">Echo</text>
+  </g>
+  
+  <!-- Particules tech flottantes -->
+  <rect x="50" y="100" width="4" height="4" rx="1" fill="#06B6D4" opacity="0.7" class="floating sparkle"/>
+  <rect x="350" y="120" width="3" height="3" rx="1" fill="#F59E0B" opacity="0.8" class="floating-delayed sparkle"/>
+  <rect x="60" y="200" width="3" height="3" rx="1" fill="#8B5CF6" opacity="0.6" class="floating-delayed2 sparkle"/>
+  <rect x="340" y="180" width="4" height="4" rx="1" fill="#EF4444" opacity="0.7" class="floating-delayed3 sparkle"/>
+  
+  <!-- Cercles tech -->
+  <circle cx="80" cy="150" r="2" fill="#10B981" opacity="0.6" class="pulse"/>
+  <circle cx="320" cy="200" r="3" fill="#06B6D4" opacity="0.8" class="floating"/>
+  <circle cx="70" cy="60" r="2.5" fill="#F59E0B" opacity="0.7" class="floating-delayed"/>
+  
+  <!-- Lignes de connexion tech -->
+  <line x1="100" y1="80" x2="120" y2="100" stroke="#06B6D4" stroke-width="1" opacity="0.4" stroke-dasharray="2,2"/>
+  <line x1="300" y1="150" x2="320" y2="170" stroke="#8B5CF6" stroke-width="1" opacity="0.4" stroke-dasharray="2,2"/>
+  <line x1="80" y1="180" x2="100" y2="200" stroke="#10B981" stroke-width="1" opacity="0.4" stroke-dasharray="2,2"/>
+  
+  <!-- Étoiles tech scintillantes -->
+  <g class="sparkle" opacity="0.7">
+    <rect x="40" y="40" width="6" height="2" rx="1" fill="#F59E0B"/>
+    <rect x="42" y="36" width="2" height="6" rx="1" fill="#F59E0B"/>
+  </g>
+  <g class="sparkle" opacity="0.6">
+    <rect x="360" y="60" width="5" height="2" rx="1" fill="#10B981"/>
+    <rect x="361.5" y="56" width="2" height="5" rx="1" fill="#10B981"/>
+  </g>
+  <g class="sparkle" opacity="0.8">
+    <rect x="30" y="220" width="4" height="2" rx="1" fill="#8B5CF6"/>
+    <rect x="31" y="218" width="2" height="4" rx="1" fill="#8B5CF6"/>
+  </g>
+</svg>

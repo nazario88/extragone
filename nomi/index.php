@@ -42,49 +42,59 @@ include 'includes/header.php';
 
 <div class="w-full lg:w-3/4 xl:w-2/3 2xl:w-1/2 mx-auto">
     <!-- Hero Section -->
-    <div class="px-5 py-12 text-center">
-        <?php
-        // Eventuellement, insérer ici une image d'exemple ? / gif ?
-        ?>        
+    <div class="px-5 py-12">
+        <div class="grid gap-8 items-center">
 
-        <!-- Titre principal -->
-        <div class="mb-6 opacity-0 animate-fadeInUp animate-delay-200">
-            <h2 class="text-2xl md:text-4xl font-bold tracking-tight dark:text-slate-500 mb-4">
-                Trouve <span class="dark:text-white font-semibold">le nom de projet</span> parfait !
-            </h2>
-            
-            <!-- Animation des mots -->
-            <div class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-2">
-                Comme <span class="word-animation text-blue-600 font-semibold" id="animatedWord">Nova</span>
+        <!-- Contenu texte -->
+        <div class="text-center lg:text-center order-2 lg:order-1">
+
+            <!-- Titre principal -->
+            <div class="mb-6 opacity-0 animate-fadeInUp animate-delay-200">
+                <h1 class="text-2xl md:text-4xl font-bold tracking-tight dark:text-slate-500 mb-4">
+                    Trouve <span class="dark:text-white font-semibold">le nom de projet</span> parfait !
+                </h1>
+
+                <!-- Robot centré -->
+                <div class="flex justify-center mb-6">
+                    <div class="w-80 md:w-96">
+                        <?php include 'images/nomi_brain_illustration.svg'; ?>
+                    </div>
+                </div>
+                
+                <!-- Animation des mots -->
+                <div class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-2">
+                    Comme <span class="word-animation text-blue-600 font-semibold" id="animatedWord">Nova</span>
+                </div>
             </div>
-        </div>
 
-        <!-- Sous-titre -->
-        <div class="mb-8 opacity-0 animate-fadeInUp animate-delay-400">
-            <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                Décris ton idée en quelques mots et laisse Nomi générer des dizaines de propositions créatives, 
-                avec explications et vérification de disponibilité.
-            </p>
-        </div>
+            <!-- Sous-titre -->
+            <div class="mb-8 opacity-0 animate-fadeInUp animate-delay-400">
+                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    Décris ton idée en quelques mots et laisse Nomi générer des dizaines de propositions créatives, 
+                    avec explications et vérification de disponibilité.
+                </p>
+            </div>
 
-        <!-- CTA Principal -->
-        <div class="mb-8 opacity-0 animate-fadeInUp animate-delay-400">
-            <a href="generate" class="inline-block px-8 py-4 bg-blue-500 hover:bg-blue-700 text-white font-semibold text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
-                Générer des noms
-            </a>
-        </div>
+            <!-- CTA Principal -->
+            <div class="mb-8 opacity-0 animate-fadeInUp animate-delay-400">
+                <a href="generate" class="inline-block px-8 py-4 bg-blue-500 hover:bg-blue-700 text-white font-semibold text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Générer des noms
+                </a>
+            </div>
 
-        <!-- Preuve sociale -->
-        <div class="opacity-0 animate-fadeInUp animate-delay-400">
-            <p class="text-sm text-gray-500 dark:text-gray-400">
-                Propulsé par l'IA et pensé pour les créateurs, freelances et startups
-            </p>
+            <!-- Preuve sociale -->
+            <div class="opacity-0 animate-fadeInUp animate-delay-400">
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                    Propulsé par l'IA et pensé pour les créateurs, freelances et startups
+                </p>
+            </div>
+
         </div>
     </div>
 
     <!-- Séparateur -->
-    <hr class="my-2 h-[1px] border-0 bg-gradient-to-r from-primary via-white to-secondary">
+    <hr class="mt-8 mb-4 h-[1px] border-0 bg-gradient-to-r from-primary via-white to-secondary">
 
     <!-- Section explicative -->
     <div class="px-5 py-2">
