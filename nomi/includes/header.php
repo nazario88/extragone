@@ -1,8 +1,7 @@
 <?php
 $base = "https://nomi.extrag.one"; //defaut
 if(!isset($url_canon)) $url_canon = "https://nomi.extrag.one"; //defaut
-if(!isset($recherche)) $recherche = "";
-if(!isset($image_seo)) $image_seo = "https://www.extrag.one/assets/img/image-og.png"; // a changer apres MEP
+if(!isset($image_seo)) $image_seo = "https://nomi.extrag.one/images/nomi-og.png"; // a changer apres MEP
 if(!isset($noindex)) $noindex = FALSE;
 ?>
 <!DOCTYPE html>
@@ -107,17 +106,15 @@ if(!isset($noindex)) $noindex = FALSE;
         </div>
 
         <!-- Menu (desktop) -->
-        <nav class="hidden md:flex space-x-8">
-          <a href="outils" class="hover:text-blue-500 transition-colors duration-300">Liste des outils</a>
-          <a href="categories" class="hover:text-blue-500 transition-colors duration-300">Catégories</a>
-          <a href="ajouter" class="hover:text-blue-500 transition-colors duration-300">Ajouter un outil</a>
+        <nav class="hidden md:flex space-x-8 pr-4">
+          <a href="https://www.extrag.one" title="eXtragone, trouve un outil et son alternative française" class="hover:text-blue-500 transition-colors duration-300">Retour à eXtragone</a>
+          <a href="https://nomi.extrag.one" title="Génère des noms pour ton projet avec Nomi" class="hover:text-blue-500 transition-colors duration-300">Générer des noms</a>
         </nav>
 
         <!-- Menu mobile -->
         <nav id="mobile-menu" class="md:hidden hidden mt-4 flex flex-col space-y-2">
-            <a href="outils" class="hover:text-blue-500 transition-colors duration-300">Liste des outils</a>
-            <a href="categories" class="hover:text-blue-500 transition-colors duration-300">Catégories</a>
-            <a href="ajouter" class="hover:text-blue-500 transition-colors duration-300">Ajouter un outil</a>
+            <a href="outils" title="eXtragone, trouve un outil et son alternative française"  class="hover:text-blue-500 transition-colors duration-300">Retour à eXtragone</a>
+            <a href="categories" title="Génère des noms pour ton projet avec Nomi" class="hover:text-blue-500 transition-colors duration-300">Générer des noms</a>
         </nav>
 
       </div>

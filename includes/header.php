@@ -92,7 +92,7 @@ if(!isset($image_seo)) $image_seo = "$base/assets/img/image-og.png";
         </div>
 
         <!-- Menu (desktop) -->
-        <nav class="hidden md:flex space-x-8">
+        <nav class="hidden md:flex space-x-8 pr-4">
           <a href="outils" class="hover:text-blue-500 transition-colors duration-300">Liste des outils</a>
           <a href="categories" class="hover:text-blue-500 transition-colors duration-300">Catégories</a>
           <a href="ajouter" class="hover:text-blue-500 transition-colors duration-300">Ajouter un outil</a>
