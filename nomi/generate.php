@@ -157,7 +157,7 @@ include 'includes/header.php';
                         class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
                         <span id="btnText">
                             <i class="fa-solid fa-magic mr-2"></i>
-                            Générer 20 noms créatifs
+                            Générer 30 noms créatifs
                         </span>
                         <span id="btnLoading" class="hidden">
                             <i class="fa-solid fa-spinner fa-spin mr-2"></i>

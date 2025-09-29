@@ -171,7 +171,7 @@ function generateNamesWithMistral($description, $examples, $keywords, $length, $
  * Version simplifiée du prompt pour éviter les timeouts
  */
 function buildSimplePrompt($description, $examples, $keywords, $length, $style) {
-    $prompt = "Génère 20 noms créatifs pour ce projet : {$description}";
+    $prompt = "Génère 30 noms créatifs pour ce projet : {$description}";
     
     if (!empty($examples)) {
         $prompt .= "\nExemples aimés: {$examples}";
@@ -187,8 +187,8 @@ function buildSimplePrompt($description, $examples, $keywords, $length, $style) 
 {
   \"categories\": [
     {
-      \"name\": \"Noms Créatifs\",
-      \"description\": \"Noms innovants pour ton projet\",
+      \"name\": \"Nom de catégorie descriptif\",
+      \"description\": \"Description de cette catégorie\",
       \"names\": [
         {\"name\": \"NomExemple\", \"explanation\": \"Courte explication\"}
       ]
@@ -196,7 +196,14 @@ function buildSimplePrompt($description, $examples, $keywords, $length, $style) 
   ]
 }
 
-IMPORTANT: Génère exactement 20 noms dans UNE SEULE catégorie. JSON uniquement, sans texte avant/après.";
+IMPORTANT: 
+- Génère 30 noms UNIQUES répartis en 3 catégories thématiques différentes (10 noms par catégorie)
+- Chaque catégorie doit avoir un nom et une description pertinente
+- AUCUN doublon autorisé
+- Exemples de catégories : Noms modernes, Noms évocateurs, Noms techniques, etc.
+
+JSON uniquement, sans texte avant/après.
+";
 
     return $prompt;
 }
@@ -218,7 +225,7 @@ function buildPrompt($description, $examples, $keywords, $length, $style) {
         'classique' => 'classique et établi (comme Microsoft, Adobe, Oracle)'
     ];
     
-    $prompt = "Tu es un expert en naming et branding. Je vais te décrire un projet et tu dois générer 50 noms créatifs organisés en différentes catégories.
+    $prompt = "Tu es un expert en naming et branding. Je vais te décrire un projet et tu dois générer 30 noms créatifs organisés en différentes catégories.
 
 DESCRIPTION DU PROJET:
 {$description}";
@@ -238,14 +245,15 @@ DESCRIPTION DU PROJET:
 - Style: " . $style_desc[$style] . "
 
 INSTRUCTIONS:
-1. Génère exactement 50 noms créatifs et pertinents
-2. Organise-les en 5 catégories thématiques (10 noms par catégorie)
+1. Génère exactement 30 noms UNIQUES créatifs et pertinents
+2. Organise-les en 3 catégories thématiques (10 noms par catégorie)
 3. Pour chaque nom, fournis une explication courte (1 phrase)
 4. Assure-toi que les noms sont:
    - Faciles à prononcer
    - Mémorisables
    - Évocateurs du projet
    - Disponibles potentiellement (.com)
+5. Aucun doublon autorisé
 
 FORMAT DE RÉPONSE (JSON strict):
 {
@@ -300,6 +308,27 @@ function parseAIResponse($content) {
         }
     }
     
+    return removeDuplicateNames($data);
+}
+
+// Supprimer les doublons
+function removeDuplicateNames($data) {
+    foreach ($data['categories'] as &$category) {
+        $uniqueNames = [];
+        $seenNames = [];
+        
+        foreach ($category['names'] as $nameData) {
+            $nameLower = strtolower($nameData['name']);
+            if (!in_array($nameLower, $seenNames)) {
+                $uniqueNames[] = $nameData;
+                $seenNames[] = $nameLower;
+            }
+        }
+        
+        $category['names'] = $uniqueNames;
+    }
+    
     return $data;
 }
+
 ?>

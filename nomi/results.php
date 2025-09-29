@@ -22,6 +22,12 @@ if (!$generation) {
 // Décoder les noms générés
 $generated_data = json_decode($generation['generated_names'], true);
 
+// Calculer le nombre total de noms
+$total_names = 0;
+foreach ($generated_data['categories'] as $category) {
+    $total_names += count($category['names']);
+}
+
 if (!$generated_data) {
     $_SESSION['error'] = 'Erreur lors du chargement des résultats.';
     header('Location: generate');
@@ -86,7 +92,7 @@ include 'includes/header.php';
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
             <div>
                 <h1 class="mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
-                    20 noms pour ton projet
+                    <?= $total_names ?> noms pour ton projet
                 </h1>
                 <p class="mt-2 text-gray-600 dark:text-gray-300 max-w-2xl">
                     <?= htmlspecialchars($generation['project_description']) ?>
