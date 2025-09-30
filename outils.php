@@ -171,9 +171,9 @@ include 'includes/header.php';
                     <a href="outil/<?php echo $outil['slug']; ?>" title="En savoir +">
                         <h2 class="text-xl font-bold mb-2 flex gap-2"><?php echo htmlspecialchars($outil['nom']).$drapeau ?></h2>
                     </a>
-                        <div class="h-[100px]">
+                        <div class="h-[100px] flex items-center justify-center">
                             <a href="outil/<?php echo $outil['slug']; ?>" title="En savoir +">
-                                <img class="w-full h-auto mb-2 maxrounded-md transition-transform duration-300 ease-in-out hover:scale-105 max-h-[100px]" src="<?php echo htmlspecialchars($outil['logo']); ?>" alt="Logo de <?php echo htmlspecialchars($outil['nom']); ?>">
+                                <img class="mx-auto w-full h-auto mb-2 rounded transition-transform duration-300 ease-in-out max-h-[100px]" src="<?php echo htmlspecialchars($outil['logo']); ?>" alt="Logo de <?php echo htmlspecialchars($outil['nom']); ?>">
                             </a>
                         </div>
                         <p class="text-sm"><?php echo htmlspecialchars($outil['description']); ?></p>
