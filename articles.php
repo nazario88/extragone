@@ -37,7 +37,7 @@ $articles = $stmt->fetchAll();
                         <p class="flex-grow text-sm text-justify"><?=htmlspecialchars($article['description'], ENT_QUOTES, 'UTF-8')?></p>
                         <div class="mt-4">
                             <a href="article/<?=htmlspecialchars($article['slug'], ENT_QUOTES, 'UTF-8')?>" role="button" class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-700 transition">
-                                <i class="fas fa-arrow-right"></i> Consulter l'article
+                                <i class="fa-solid fa-arrow-right"></i> Consulter l'article
                             </a>
                         </div>
                     </div>

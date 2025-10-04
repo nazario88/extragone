@@ -118,10 +118,10 @@ $largeur_premier_div = (isset($data_outil['is_french']) && $data_outil['is_frenc
             <div class="col-span-2 md:col-span-1 text-right" title="Note actuelle : <?=$stats_note['average']?>/5">
                 <?php
                 for($i = 1; $i <= $stats_note['average']; $i++) {
-                    echo '<i class="fas fa-star text-yellow-400"></i>';
+                    echo '<i class="fa-solid fa-star text-yellow-400"></i>';
                 }
                 $i--;
-                if($stats_note['average'] >= ($i + 0.50)) echo '<i class="fas fa-star-half text-yellow-900"></i>';
+                if($stats_note['average'] >= ($i + 0.50)) echo '<i class="fa-solid fa-star-half text-yellow-900"></i>';
                 ?>
             </div>
         </div>
@@ -279,6 +279,7 @@ $largeur_premier_div = (isset($data_outil['is_french']) && $data_outil['is_frenc
         ?>
     </div>
 
+    
 
     <!-- Equivalents -->
     <?php
@@ -351,6 +352,35 @@ $largeur_premier_div = (isset($data_outil['is_french']) && $data_outil['is_frenc
         echo '
     </div>';
     ?>
+
+    <!-- CTA Section -->
+    <div class="col-span-4">
+    <?php
+    // CTA pour Nomi
+    renderCTA(
+        'fa-solid fa-wand-magic-sparkles',
+        'Bloqué sur le nom de ton projet ? 🚀',
+        'Nomi génère des noms percutants et disponibles en 3 secondes chrono. Testez, c\'est gratuit !',
+        'Essayer Nomi',
+        'https://nomi.extrag.one',
+        'bg-white',
+        'bg-primary'
+    );
+    
+    // CTA pour la communauté (à décommenter plus tard)
+    /*
+    renderCTA(
+        'fa-solid fa-users',
+        'Rejoins la communauté !',
+        'Découvre les projets en cours de développement et partage ton avis avec la communauté.',
+        'Voir les projets',
+        '/communaute',
+        'bg-green-50',
+        'bg-green-500'
+    );
+    */
+    ?>
+    </div>
 </div>
 
 <?php

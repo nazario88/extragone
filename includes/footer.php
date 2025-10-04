@@ -49,7 +49,7 @@ if($page_php == 'outil.php') {
         <div class="relative max-w-screen-lg max-h-screen-lg mx-4 transform scale-95 transition-transform duration-300 ease-out">
             <button onclick="closeImageModal()" 
                     class="absolute -top-4 -right-4 z-10 w-10 h-10 bg-white hover:bg-gray-100 rounded-full shadow-lg flex items-center justify-center transition-colors duration-200 text-gray-700 hover:text-gray-900">
-                <i class="fas fa-times text-lg"></i>
+                <i class="fa-solid fa-times text-lg"></i>
             </button>
             <img id="modalImage" 
                 class="max-w-full max-h-[90vh] w-auto h-auto rounded-lg shadow-2xl" 

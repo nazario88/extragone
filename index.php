@@ -57,14 +57,14 @@ $articles = $stmt->fetchAll();
     <div class="w-full px-5 py-5">
         <h2 class="font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">extragone, c'est quoi ?</h2>
         <div class="flex gap-4 m-2">
-            <div class="hidden text-center md:flex md:items-center w-[100px]"><i class="my-auto fas fa-question text-primary text-xl md:text-4xl"></i></div>
+            <div class="hidden text-center md:flex md:items-center w-[100px]"><i class="my-auto fa-solid fa-question text-primary text-xl md:text-4xl"></i></div>
             <p class="text-sm text-justify">
                 eXtragone a pour objectif de recenser les outils web les plus utilisés, de les classer par catégorie et de les rendre facilement accessibles. Mais surtout, son moteur de recherche permet de <span class="font-bold">trouver des alternatives françaises</span>, pour mettre en valeur nos solutions locales et favoriser l’usage de produits made in France.
             </p>
         </div>
         <p class="mt-3">
             <a href="outils" role="button" class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-700 transition">
-                <i class="fas fa-arrow-right"></i> Voir les outils
+                <i class="fa-solid fa-arrow-right"></i> Voir les outils
             </a>
         </p>
     </div>
@@ -80,7 +80,7 @@ $articles = $stmt->fetchAll();
         </div>
         <p class="mt-3">
             <a href="https://chromewebstore.google.com/detail/fjcfkhkhplfpngmffdkfekcpelkaggof?utm_source=item-share-cb" role="button" target="_blank" class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-700 transition">
-                <i class="fas fa-download"></i> Télécharger l'extension
+                <i class="fa-solid fa-download"></i> Télécharger l'extension
             </a>
         </p>
     </div>
@@ -103,7 +103,7 @@ $articles = $stmt->fetchAll();
                     <p class="flex-grow text-sm text-justify"><?=htmlspecialchars($article['description'], ENT_QUOTES, 'UTF-8')?></p>
                     <div class="mt-4">
                         <a href="article/<?=htmlspecialchars($article['slug'], ENT_QUOTES, 'UTF-8')?>" role="button" class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-700 transition">
-                            <i class="fas fa-arrow-right"></i> Consulter l'article
+                            <i class="fa-solid fa-arrow-right"></i> Consulter l'article
                         </a>
                     </div>
                 </div>
@@ -116,7 +116,7 @@ $articles = $stmt->fetchAll();
     <div class="text-center mb-6">
         <a href="articles" class="w-full md:w-auto px-6 py-3 bg-blue-500 border-blue-600 dark:bg-slate-900 dark:border-slate-950 text-white fill-white active:scale-95 duration-100 border will-change-transform overflow-hidden relative rounded-xl transition-all hover:border-blue-400 dark:hover:border-blue-950 transition-all duration-200 group">
             <span>Voir tous les articles</span>
-            <i class="fas fa-arrow-right ml-2 transition-transform duration-200 group-hover:translate-x-1"></i>
+            <i class="fa-solid fa-arrow-right ml-2 transition-transform duration-200 group-hover:translate-x-1"></i>
         </a>
     </div>
 </div>

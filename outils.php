@@ -196,7 +196,7 @@ include 'includes/header.php';
             <a href="<?= buildPaginationUrl($currentPage - 1, $categorie_slug) ?>" 
                aria-label="Page précédente"
                class="group px-4 py-3 bg-blue-500 border-blue-600 dark:bg-slate-900 dark:border-slate-950 text-white active:scale-95 duration-100 border will-change-transform overflow-hidden relative rounded-xl transition-all hover:border-blue-400 dark:hover:border-blue-950 duration-200">
-                <i class="fas fa-chevron-left transition-transform duration-200 group-hover:-translate-x-0.5"></i>
+                <i class="fa-solid fa-chevron-left transition-transform duration-200 group-hover:-translate-x-0.5"></i>
             </a>
         <?php endif; ?>
         
@@ -208,7 +208,7 @@ include 'includes/header.php';
             <a href="<?= buildPaginationUrl($currentPage + 1, $categorie_slug) ?>" 
                aria-label="Page suivante"
                class="group px-4 py-3 bg-blue-500 border-blue-600 dark:bg-slate-900 dark:border-slate-950 text-white active:scale-95 duration-100 border will-change-transform overflow-hidden relative rounded-xl transition-all hover:border-blue-400 dark:hover:border-blue-950 duration-200">
-                <i class="fas fa-chevron-right transition-transform duration-200 group-hover:translate-x-0.5"></i>
+                <i class="fa-solid fa-chevron-right transition-transform duration-200 group-hover:translate-x-0.5"></i>
             </a>
         <?php endif; ?>
     </div>
@@ -219,7 +219,7 @@ include 'includes/header.php';
             <a href="<?= buildPaginationUrl($currentPage - 1, $categorie_slug) ?>" 
                aria-label="Page précédente"
                class="group px-4 py-3 bg-blue-500 border-blue-600 dark:bg-slate-900 dark:border-slate-950 text-white active:scale-95 duration-100 border will-change-transform overflow-hidden relative rounded-xl transition-all hover:border-blue-400 dark:hover:border-blue-950 hover:shadow-md duration-200">
-                <i class="fas fa-chevron-left transition-transform duration-200 group-hover:-translate-x-0.5"></i>
+                <i class="fa-solid fa-chevron-left transition-transform duration-200 group-hover:-translate-x-0.5"></i>
             </a>
         <?php endif; ?>
 
@@ -245,7 +245,7 @@ include 'includes/header.php';
             </a>
             <?php if ($startPage > 2): ?>
                 <span class="px-2 py-3 text-gray-400 dark:text-gray-500 select-none">
-                    <i class="fas fa-ellipsis-h text-sm"></i>
+                    <i class="fa-solid fa-ellipsis-h text-sm"></i>
                 </span>
             <?php endif; ?>
         <?php endif; ?>
@@ -268,7 +268,7 @@ include 'includes/header.php';
         <?php if ($endPage < $totalPages): ?>
             <?php if ($endPage < $totalPages - 1): ?>
                 <span class="px-2 py-3 text-gray-400 dark:text-gray-500 select-none">
-                    <i class="fas fa-ellipsis-h text-sm"></i>
+                    <i class="fa-solid fa-ellipsis-h text-sm"></i>
                 </span>
             <?php endif; ?>
             <a href="<?= buildPaginationUrl($totalPages, $categorie_slug) ?>" 
@@ -282,7 +282,7 @@ include 'includes/header.php';
             <a href="<?= buildPaginationUrl($currentPage + 1, $categorie_slug) ?>" 
                aria-label="Page suivante"
                class="group px-4 py-3 bg-blue-500 border-blue-600 dark:bg-slate-900 dark:border-slate-950 text-white active:scale-95 duration-100 border will-change-transform overflow-hidden relative rounded-xl transition-all hover:border-blue-400 dark:hover:border-blue-950 hover:shadow-md duration-200">
-                <i class="fas fa-chevron-right transition-transform duration-200 group-hover:translate-x-0.5"></i>
+                <i class="fa-solid fa-chevron-right transition-transform duration-200 group-hover:translate-x-0.5"></i>
             </a>
         <?php endif; ?>
     </div>
