@@ -11,6 +11,25 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+/* Utilitaires pour les cookies
+——————————————————————————————————————————————————*/
+function setCookie(name, value, days = 365) {
+  const expires = new Date();
+  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+  // Important: utiliser .extrag.one pour partager entre sous-domaines
+  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/;domain=.extrag.one;SameSite=Lax`;
+}
+
+function getCookie(name) {
+  const nameEQ = name + "=";
+  const ca = document.cookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
 
 /* Changement de thème
 ——————————————————————————————————————————————————*/
@@ -18,15 +37,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggleBtn = document.getElementById('themeToggle')
   const root = document.documentElement
 
-  if (localStorage.theme === 'dark') {
+  // Récupérer le thème depuis le cookie (ou localStorage pour migration)
+  let theme = getCookie('theme');
+  
+  // Migration depuis localStorage si nécessaire
+  if (!theme && localStorage.theme) {
+    theme = localStorage.theme;
+    setCookie('theme', theme);
+  }
+  
+  // Appliquer le thème
+  if (theme === 'dark') {
     root.classList.add('dark')
+  } else {
+    root.classList.remove('dark')
   }
 
   toggleBtn.addEventListener('click', () => {
     root.classList.toggle('dark')
-    localStorage.theme = root.classList.contains('dark') ? 'dark' : 'light'
+    const newTheme = root.classList.contains('dark') ? 'dark' : 'light';
+    
+    // Sauvegarder dans le cookie partagé
+    setCookie('theme', newTheme);
+    
+    // Optionnel: garder localStorage en sync pour compatibilité
+    localStorage.theme = newTheme;
 
-    // Changer l’icône dynamiquement
+    // Changer l'icône dynamiquement
     updateIcon()
   })
 
