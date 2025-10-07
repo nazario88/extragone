@@ -5,7 +5,7 @@ include 'includes/config.php';
 $stmt = $pdo->query('
     SELECT a.*, count(b.categorie_id) as nb_tools
     FROM extra_tools_categories a
-    LEFT JOIN extra_tools b ON b.categorie_id=a.id
+    LEFT JOIN extra_tools b ON b.categorie_id=a.id AND b.is_valid=1 
     GROUP BY a.id ORDER BY a.nom ASC');
 $categories = $stmt->fetchAll();
 

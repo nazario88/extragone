@@ -47,7 +47,7 @@ else {
 
 /* Vérifier si l'outil est référencé
 ——————————————————————————————————————————————————*/
-$sql = $pdo->prepare("SELECT id, url, is_french FROM extra_tools WHERE url LIKE :site");
+$sql = $pdo->prepare("SELECT id, url, is_french FROM extra_tools WHERE is_valid=1 AND url LIKE :site");
 $sql->execute([':site' => $search]);
 $ifTool = $sql->fetch();
 // Si pas d'outil

@@ -8,7 +8,11 @@ $nom = isset($_GET['nom']) ? $_GET['nom'] : null;
 $sql = $pdo->prepare('SELECT * FROM extra_tools WHERE is_valid=1 AND slug=?');
 $sql->execute(array($nom));
 $data_outil = $sql->fetch();
-if(!$data_outil) errorPage("Les informations de l'outil n'ont pas pu être récupérées ☹️");
+if(!$data_outil) {
+    http_response_code(410);
+    errorPage("Les informations de l'outil n'ont pas pu être récupérées ☹️");
+    exit;
+}
 
 /* Récupération d'autres outils 
 ——————————————————————————————————————————————————*/

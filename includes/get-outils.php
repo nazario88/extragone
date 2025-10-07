@@ -34,7 +34,7 @@ else {
 	ob_start();
 
 	// Requête
-	$stmt = $pdo->query("SELECT nom, description FROM extra_tools ORDER BY nom ASC");
+	$stmt = $pdo->query("SELECT nom, description FROM extra_tools WHERE is_valid=1 ORDER BY nom ASC");
 
 	// Récupération des résultats
 	$outils = $stmt->fetchAll(PDO::FETCH_ASSOC);
