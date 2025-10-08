@@ -1,4 +1,8 @@
 <?php
+/*
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+*/
 include 'includes/config.php';
 
 /* Récupération des informations de l'outil
