@@ -70,6 +70,9 @@ if(!isset($image_seo)) $image_seo = "$base/assets/img/image-og.png";
       })();
     </script>
 
+    <?php
+    if(!is_admin_logged_in()) {
+      ?>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y899RD39ZS"></script>
     <script>
@@ -79,6 +82,9 @@ if(!isset($image_seo)) $image_seo = "$base/assets/img/image-og.png";
 
       gtag('config', 'G-Y899RD39ZS');
     </script>
+    <?php
+    }
+    ?>
 
     <!-- FontAwesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
