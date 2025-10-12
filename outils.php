@@ -14,7 +14,7 @@ $categorie_slug = isset($_GET['categorie']) ? $_GET['categorie'] : null;
 
 // Vérifier si une recherche a été effectuée
 $recherche = isset($_GET['q']) ? $_GET['q'] : null;
-$recherche = trim($recherche);
+$recherche = trim($recherche ?? '');
 $clause_where = ($recherche) ? '(a.nom LIKE "%'.$recherche.'%" OR a.description LIKE "%'.$recherche.'%" OR a.description_longue LIKE "%'.$recherche.'%")' : '1=1';
 //$clause_where = ($recherche) ? '(MATCH(a.nom, a.description, a.description_longue) AGAINST ("'.$recherche.'" IN NATURAL LANGUAGE MODE))' : '1=1';
 
