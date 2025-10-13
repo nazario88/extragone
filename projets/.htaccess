@@ -1,0 +1,64 @@
+Options +FollowSymLinks -MultiViews
+RewriteEngine On
+RewriteBase /
+
+# Redirection du dossier racine vers index.php
+RewriteRule ^$ index.php [L]
+
+# Routes publiques
+RewriteRule ^soumettre$ soumettre.php [L]
+RewriteRule ^devenir-reviewer$ devenir-reviewer.php [L]
+RewriteRule ^top-reviewers$ top-reviewers.php [L]
+RewriteRule ^connexion$ connexion.php [L]
+RewriteRule ^inscription$ connexion.php [L]
+RewriteRule ^deconnexion$ deconnexion.php [L]
+RewriteRule ^reglages$ reglages.php [L]
+
+# Routes avec paramètres
+RewriteRule ^projet/([a-z0-9-]+)$ projet.php?slug=$1 [L,QSA]
+RewriteRule ^membre/([a-z0-9_-]+)$ membre.php?username=$1 [L,QSA]
+
+# Routes reviewer
+RewriteRule ^reviewer/dashboard$ reviewer/dashboard.php [L]
+RewriteRule ^reviewer/review/([0-9]+)$ reviewer/review.php?id=$1 [L,QSA]
+
+# API endpoints
+RewriteRule ^functions/(.+)$ functions/$1 [L]
+
+# Protection des fichiers sensibles
+<FilesMatch "\.(sql|log|md|env)$">
+    Require all denied
+</FilesMatch>
+
+# Protection du dossier includes
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_URI} ^/includes/
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# Headers de sécurité
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options SAMEORIGIN
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css
+    AddOutputFilterByType DEFLATE application/xml application/xhtml+xml application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript application/x-javascript application/json
+</IfModule>
+
+# Cache des ressources statiques
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+</IfModule>
