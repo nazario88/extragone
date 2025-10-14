@@ -1,6 +1,6 @@
 Options +FollowSymLinks -MultiViews
 RewriteEngine On
-RewriteBase /
+#RewriteBase /
 
 # Redirection du dossier racine vers index.php
 RewriteRule ^$ index.php [L]
