@@ -81,7 +81,7 @@ include '../includes/header.php';
         
         <!-- Colonne principale : Formulaire de review -->
         <div class="lg:col-span-2">
-            <form method="post" action="/functions/publish-project.php" id="reviewForm" class="space-y-6">
+            <form method="post" action="/functions/reviews/publish-project.php" id="reviewForm" class="space-y-6">
                 <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
                 <input type="hidden" name="project_id" value="<?= $project_id ?>">
                 

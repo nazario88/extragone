@@ -34,7 +34,7 @@ include 'includes/header.php';
                 Connexion
             </h2>
             
-            <form method="post" action="functions/login.php" id="loginForm">
+            <form method="post" action="functions/auth/login.php" id="loginForm">
                 <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
                 
                 <div class="mb-4">

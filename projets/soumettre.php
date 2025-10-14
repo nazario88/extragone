@@ -51,7 +51,7 @@ include 'includes/header.php';
     </div>
 
     <!-- Formulaire -->
-    <form method="post" action="functions/submit-project.php" enctype="multipart/form-data" id="submitForm">
+    <form method="post" action="functions/projects/submit-project.php" enctype="multipart/form-data" id="submitForm">
         <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
         
         <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-lg space-y-6">
@@ -187,7 +187,7 @@ include 'includes/header.php';
                     </span>
                 </button>
                 
-                <a href="" class="px-6 py-4 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-xl transition-all">
+                <a href="/" class="px-6 py-4 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-xl transition-all">
                     Annuler
                 </a>
             </div>

@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Allow: /projet/
+Allow: /membre/
+Allow: /top-reviewers
+Allow: /devenir-reviewer
+
+Disallow: /reviewer/
+Disallow: /reglages
+Disallow: /functions/
+Disallow: /includes/
+Disallow: /uploads/
+
+Sitemap: https://projets.extrag.one/sitemap.txt

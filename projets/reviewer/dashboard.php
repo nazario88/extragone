@@ -209,7 +209,7 @@ include '../includes/header.php';
                             <span><?= timeAgo($project['created_at']) ?></span>
                         </div>
                         
-                        <form method="post" action="/functions/claim-review.php">
+                        <form method="post" action="/functions/reviews/claim-review.php">
                             <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
                             <input type="hidden" name="project_id" value="<?= $project['id'] ?>">
                             <button type="submit" 

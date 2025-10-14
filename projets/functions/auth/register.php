@@ -1,6 +1,6 @@
 <?php
-include '../includes/config.php';
-include 'includes/auth.php';
+include '../../includes/config.php';
+include '../includes/auth.php';
 
 // Vérifier que c'est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -17,17 +17,19 @@ if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
 
 // Récupération des données
 $email = sanitizeInput($_POST['email'] ?? '');
+$username = sanitizeInput($_POST['username'] ?? '');
+$display_name = sanitizeInput($_POST['display_name'] ?? '');
 $password = $_POST['password'] ?? '';
 
 // Validation basique
-if (empty($email) || empty($password)) {
-    $_SESSION['error'] = 'Tous les champs sont requis.';
+if (empty($email) || empty($username) || empty($password)) {
+    $_SESSION['error'] = 'Tous les champs obligatoires doivent être remplis.';
     header('Location: /connexion');
     exit;
 }
 
-// Authentification
-$result = authenticateUser($email, $password);
+// Inscription
+$result = registerUser($email, $password, $username, $display_name);
 
 if (!$result['success']) {
     $_SESSION['error'] = $result['error'];
@@ -35,15 +37,11 @@ if (!$result['success']) {
     exit;
 }
 
-// Connexion réussie
-loginUser($result['user']['id']);
+// Connexion automatique après inscription
+loginUser($result['user_id']);
 
-$_SESSION['success'] = 'Bienvenue ' . htmlspecialchars($result['user']['display_name']) . ' !';
+$_SESSION['success'] = 'Compte créé avec succès ! Bienvenue sur Projets eXtragone.';
 
-// Redirection
-$redirect = $_SESSION['redirect_after_login'] ?? '/';
-unset($_SESSION['redirect_after_login']);
-
-header('Location: ' . $redirect);
+header('Location: /');
 exit;
 ?>

@@ -166,7 +166,7 @@ $parsedown = new Parsedown();
                 
                 <?php if (isLoggedIn()): ?>
                 <!-- Formulaire d'ajout de commentaire -->
-                <form method="post" action="functions/add-comment.php" class="mb-6" id="commentForm">
+                <form method="post" action="functions/comments/add-comment.php" class="mb-6" id="commentForm">
                     <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
                     <input type="hidden" name="project_id" value="<?= $project['id'] ?>">
                     
