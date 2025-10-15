@@ -20,8 +20,8 @@ include 'includes/header.php';
     
     <!-- Hero Section -->
     <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">
-            Projets de la communauté
+        <h1 class="p-4 m-4 mx-auto text-xl md:text-4xl  text-center font-bold tracking-tight dark:text-slate-500">
+            Les <span class="dark:text-white font-semibold">projets</span> de la communauté !
         </h1>
         <p class="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-6">
             Découvre les créations de la communauté eXtragone : applications, sites web, outils... 
@@ -29,11 +29,11 @@ include 'includes/header.php';
         </p>
         
         <div class="flex flex-wrap justify-center gap-4">
-            <a href="soumettre" class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all">
+            <a href="soumettre" class="inline-block px-8 py-4 bg-blue-500 hover:bg-blue-700 text-white font-semibold text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                 <i class="fa-solid fa-plus mr-2"></i>
                 Soumettre ton projet
             </a>
-            <a href="devenir-reviewer" class="px-6 py-3 bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all">
+            <a href="devenir-reviewer" class="inline-block px-8 py-4 bg-orange-500 hover:bg-orange-700 text-white font-semibold text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                 <i class="fa-solid fa-star mr-2"></i>
                 Devenir reviewer
             </a>
@@ -59,7 +59,7 @@ include 'includes/header.php';
         </div>
         
         <div class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 text-center">
-            <div class="text-3xl font-bold text-purple-500 mb-2"><?= $total_reviewers ?></div>
+            <div class="text-3xl font-bold text-orange-500 mb-2"><?= $total_reviewers ?></div>
             <div class="text-sm text-gray-600 dark:text-gray-300">Reviewers actifs</div>
         </div>
         
@@ -194,12 +194,12 @@ include 'includes/header.php';
     <?php endif; ?>
 
     <!-- CTA final -->
-    <div class="bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl p-8 text-center text-white">
+    <div class="bg-white dark:bg-slate-800 rounded-xl shadow-md border border-slate-200 dark:border-slate-700 overflow-hidden p-8 text-center">
         <h2 class="text-3xl font-bold mb-4">Prêt à partager ton projet ?</h2>
         <p class="text-lg mb-6 opacity-90">
             Soumets ton projet et obtiens une revue détaillée de notre équipe
         </p>
-        <a href="soumettre" class="inline-block px-8 py-4 bg-white text-blue-500 font-bold rounded-xl shadow-lg hover:shadow-xl transition-all hover:scale-105">
+        <a href="soumettre" class="inline-block px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all hover:scale-105">
             <i class="fa-solid fa-rocket mr-2"></i>
             Soumettre mon projet
         </a>
