@@ -122,7 +122,12 @@ try {
         'images_count' => $uploaded_images
     ]);
     
-    // TODO: Envoyer notification email aux reviewers (quand système mail configuré)
+    // Notifier les reviewers
+    include_once '../includes/email.php';
+    $stmt = $pdo->prepare('SELECT * FROM extra_proj_projects WHERE id = ?');
+    $stmt->execute([$project_id]);
+    $project = $stmt->fetch(PDO::FETCH_ASSOC);
+    sendNewProjectToReviewersEmail($project, $user);
     
     $_SESSION['success'] = 'Projet soumis avec succès ! Il sera bientôt reviewé par notre équipe.';
     header('Location: /membre/' . $user['username']);

@@ -57,7 +57,16 @@ try {
     
     // Log de l'action
     logAction('add_comment', $user['id'], $project_id);
+
+    // Notifier l'auteur du projet
+    include_once '../../includes/email.php';
+    $stmt = $pdo->prepare('SELECT p.*, u.* FROM extra_proj_projects p JOIN extra_proj_users u ON p.user_id = u.id WHERE p.id = ?');
+    $stmt->execute([$project_id]);
+    $project_with_owner = $stmt->fetch(PDO::FETCH_ASSOC);
     
+    $comment = ['id' => $comment_id, 'content' => $content];
+    sendNewCommentEmail($project, $comment, $project_with_owner, $user);    
+
     $_SESSION['success'] = 'Commentaire publié !';
     header('Location: /projet/' . $project['slug'] . '#comment-' . $pdo->lastInsertId());
     exit;

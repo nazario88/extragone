@@ -97,7 +97,11 @@ try {
     // Log de l'action
     logAction('publish_project', $user['id'], $project_id);
     
-    // TODO: Envoyer notification email à l'auteur (quand système mail configuré)
+    // Notifier l'auteur du projet
+    include_once '../../includes/email.php';
+    $stmt = $pdo->prepare('SELECT * FROM extra_proj_users WHERE id = ?');
+    $stmt->execute([$project['user_id']]);
+    $project_owner = $stmt->fetch(PDO::FETCH_ASSOC);
     
     $_SESSION['success'] = 'Projet publié avec succès ! 🎉';
     header('Location: /projet/' . $project['slug']);

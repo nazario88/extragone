@@ -63,7 +63,9 @@ try {
     // Log de l'action
     logAction('apply_reviewer', $user['id']);
     
-    // TODO: Envoyer notification email à l'équipe (quand système mail configuré)
+    // Notifier l'équipe
+    include_once '../../includes/email.php';
+    sendReviewerApplicationEmail($user, $motivation);
     
     $_SESSION['success'] = 'Candidature envoyée ! Notre équipe va l\'examiner rapidement.';
     header('Location: /devenir-reviewer');

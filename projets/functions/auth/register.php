@@ -37,6 +37,9 @@ if (!$result['success']) {
     exit;
 }
 
+// Envoyer l'email de bienvenue
+sendWelcomeEmail($user);
+
 // Connexion automatique après inscription
 loginUser($result['user_id']);
 
