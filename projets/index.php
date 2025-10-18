@@ -71,7 +71,7 @@ include 'includes/header.php';
 
     <!-- Grille des projets -->
     <div class="mb-12">
-        <h2 class="text-2xl font-bold mb-6 flex items-center">
+        <h2 class="text-2xl font-bold mb-2 flex items-center">
             <i class="fa-solid fa-folder-open text-blue-500 mr-3"></i>
             Derniers projets publiés
         </h2>

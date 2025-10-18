@@ -3,19 +3,20 @@
  * Système d'envoi d'emails pour projets.extrag.one
  */
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-// Charger PHPMailer (adapter selon ton installation)
+// Vérifier que PHPMailer est installé
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-    // Via Composer
     require __DIR__ . '/../vendor/autoload.php';
 } elseif (file_exists(__DIR__ . '/PHPMailer/src/PHPMailer.php')) {
     // Installation manuelle
     require __DIR__ . '/PHPMailer/src/Exception.php';
     require __DIR__ . '/PHPMailer/src/PHPMailer.php';
     require __DIR__ . '/PHPMailer/src/SMTP.php';
+} else {
+    die('❌ PHPMailer n\'est pas installé.<br><br>');
 }
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 /**
  * Envoie un email via SMTP

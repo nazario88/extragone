@@ -19,9 +19,9 @@ include 'includes/header.php';
 <div class="w-full max-w-4xl mx-auto px-5 py-12">
     
     <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold mb-2">Rejoins la communauté</h1>
+        <h1 class="px-4 m-2 mx-auto text-xl md:text-4xl text-center font-bold tracking-tight dark:text-slate-500">Rejoins la <span class="dark:text-white font-semibold">communauté</span> !</h1>
         <p class="text-gray-600 dark:text-gray-300">
-            Connecte-toi ou crée un compte pour soumettre tes projets
+            Connecte-toi ou crée un compte pour soumettre tes projets.
         </p>
     </div>
 
@@ -45,7 +45,7 @@ include 'includes/header.php';
                         name="email" 
                         required
                         class="w-full px-4 py-3 rounded-xl text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="ton@email.com">
+                        placeholder="email@extrag.one">
                 </div>
                 
                 <div class="mb-6">
@@ -76,7 +76,7 @@ include 'includes/header.php';
                 Inscription
             </h2>
             
-            <form method="post" action="functions/register.php" id="registerForm">
+            <form method="post" action="functions/auth/register.php" id="registerForm">
                 <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
                 
                 <div class="mb-4">
@@ -87,7 +87,7 @@ include 'includes/header.php';
                         name="email" 
                         required
                         class="w-full px-4 py-3 rounded-xl text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="ton@email.com">
+                        placeholder="email@extrag.one">
                 </div>
                 
                 <div class="mb-4">
@@ -104,7 +104,7 @@ include 'includes/header.php';
                         maxlength="50"
                         pattern="[a-zA-Z0-9_-]+"
                         class="w-full px-4 py-3 rounded-xl text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="tonpseudo">
+                        placeholder="Pseudonyme">
                     <p class="text-xs text-gray-500 mt-1">Lettres, chiffres, _ et - uniquement</p>
                 </div>
                 
@@ -118,7 +118,7 @@ include 'includes/header.php';
                         name="display_name" 
                         maxlength="100"
                         class="w-full px-4 py-3 rounded-xl text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="Ton Nom Public">
+                        placeholder="Nom public">
                 </div>
                 
                 <div class="mb-6">

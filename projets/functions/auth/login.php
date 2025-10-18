@@ -1,6 +1,7 @@
 <?php
-include '../../includes/config.php';
-include '../includes/auth.php';
+include '../../../includes/config.php';
+include '../../includes/auth.php';
+include '../../includes/functions.php';
 
 // Vérifier que c'est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
