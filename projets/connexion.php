@@ -4,7 +4,7 @@ include 'includes/auth.php';
 
 // Si déjà connecté, rediriger
 if (isLoggedIn()) {
-    header('Location: /');
+    header('Location:'.$base);
     exit;
 }
 

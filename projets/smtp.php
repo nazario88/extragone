@@ -9,11 +9,11 @@ include '../includes/config.php';
 // Vérifier que PHPMailer est installé
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     require __DIR__ . '/../vendor/autoload.php';
-} elseif (file_exists(__DIR__ . 'includes/PHPMailer/src/PHPMailer.php')) {
+} elseif (file_exists(__DIR__ . '/includes/PHPMailer/src/PHPMailer.php')) {
     // Installation manuelle
-    require __DIR__ . 'includes//PHPMailer/src/Exception.php';
-    require __DIR__ . 'includes/PHPMailer/src/PHPMailer.php';
-    require __DIR__ . 'includes/PHPMailer/src/SMTP.php';
+    require __DIR__ . '/includes//PHPMailer/src/Exception.php';
+    require __DIR__ . '/includes/PHPMailer/src/PHPMailer.php';
+    require __DIR__ . '/includes/PHPMailer/src/SMTP.php';
 } else {
     die('❌ PHPMailer n\'est pas installé.<br><br>');
 }

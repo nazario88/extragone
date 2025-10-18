@@ -25,7 +25,7 @@ function sendEmail($to, $to_name, $subject, $html_body, $text_body = null) {
     global $pdo;
     
     // Vérifier que SMTP est configuré
-    if (empty($_ENV['SMTP_HOST']) || empty($_ENV['SMTP_USER'])) {
+    if (empty($_ENV['SMTP_HOST']) && empty(getenv('SMTP_HOST'))) {
         error_log('SMTP non configuré - Email non envoyé: ' . $subject);
         return false;
     }
@@ -35,16 +35,16 @@ function sendEmail($to, $to_name, $subject, $html_body, $text_body = null) {
         
         // Configuration SMTP
         $mail->isSMTP();
-        $mail->Host = $_ENV['SMTP_HOST'];
+        $mail->Host = $_ENV['SMTP_HOST'] ?? getenv('SMTP_HOST');
         $mail->SMTPAuth = true;
-        $mail->Username = $_ENV['SMTP_USER'];
-        $mail->Password = $_ENV['SMTP_PASS'];
-        $mail->SMTPSecure = $_ENV['SMTP_ENCRYPTION'] ?? 'tls';
-        $mail->Port = $_ENV['SMTP_PORT'] ?? 587;
+        $mail->Username = $_ENV['SMTP_USER'] ?? getenv('SMTP_USER');
+        $mail->Password = $_ENV['SMTP_PASS'] ?? getenv('SMTP_PASS');
+        $mail->SMTPSecure = $_ENV['SMTP_ENCRYPTION'] ?? getenv('SMTP_ENCRYPTION') ?? 'tls';
+        $mail->Port = $_ENV['SMTP_PORT'] ?? getenv('SMTP_PORT') ?? 587;
         $mail->CharSet = 'UTF-8';
         
         // Expéditeur
-        $mail->setFrom($_ENV['SMTP_FROM_EMAIL'], $_ENV['SMTP_FROM_NAME']);
+        $mail->setFrom($_ENV['SMTP_FROM_EMAIL'] ?? getenv('SMTP_FROM_EMAIL'), $_ENV['SMTP_FROM_NAME'] ?? getenv('SMTP_FROM_NAME'));
         
         // Destinataire
         $mail->addAddress($to, $to_name);
@@ -188,7 +188,7 @@ function sendWelcomeEmail($user) {
     if (!$user['email']) return false;
     
     $content = '
-        <h2>Bienvenue ' . htmlspecialchars($user['display_name']) . ' ! 🎉</h2>
+        <h2>Bienvenue ' . $user['display_name'] . ' ! 🎉</h2>
         <p>Ton compte a été créé avec succès sur <strong>Projets eXtragone</strong>.</p>
         <p>Tu peux maintenant :</p>
         <ul>
@@ -216,11 +216,11 @@ function sendProjectPublishedEmail($project, $user) {
     
     $content = '
         <h2>Ton projet a été publié ! 🚀</h2>
-        <p>Bonjour ' . htmlspecialchars($user['display_name']) . ',</p>
-        <p>Bonne nouvelle ! Ton projet <strong>' . htmlspecialchars($project['title']) . '</strong> vient d\'être publié avec sa review.</p>
+        <p>Bonjour ' . $user['display_name'] . ',</p>
+        <p>Bonne nouvelle ! Ton projet <strong>' . $project['title'] . '</strong> vient d\'être publié avec sa review.</p>
         <p>La communauté peut maintenant le découvrir et le commenter.</p>
         <p style="text-align: center;">
-            <a href="https://projets.extrag.one/projet/' . htmlspecialchars($project['slug']) . '" class="button">Voir mon projet</a>
+            <a href="https://projets.extrag.one/projet/' . $project['slug'] . '" class="button">Voir mon projet</a>
         </p>
         <p>Merci d\'avoir partagé ton travail avec la communauté ! 💙</p>
     ';
@@ -242,13 +242,13 @@ function sendNewCommentEmail($project, $comment, $project_owner, $commenter) {
     
     $content = '
         <h2>Nouveau commentaire sur ton projet 💬</h2>
-        <p>Bonjour ' . htmlspecialchars($project_owner['display_name']) . ',</p>
-        <p><strong>' . htmlspecialchars($commenter['display_name']) . '</strong> a commenté ton projet <strong>' . htmlspecialchars($project['title']) . '</strong> :</p>
+        <p>Bonjour ' . $project_owner['display_name'] . ',</p>
+        <p><strong>' . $commenter['display_name'] . '</strong> a commenté ton projet <strong>' . $project['title'] . '</strong> :</p>
         <div style="background-color: #f8f9fa; border-left: 4px solid #335ca3; padding: 15px; margin: 20px 0;">
-            <p style="margin: 0;">' . nl2br(htmlspecialchars(substr($comment['content'], 0, 200))) . (strlen($comment['content']) > 200 ? '...' : '') . '</p>
+            <p style="margin: 0;">' . nl2br(substr($comment['content'], 0, 200)) . (strlen($comment['content']) > 200 ? '...' : '') . '</p>
         </div>
         <p style="text-align: center;">
-            <a href="https://projets.extrag.one/projet/' . htmlspecialchars($project['slug']) . '#comment-' . $comment['id'] . '" class="button">Voir le commentaire</a>
+            <a href="https://projets.extrag.one/projet/' . $project['slug'] . '#comment-' . $comment['id'] . '" class="button">Voir le commentaire</a>
         </p>
     ';
     
@@ -277,11 +277,11 @@ function sendNewProjectToReviewersEmail($project, $project_author) {
     foreach ($reviewers as $reviewer) {
         $content = '
             <h2>Nouveau projet à reviewer ! 📝</h2>
-            <p>Bonjour ' . htmlspecialchars($reviewer['display_name']) . ',</p>
+            <p>Bonjour ' . $reviewer['display_name'] . ',</p>
             <p>Un nouveau projet vient d\'être soumis et attend une review :</p>
-            <h3 style="color: #335ca3;">' . htmlspecialchars($project['title']) . '</h3>
-            <p><em>Par ' . htmlspecialchars($project_author['display_name']) . '</em></p>
-            <p>' . htmlspecialchars(substr($project['short_description'], 0, 150)) . '...</p>
+            <h3 style="color: #335ca3;">' . $project['title'] . '</h3>
+            <p><em>Par ' . $project_author['display_name'] . '</em></p>
+            <p>' . substr($project['short_description'], 0, 150) . '...</p>
             <p style="text-align: center;">
                 <a href="https://projets.extrag.one/reviewer/dashboard" class="button">Voir le dashboard</a>
             </p>
@@ -304,12 +304,12 @@ function sendReviewerApplicationEmail($user, $motivation) {
     
     $content = '
         <h2>Nouvelle candidature reviewer 🌟</h2>
-        <p><strong>' . htmlspecialchars($user['display_name']) . '</strong> (@' . htmlspecialchars($user['username']) . ') souhaite devenir reviewer.</p>
+        <p><strong>' . $user['display_name'] . '</strong> (@' . $user['username'] . ') souhaite devenir reviewer.</p>
         <h3>Motivation :</h3>
         <div style="background-color: #f8f9fa; border-left: 4px solid #335ca3; padding: 15px; margin: 20px 0;">
-            <p>' . nl2br(htmlspecialchars($motivation)) . '</p>
+            <p>' . nl2br($motivation) . '</p>
         </div>
-        <p><strong>Email :</strong> ' . htmlspecialchars($user['email']) . '</p>
+        <p><strong>Email :</strong> ' . $user['email'] . '</p>
         <p>Pour accepter cette candidature, passe le rôle en "reviewer" dans la base de données :</p>
         <pre style="background: #f4f4f4; padding: 10px; border-radius: 4px;">
 UPDATE extra_proj_users SET role = "reviewer" WHERE id = ' . $user['id'] . ';

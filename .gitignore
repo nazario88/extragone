@@ -21,8 +21,17 @@ cache/
 # Dossiers contenant les sitemaps
 sitemaps/
 
-# Dossier contenant les images
-uploads/
+# Ignorer uniquement les fichiers d'images dans uploads/
+uploads/*.png
+uploads/*.jpg
+uploads/*.jpeg
+uploads/*.gif
+uploads/*.webp
+uploads/*.svg
+
+# Ne pas ignorer les fichiers spécifiques
+!uploads/.htaccess
+!uploads/*.php
 
 # Fichier Google
 googledc3aeeb7e638e301.html

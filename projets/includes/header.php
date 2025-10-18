@@ -1,7 +1,7 @@
 <?php
 
 if($base == "/eXtragone/") { // dev
-    $base = "./"; 
+    $base = "/eXtragone/projets/"; 
 }
 
 if(!isset($base)) $base = "https://projets.extrag.one"; //defaut)
@@ -158,10 +158,10 @@ $current_user = getCurrentUser();
                     
                     <div class="relative group">
                         <button class="flex items-center gap-2 hover:text-blue-500 transition-colors">
-                            <img src="<?= $current_user['avatar'] ?: '/images/default-avatar.png' ?>" 
-                                 class="w-8 h-8 rounded-full border-2 border-slate-300 dark:border-slate-600" 
+                            <img src="<?= $current_user['avatar'] ?: $base.'/uploads/avatars/'.$current_user['display_name']; ?>" 
+                                 class="w-8 h-8 rounded-full ring-1 ring-slate-300/70 dark:ring-white/10" 
                                  alt="Avatar">
-                            <span><?= htmlspecialchars($current_user['display_name']) ?></span>
+                            <span><?= $current_user['display_name'] ?></span>
                             <i class="fa-solid fa-chevron-down text-xs"></i>
                         </button>
                         

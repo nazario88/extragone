@@ -2,6 +2,7 @@
 include '../../../includes/config.php';
 include '../../includes/auth.php';
 include '../../includes/functions.php';
+include '../../includes/email.php';
 
 // Vérifier que l'utilisateur est reviewer
 requireRole('reviewer');
