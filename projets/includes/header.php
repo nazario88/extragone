@@ -135,11 +135,11 @@ $current_user = getCurrentUser();
             <!-- Menu desktop -->
             <nav class="hidden md:flex space-x-6 items-center">
                 <a href="<?=$base?>" class="hover:text-blue-500 transition-colors duration-300">Projets</a>
-                <a href="top-reviewers" class="hover:text-blue-500 transition-colors duration-300">Top Reviewers</a>
+                <a href="<?=$base?>/top-reviewers" class="hover:text-blue-500 transition-colors duration-300">Top Reviewers</a>
                 
                 <?php if ($current_user): ?>
                     <?php if (isReviewer()): ?>
-                        <a href="reviewer/dashboard" class="hover:text-blue-500 transition-colors duration-300">
+                        <a href="<?=$base?>/reviewer/dashboard" class="hover:text-blue-500 transition-colors duration-300">
                             <i class="fa-solid fa-clipboard-check mr-1"></i>
                             Dashboard
                             <?php 
@@ -151,42 +151,42 @@ $current_user = getCurrentUser();
                         </a>
                     <?php endif; ?>
                     
-                    <a href="soumettre" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium">
+                    <a href="<?=$base?>/soumettre" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium">
                         <i class="fa-solid fa-plus mr-1"></i>
                         Soumettre un projet
                     </a>
                     
                     <div class="relative group">
                         <button class="flex items-center gap-2 hover:text-blue-500 transition-colors">
-                            <img src="<?= $current_user['avatar'] ?: $base.'/uploads/avatars/'.$current_user['display_name']; ?>" 
+                            <img src="<?= $current_user['avatar'] ?: $base.'uploads/avatars/'.$current_user['display_name'] ?>" 
                                  class="w-8 h-8 rounded-full ring-1 ring-slate-300/70 dark:ring-white/10" 
                                  alt="Avatar">
-                            <span><?= $current_user['display_name'] ?></span>
+                            <span><?= htmlspecialchars($current_user['display_name']) ?></span>
                             <i class="fa-solid fa-chevron-down text-xs"></i>
                         </button>
                         
                         <!-- Dropdown menu -->
                         <div class="hidden group-hover:block absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 py-2 z-50">
-                            <a href="membre/<?= $current_user['username'] ?>" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                            <a href="<?=$base?>/membre/<?= $current_user['username'] ?>" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                                 <i class="fa-solid fa-user mr-2"></i>Mon profil
                             </a>
-                            <a href="reglages" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                            <a href="<?=$base?>/reglages" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                                 <i class="fa-solid fa-gear mr-2"></i>Réglages
                             </a>
                             <?php if (!isReviewer()): ?>
-                            <a href="devenir-reviewer" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                            <a href="<?=$base?>/devenir-reviewer" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                                 <i class="fa-solid fa-star mr-2"></i>Devenir reviewer
                             </a>
                             <?php endif; ?>
                             <hr class="my-2 border-slate-200 dark:border-slate-700">
-                            <a href="deconnexion" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-red-500">
+                            <a href="<?=$base?>/deconnexion" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-red-500">
                                 <i class="fa-solid fa-right-from-bracket mr-2"></i>Déconnexion
                             </a>
                         </div>
                     </div>
                 <?php else: ?>
-                    <a href="connexion" class="hover:text-blue-500 transition-colors duration-300">Connexion</a>
-                    <a href="soumettre" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium">
+                    <a href="<?=$base?>/connexion" class="hover:text-blue-500 transition-colors duration-300">Connexion</a>
+                    <a href="<?=$base?>/soumettre" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium">
                         <i class="fa-solid fa-plus mr-1"></i>
                         Soumettre un projet
                     </a>
@@ -214,17 +214,17 @@ $current_user = getCurrentUser();
         <!-- Menu mobile -->
         <nav id="mobile-menu" class="md:hidden hidden mt-4 flex flex-col space-y-2">
             <a href="<?=$base?>" class="hover:text-blue-500 transition-colors duration-300">Projets</a>
-            <a href="top-reviewers" class="hover:text-blue-500 transition-colors duration-300">Top Reviewers</a>
+            <a href="<?=$base?>/top-reviewers" class="hover:text-blue-500 transition-colors duration-300">Top Reviewers</a>
             
             <?php if ($current_user): ?>
                 <?php if (isReviewer()): ?>
-                    <a href="reviewer/dashboard" class="hover:text-blue-500 transition-colors duration-300">Dashboard Reviewer</a>
+                    <a href="<?=$base?>/reviewer/dashboard" class="hover:text-blue-500 transition-colors duration-300">Dashboard Reviewer</a>
                 <?php endif; ?>
-                <a href="membre/<?= $current_user['username'] ?>" class="hover:text-blue-500 transition-colors duration-300">Mon profil</a>
-                <a href="reglages" class="hover:text-blue-500 transition-colors duration-300">Réglages</a>
-                <a href="deconnexion" class="hover:text-blue-500 transition-colors duration-300 text-red-500">Déconnexion</a>
+                <a href="<?=$base?>/membre/<?= $current_user['username'] ?>" class="hover:text-blue-500 transition-colors duration-300">Mon profil</a>
+                <a href="<?=$base?>/reglages" class="hover:text-blue-500 transition-colors duration-300">Réglages</a>
+                <a href="<?=$base?>/deconnexion" class="hover:text-blue-500 transition-colors duration-300 text-red-500">Déconnexion</a>
             <?php else: ?>
-                <a href="connexion" class="hover:text-blue-500 transition-colors duration-300">Connexion</a>
+                <a href="<?=$base?>/connexion" class="hover:text-blue-500 transition-colors duration-300">Connexion</a>
             <?php endif; ?>
         </nav>
     </header>
@@ -258,7 +258,35 @@ $current_user = getCurrentUser();
     
     <script>
     // Toggle menu mobile
-    document.getElementById('menu-toggle')?.addEventListener('click', function() {
-        document.getElementById('mobile-menu').classList.toggle('hidden');
-    });
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIconOpen = document.getElementById('menu-icon-open');
+    const menuIconClose = document.getElementById('menu-icon-close');
+    
+    if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+            menuIconOpen.classList.toggle('hidden');
+            menuIconClose.classList.toggle('hidden');
+        });
+    }
+    
+    // Toggle thème (desktop et mobile)
+    function toggleTheme() {
+        const html = document.documentElement;
+        const isDark = html.classList.contains('dark');
+        
+        if (isDark) {
+            html.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+            document.cookie = 'theme=light; path=/; max-age=31536000';
+        } else {
+            html.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+            document.cookie = 'theme=dark; path=/; max-age=31536000';
+        }
+    }
+    
+    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
+    document.getElementById('themeToggleMobile')?.addEventListener('click', toggleTheme);
     </script>
