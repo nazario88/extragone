@@ -3,11 +3,17 @@
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.getElementById('menu-toggle');
   const menu = document.getElementById('mobile-menu');
+
   const title = document.getElementById('menu-title');
+  
+  const menuIconOpen = document.getElementById('menu-icon-open'); // Projets
+  const menuIconClose = document.getElementById('menu-icon-close'); // Projets
 
   toggle.addEventListener('click', () => {
     menu.classList.toggle('hidden');
-    title.classList.toggle('hidden');
+    if (title) title.classList.toggle('hidden');
+    if (menuIconOpen) menuIconOpen.classList.toggle('hidden');
+    if (menuIconClose) menuIconClose.classList.toggle('hidden');
   });
 });
 
