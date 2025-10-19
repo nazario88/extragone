@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sauvegarder dans le cookie partagé
     setCookie('theme', newTheme);
     
-    // Optionnel: garder localStorage en sync pour compatibilité
+    // Garder localStorage en sync pour compatibilité
     localStorage.theme = newTheme;
 
     // Changer l'icône dynamiquement

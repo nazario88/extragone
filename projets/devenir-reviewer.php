@@ -36,7 +36,7 @@ include 'includes/header.php';
         <div class="inline-block p-4 bg-purple-100 dark:bg-purple-900/30 rounded-full mb-4">
             <i class="fa-solid fa-star text-4xl text-purple-500"></i>
         </div>
-        <h1 class="text-4xl font-bold mb-4">Devenir reviewer</h1>
+        <h1 class="px-4 m-2 mx-auto text-xl md:text-4xl text-center font-bold tracking-tight dark:text-slate-500">Devenir reviewer</h1>
         <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Rejoins notre équipe de reviewers et aide la communauté à découvrir les meilleurs projets
         </p>
@@ -139,7 +139,7 @@ include 'includes/header.php';
         </div>
 
         <!-- Formulaire de candidature -->
-        <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 border border-slate-200 dark:border-slate-700 shadow-lg">
+        <div class="bg-white dark:bg-slate-800 rounded-xl shadow-md border border-slate-200 dark:border-slate-700 overflow-hidden p-8 text-center">
             <h2 class="text-2xl font-bold mb-6">Soumets ta candidature</h2>
             
             <form method="post" action="functions/reviews/apply-reviewer.php" id="applyForm">

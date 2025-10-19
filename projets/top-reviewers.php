@@ -24,7 +24,7 @@ include 'includes/header.php';
         <div class="inline-block p-4 bg-purple-100 dark:bg-purple-900/30 rounded-full mb-4">
             <i class="fa-solid fa-trophy text-4xl text-purple-500"></i>
         </div>
-        <h1 class="text-4xl font-bold mb-4">Top Reviewers</h1>
+        <h1 class="px-4 m-2 mx-auto text-xl md:text-4xl text-center font-bold tracking-tight dark:text-slate-500">Top Reviewers</h1>
         <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Ils analysent, évaluent et aident la communauté à découvrir les meilleurs projets
         </p>
@@ -210,12 +210,12 @@ include 'includes/header.php';
     </div>
 
     <!-- CTA -->
-    <div class="mt-12 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl p-8 text-center text-white">
+    <div class="mt-12 bg-white dark:bg-slate-800 rounded-xl shadow-md border border-slate-200 dark:border-slate-700 overflow-hidden p-8 text-center">
         <h2 class="text-2xl font-bold mb-3">Tu veux rejoindre l'équipe ?</h2>
         <p class="text-lg mb-6 opacity-90">
             Deviens reviewer et aide la communauté à découvrir les meilleurs projets
         </p>
-        <a href="/devenir-reviewer" class="inline-block px-8 py-4 bg-white text-purple-500 font-bold rounded-xl shadow-lg hover:shadow-xl transition-all hover:scale-105">
+        <a href="devenir-reviewer" class="inline-block px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all hover:scale-105">
             <i class="fa-solid fa-star mr-2"></i>
             Devenir reviewer
         </a>

@@ -128,11 +128,11 @@ $current_user = getCurrentUser();
             <!-- Menu desktop -->
             <nav class="hidden md:flex space-x-4 lg:space-x-6 items-center text-sm">
                 <a href="<?=$base?>" class="hover:text-blue-500 transition-colors duration-300">Projets</a>
-                <a href="<?=$base?>/top-reviewers" class="hover:text-blue-500 transition-colors duration-300">Top Reviewers</a>
+                <a href="top-reviewers" class="hover:text-blue-500 transition-colors duration-300">Top Reviewers</a>
                 
                 <?php if ($current_user): ?>
                     <?php if (isReviewer()): ?>
-                        <a href="<?=$base?>/reviewer/dashboard" class="hover:text-blue-500 transition-colors duration-300 flex items-center gap-1">
+                        <a href="reviewer/dashboard" class="hover:text-blue-500 transition-colors duration-300 flex items-center gap-1">
                             <i class="fa-solid fa-clipboard-check"></i>
                             <span class="hidden lg:inline">Dashboard</span>
                             <?php 
@@ -144,7 +144,7 @@ $current_user = getCurrentUser();
                         </a>
                     <?php endif; ?>
                     
-                    <a href="<?=$base?>/soumettre" class="px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium">
+                    <a href="soumettre" class="px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium">
                         <i class="fa-solid fa-plus lg:mr-1"></i>
                         <span class="hidden lg:inline">Soumettre</span>
                     </a>
@@ -160,26 +160,26 @@ $current_user = getCurrentUser();
                         </button>
                         
                         <div id="userDropdownContent" class="hidden absolute right-0 top-full mt-2 min-w-[200px] bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 py-2 z-50">
-                            <a href="<?=$base?>/membre/<?= $current_user['username'] ?>" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                            <a href="membre/<?= $current_user['username'] ?>" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                                 <i class="fa-solid fa-user mr-2"></i>Mon profil
                             </a>
-                            <a href="<?=$base?>/reglages" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                            <a href="reglages" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                                 <i class="fa-solid fa-gear mr-2"></i>Réglages
                             </a>
                             <?php if (!isReviewer()): ?>
-                            <a href="<?=$base?>/devenir-reviewer" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                            <a href="devenir-reviewer" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                                 <i class="fa-solid fa-star mr-2"></i>Devenir reviewer
                             </a>
                             <?php endif; ?>
                             <hr class="my-2 border-slate-200 dark:border-slate-700">
-                            <a href="<?=$base?>/deconnexion" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-red-500">
+                            <a href="deconnexion" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-red-500">
                                 <i class="fa-solid fa-right-from-bracket mr-2"></i>Déconnexion
                             </a>
                         </div>
                     </div>
                 <?php else: ?>
-                    <a href="<?=$base?>/connexion" class="hover:text-blue-500 transition-colors duration-300">Connexion</a>
-                    <a href="<?=$base?>/soumettre" class="px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium">
+                    <a href="connexion" class="hover:text-blue-500 transition-colors duration-300">Connexion</a>
+                    <a href="soumettre" class="px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium">
                         <i class="fa-solid fa-plus mr-1"></i>
                         Soumettre
                     </a>
@@ -195,14 +195,7 @@ $current_user = getCurrentUser();
             </nav>
 
             <!-- Menu mobile toggle -->
-            <div class="flex md:hidden items-center gap-2">
-                <span id="themeToggleMobile" class="cursor-pointer hover:text-blue-500 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="4"></circle>
-                        <path d="M12 2v2M12 20v2m-7.07-2.93 1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2m-13.66 5.66-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
-                    </svg>
-                </span>
-                
+            <div class="flex md:hidden items-center gap-2">               
                 <button id="menu-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-500 transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path id="menu-icon-open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -218,13 +211,13 @@ $current_user = getCurrentUser();
                 <a href="<?=$base?>" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
                     <i class="fa-solid fa-home mr-2"></i>Projets
                 </a>
-                <a href="<?=$base?>/top-reviewers" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                <a href="top-reviewers" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
                     <i class="fa-solid fa-trophy mr-2"></i>Top Reviewers
                 </a>
                 
                 <?php if ($current_user): ?>
                     <?php if (isReviewer()): ?>
-                        <a href="<?=$base?>/reviewer/dashboard" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center justify-between">
+                        <a href="reviewer/dashboard" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors flex items-center justify-between">
                             <span><i class="fa-solid fa-clipboard-check mr-2"></i>Dashboard Reviewer</span>
                             <?php 
                             $pending = getPendingReviewCount();
@@ -235,7 +228,7 @@ $current_user = getCurrentUser();
                         </a>
                     <?php endif; ?>
                     
-                    <a href="<?=$base?>/soumettre" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium">
+                    <a href="soumettre" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium">
                         <i class="fa-solid fa-plus mr-2"></i>Soumettre un projet
                     </a>
                     
@@ -248,25 +241,25 @@ $current_user = getCurrentUser();
                         <span><?= htmlspecialchars($current_user['display_name'], ENT_QUOTES, 'UTF-8') ?></span>
                     </div>
                     
-                    <a href="<?=$base?>/membre/<?= $current_user['username'] ?>" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                    <a href="membre/<?= $current_user['username'] ?>" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
                         <i class="fa-solid fa-user mr-2"></i>Mon profil
                     </a>
-                    <a href="<?=$base?>/reglages" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                    <a href="reglages" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
                         <i class="fa-solid fa-gear mr-2"></i>Réglages
                     </a>
                     <?php if (!isReviewer()): ?>
-                    <a href="<?=$base?>/devenir-reviewer" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                    <a href="devenir-reviewer" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
                         <i class="fa-solid fa-star mr-2"></i>Devenir reviewer
                     </a>
                     <?php endif; ?>
-                    <a href="<?=$base?>/deconnexion" class="px-4 py-2 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-lg transition-colors text-red-500">
+                    <a href="deconnexion" class="px-4 py-2 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-lg transition-colors text-red-500">
                         <i class="fa-solid fa-right-from-bracket mr-2"></i>Déconnexion
                     </a>
                 <?php else: ?>
-                    <a href="<?=$base?>/connexion" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                    <a href="connexion" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
                         <i class="fa-solid fa-right-to-bracket mr-2"></i>Connexion
                     </a>
-                    <a href="<?=$base?>/soumettre" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium">
+                    <a href="soumettre" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium">
                         <i class="fa-solid fa-plus mr-2"></i>Soumettre un projet
                     </a>
                 <?php endif; ?>
@@ -359,8 +352,8 @@ $current_user = getCurrentUser();
         }
     }
     
-    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
-    */
+    //document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
     document.getElementById('themeToggleMobile')?.addEventListener('click', toggleTheme);
+    */
     
     </script>

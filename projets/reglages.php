@@ -44,7 +44,7 @@ include 'includes/header.php';
                         Photo de profil
                     </label>
                     <div class="flex items-center gap-6">
-                        <img src="<?= $user['avatar'] ?: '/images/default-avatar.png' ?>" 
+                        <img src="<?= $user['avatar'] ?: $base.'/uploads/avatars/'.$current_user['display_name'] ?>" 
                              id="avatar-preview"
                              alt="Avatar"
                              class="w-24 h-24 rounded-full border-4 border-slate-200 dark:border-slate-700">
