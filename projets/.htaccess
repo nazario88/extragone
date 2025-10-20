@@ -15,8 +15,8 @@ RewriteRule ^deconnexion$ deconnexion.php [L]
 RewriteRule ^reglages$ reglages.php [L]
 
 # Routes avec paramètres
-RewriteRule ^projet/([a-z0-9-]+)$ projet.php?slug=$1 [L,QSA]
-RewriteRule ^membre/([a-z0-9_-]+)$ membre.php?username=$1 [L,QSA]
+RewriteRule ^projet/([a-zA-Z0-9-]+)$ projet.php?slug=$1 [L,QSA]
+RewriteRule ^membre/([a-zA-Z0-9_-]+)$ membre.php?username=$1 [L,QSA]
 
 # Routes reviewer
 RewriteRule ^reviewer/dashboard$ reviewer/dashboard.php [L]

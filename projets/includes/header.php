@@ -132,8 +132,7 @@ $current_user = getCurrentUser();
                 
                 <?php if ($current_user): ?>
                     <?php if (isReviewer()): ?>
-                        <a href="reviewer/dashboard" class="hover:text-blue-500 transition-colors duration-300 flex items-center gap-1">
-                            <i class="fa-solid fa-clipboard-check"></i>
+                        <a href="reviewer/dashboard" class="text-blue-500 hover:text-blue-600 font-bold transition-colors duration-300 flex items-center gap-1">
                             <span class="hidden lg:inline">Dashboard</span>
                             <?php 
                             $pending = getPendingReviewCount();

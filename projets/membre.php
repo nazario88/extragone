@@ -44,7 +44,7 @@ if (in_array($user['role'], ['reviewer', 'admin'])) {
 $title = htmlspecialchars($user['display_name']) . " — Profil";
 $description = "Profil de " . htmlspecialchars($user['display_name']) . " sur Projets eXtragone.";
 $url_canon = 'https://projets.extrag.one/membre/' . htmlspecialchars($username);
-$image_seo = $user['avatar'] ?: 'https://projets.extrag.one/images/og-default.png';
+$image_seo = $user['avatar'] ?: $base.'/uploads/avatars/'.$user['display_name'];
 
 include 'includes/header.php';
 ?>
@@ -56,9 +56,9 @@ include 'includes/header.php';
         <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
             
             <!-- Avatar -->
-            <img src="<?= $user['avatar'] ?: '/images/default-avatar.png' ?>" 
+            <img src="<?= $user['avatar'] ?: $base.'/uploads/avatars/'.$user['display_name'] ?>" 
                  alt="<?= htmlspecialchars($user['display_name']) ?>"
-                 class="w-32 h-32 rounded-full border-4 border-blue-500">
+                 class="w-32 h-32 rounded-full ring-1 ring-slate-300/70 dark:ring-white/10">
             
             <!-- Informations -->
             <div class="flex-1 text-center md:text-left">
@@ -123,7 +123,7 @@ include 'includes/header.php';
                 <!-- Bouton éditer profil si c'est son propre profil -->
                 <?php if ($current_user && $current_user['id'] == $user['id']): ?>
                 <div class="mt-4">
-                    <a href="reglages" class="inline-block px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors">
+                    <a href="reglages" class="inline-block px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
                         <i class="fa-solid fa-gear mr-2"></i>
                         Modifier mon profil
                     </a>
@@ -148,9 +148,9 @@ include 'includes/header.php';
                 <i class="fa-solid fa-inbox text-4xl text-gray-400 mb-4"></i>
                 <p class="text-gray-600 dark:text-gray-300">
                     <?php if ($current_user && $current_user['id'] == $user['id']): ?>
-                        Tu n'as pas encore soumis de projet.
+                        Tu n'as pas encore soumis de projet 🙄.
                         <br>
-                        <a href="soumettre" class="text-blue-500 hover:underline mt-2 inline-block">Soumettre ton premier projet</a>
+                        <a href="soumettre" class="border-b-2 border-blue-500 hover:border-dotted hover:text-blue-500 transition-colors duration-300 inline-block">Soumettre ton premier projet</a>
                     <?php else: ?>
                         Aucun projet publié pour le moment.
                     <?php endif; ?>

@@ -69,7 +69,7 @@ try {
     sendReviewerApplicationEmail($user, $motivation);
     
     $_SESSION['success'] = 'Candidature envoyée ! Notre équipe va l\'examiner rapidement.';
-    header('Location: /devenir-reviewer');
+    header('Location: devenir-reviewer');
     exit;
     
 } catch (Exception $e) {

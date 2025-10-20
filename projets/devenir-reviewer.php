@@ -121,19 +121,19 @@ include 'includes/header.php';
             <ul class="space-y-2 text-blue-800 dark:text-blue-200">
                 <li class="flex items-start gap-2">
                     <i class="fa-solid fa-star text-yellow-500 mt-1"></i>
-                    <span>Une passion pour le web, le design ou le développement</span>
+                    <span>Une passion pour le web, le design ou le développement.</span>
                 </li>
                 <li class="flex items-start gap-2">
                     <i class="fa-solid fa-star text-yellow-500 mt-1"></i>
-                    <span>La capacité à rédiger des reviews constructives et bienveillantes</span>
+                    <span>La capacité à rédiger des reviews constructives et bienveillantes.</span>
                 </li>
                 <li class="flex items-start gap-2">
                     <i class="fa-solid fa-star text-yellow-500 mt-1"></i>
-                    <span>Un esprit critique et objectif</span>
+                    <span>Un esprit critique et objectif.</span>
                 </li>
                 <li class="flex items-start gap-2">
                     <i class="fa-solid fa-star text-yellow-500 mt-1"></i>
-                    <span>De la disponibilité pour reviewer 1-2 projets par mois minimum</span>
+                    <span>De la disponibilité pour reviewer 1-2 projets par mois minimum.</span>
                 </li>
             </ul>
         </div>
@@ -147,7 +147,7 @@ include 'includes/header.php';
                 
                 <div class="mb-6">
                     <label for="motivation" class="block font-semibold text-gray-900 dark:text-white mb-2">
-                        Pourquoi veux-tu devenir reviewer ? *
+                        Pourquoi tu veux devenir reviewer ? 😉
                     </label>
                     <textarea 
                         id="motivation" 

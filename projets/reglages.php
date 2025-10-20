@@ -47,7 +47,7 @@ include 'includes/header.php';
                         <img src="<?= $user['avatar'] ?: $base.'/uploads/avatars/'.$current_user['display_name'] ?>" 
                              id="avatar-preview"
                              alt="Avatar"
-                             class="w-24 h-24 rounded-full border-4 border-slate-200 dark:border-slate-700">
+                             class="w-24 h-24 rounded-full ring-1 ring-slate-300/70 dark:ring-white/10">
                         
                         <div>
                             <input type="file" 
