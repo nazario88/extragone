@@ -300,25 +300,81 @@ function sendNewProjectToReviewersEmail($project, $project_author) {
  */
 function sendReviewerApplicationEmail($user, $motivation) {
     // Email à l'équipe (toi)
-    $admin_email = 'contact@extrag.one'; // Ton email
+    $admin_email = 'jeremie@innospira.fr'; // Email à changer
     
     $content = '
         <h2>Nouvelle candidature reviewer 🌟</h2>
-        <p><strong>' . $user['display_name'] . '</strong> (@' . $user['username'] . ') souhaite devenir reviewer.</p>
+        <p><strong>' . htmlspecialchars($user['display_name']) . '</strong> (@' . htmlspecialchars($user['username']) . ') souhaite devenir reviewer.</p>
         <h3>Motivation :</h3>
         <div style="background-color: #f8f9fa; border-left: 4px solid #335ca3; padding: 15px; margin: 20px 0;">
-            <p>' . nl2br($motivation) . '</p>
+            <p>' . nl2br(htmlspecialchars($motivation)) . '</p>
         </div>
-        <p><strong>Email :</strong> ' . $user['email'] . '</p>
-        <p>Pour accepter cette candidature, passe le rôle en "reviewer" dans la base de données :</p>
-        <pre style="background: #f4f4f4; padding: 10px; border-radius: 4px;">
-UPDATE extra_proj_users SET role = "reviewer" WHERE id = ' . $user['id'] . ';
-        </pre>
+        <p><strong>Email :</strong> ' . htmlspecialchars($user['email']) . '</p>
+        <p style="text-align: center;">
+            <a href="https://projets.extrag.one/admin/reviewer-requests" class="button">Gérer les candidatures</a>
+        </p>
     ';
     
     $html = getEmailTemplate($content, 'Nouvelle candidature');
     $subject = '🌟 Nouvelle candidature reviewer : ' . $user['display_name'];
     
     return sendEmail($admin_email, 'Admin', $subject, $html);
+}
+
+/**
+ * Notifie l'utilisateur que sa candidature a été acceptée
+ */
+function sendReviewerApprovedEmail($user) {
+    if (!$user['email']) return false;
+    
+    $content = '
+        <h2>Félicitations ! 🎉</h2>
+        <p>Bonjour ' . htmlspecialchars($user['display_name']) . ',</p>
+        <p>Excellente nouvelle ! Ta candidature pour devenir <strong>reviewer</strong> a été acceptée.</p>
+        <p>Tu peux maintenant accéder au dashboard reviewer et commencer à analyser les projets de la communauté.</p>
+        <p style="text-align: center;">
+            <a href="https://projets.extrag.one/reviewer/dashboard" class="button">Accéder au dashboard</a>
+        </p>
+        <h3>En tant que reviewer, tu peux :</h3>
+        <ul>
+            <li>✅ Prendre en charge les projets qui t\'intéressent</li>
+            <li>✅ Rédiger des reviews détaillées et constructives</li>
+            <li>✅ Aider la communauté à découvrir les meilleurs projets</li>
+            <li>✅ Apparaître dans le classement des top reviewers</li>
+        </ul>
+        <p>Bienvenue dans l\'équipe ! 🌟</p>
+    ';
+    
+    $html = getEmailTemplate($content, 'Bienvenue reviewer !');
+    $subject = '🎉 Ta candidature reviewer a été acceptée !';
+    
+    return sendEmail($user['email'], $user['display_name'], $subject, $html);
+}
+
+/**
+ * Notifie l'utilisateur que sa candidature a été refusée
+ */
+function sendReviewerRejectedEmail($user) {
+    if (!$user['email']) return false;
+    
+    $content = '
+        <h2>Au sujet de ta candidature</h2>
+        <p>Bonjour ' . htmlspecialchars($user['display_name']) . ',</p>
+        <p>Merci pour ton intérêt à rejoindre l\'équipe des reviewers de Projets eXtragone.</p>
+        <p>Malheureusement, nous ne pouvons pas donner suite à ta candidature pour le moment.</p>
+        <p>N\'hésite pas à continuer à participer activement à la communauté en :</p>
+        <ul>
+            <li>💬 Commentant les projets</li>
+            <li>🚀 Partageant tes propres projets</li>
+            <li>🤝 Aidant les autres membres</li>
+        </ul>
+        <p>Tu pourras candidater à nouveau dans le futur !</p>
+        <p>À bientôt sur la plateforme.</p>
+    ';
+    
+    $html = getEmailTemplate($content, 'Candidature reviewer');
+    $subject = 'Au sujet de ta candidature reviewer';
+    
+    return sendEmail($user['email'], $user['display_name'], $subject, $html);
 }
 ?>

@@ -22,6 +22,9 @@ RewriteRule ^membre/([a-zA-Z0-9_-]+)$ membre.php?username=$1 [L,QSA]
 RewriteRule ^reviewer/dashboard$ reviewer/dashboard.php [L]
 RewriteRule ^reviewer/review/([0-9]+)$ reviewer/review.php?id=$1 [L,QSA]
 
+# Routes admin
+RewriteRule ^admin/reviewer-requests$ admin/reviewer-requests.php [L]
+
 # API endpoints
 RewriteRule ^functions/(.+)$ functions/$1 [L]
 

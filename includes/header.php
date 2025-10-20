@@ -131,6 +131,9 @@ if(!isset($image_seo)) $image_seo = "$base/assets/img/image-og.png";
           <a href="outils" class="hover:text-blue-500 transition-colors duration-300">Liste des outils</a>
           <a href="categories" class="hover:text-blue-500 transition-colors duration-300">Catégories</a>
           <a href="ajouter" class="hover:text-blue-500 transition-colors duration-300">Ajouter un outil</a>
+          <?php if(is_admin_logged_in()): ?>
+            <a href="admin" class="text-blue-500 hover:text-blue-600 font-bold transition-colors duration-300 flex items-center gap-1">Admin</a>
+          <?php endif; ?>
         </nav>
 
         <!-- Menu mobile -->
@@ -154,13 +157,6 @@ if(!isset($image_seo)) $image_seo = "$base/assets/img/image-og.png";
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
         </span>
 
-        <?php
-        if(!is_admin_logged_in()) {
-          ?>
-        
-          <?php
-        }
-        ?>
       </div>
     </header>
     <main class="flex-grow">
