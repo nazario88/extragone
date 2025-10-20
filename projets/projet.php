@@ -49,7 +49,7 @@ $parsedown = new Parsedown();
     <!-- En-tête du projet -->
     <div class="mb-8">
         <div class="flex items-center gap-2 text-sm text-gray-500 mb-4">
-            <a href="/" class="hover:text-blue-500">Projets</a>
+            <a href="<?=$base?>" class="hover:text-blue-500">Projets</a>
             <i class="fa-solid fa-chevron-right text-xs"></i>
             <span><?= htmlspecialchars($project['title']) ?></span>
         </div>
@@ -58,7 +58,7 @@ $parsedown = new Parsedown();
         
         <!-- Métadonnées -->
         <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
-            <a href="/membre/<?= htmlspecialchars($project['username']) ?>" class="flex items-center gap-2 hover:text-blue-500 transition-colors">
+            <a href="membre/<?= htmlspecialchars($project['username']) ?>" class="flex items-center gap-2 hover:text-blue-500 transition-colors">
                 <img src="<?= $project['avatar'] ?: '/images/default-avatar.png' ?>" 
                      class="w-8 h-8 rounded-full"
                      alt="<?= htmlspecialchars($project['display_name']) ?>">
@@ -144,7 +144,7 @@ $parsedown = new Parsedown();
                         <h2 class="text-xl font-bold text-purple-900 dark:text-purple-100">Revue officielle</h2>
                         <p class="text-sm text-purple-700 dark:text-purple-300">
                             Par 
-                            <a href="/membre/<?= htmlspecialchars($project['reviewer_username']) ?>" class="font-medium hover:underline">
+                            <a href="membre/<?= htmlspecialchars($project['reviewer_username']) ?>" class="font-medium hover:underline">
                                 <?= htmlspecialchars($project['reviewer_name']) ?>
                             </a>
                             • <?= date('d/m/Y', strtotime($project['review_date'])) ?>
@@ -186,7 +186,7 @@ $parsedown = new Parsedown();
                 <div class="mb-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800">
                     <p class="text-blue-800 dark:text-blue-200">
                         <i class="fa-solid fa-info-circle mr-2"></i>
-                        <a href="/connexion" class="font-medium hover:underline">Connecte-toi</a> pour commenter ce projet.
+                        <a href="connexion" class="font-medium hover:underline">Connecte-toi</a> pour commenter ce projet.
                     </p>
                 </div>
                 <?php endif; ?>
@@ -205,7 +205,7 @@ $parsedown = new Parsedown();
                                 
                                 <div class="flex-1">
                                     <div class="flex items-center gap-2 mb-1">
-                                        <a href="/membre/<?= htmlspecialchars($comment['username']) ?>" class="font-medium hover:text-blue-500 transition-colors">
+                                        <a href="membre/<?= htmlspecialchars($comment['username']) ?>" class="font-medium hover:text-blue-500 transition-colors">
                                             <?= htmlspecialchars($comment['display_name']) ?>
                                         </a>
                                         <span class="text-xs text-gray-500">

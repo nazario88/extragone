@@ -187,7 +187,7 @@ include 'includes/header.php';
                     </span>
                 </button>
                 
-                <a href="/" class="px-6 py-4 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-xl transition-all">
+                <a href="<?=$base?>" class="px-6 py-4 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-xl transition-all">
                     Annuler
                 </a>
             </div>

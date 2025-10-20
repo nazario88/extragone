@@ -299,8 +299,21 @@ function sendNewProjectToReviewersEmail($project, $project_author) {
  * Notifie l'équipe qu'une nouvelle candidature reviewer est arrivée
  */
 function sendReviewerApplicationEmail($user, $motivation) {
-    // Email à l'équipe (toi)
-    $admin_email = 'jeremie@innospira.fr'; // Email à changer
+    global $pdo;
+    
+    // Récupérer tous les admins
+    $stmt = $pdo->prepare('
+        SELECT email, display_name 
+        FROM extra_proj_users 
+        WHERE role = "admin" AND is_active = 1 AND email IS NOT NULL
+    ');
+    $stmt->execute();
+    $admins = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    if (empty($admins)) {
+        error_log('Aucun admin trouvé pour envoyer la notification de candidature reviewer');
+        return false;
+    }
     
     $content = '
         <h2>Nouvelle candidature reviewer 🌟</h2>
@@ -318,7 +331,15 @@ function sendReviewerApplicationEmail($user, $motivation) {
     $html = getEmailTemplate($content, 'Nouvelle candidature');
     $subject = '🌟 Nouvelle candidature reviewer : ' . $user['display_name'];
     
-    return sendEmail($admin_email, 'Admin', $subject, $html);
+    // Envoyer à tous les admins
+    $sent = false;
+    foreach ($admins as $admin) {
+        if (sendEmail($admin['email'], $admin['display_name'], $subject, $html)) {
+            $sent = true;
+        }
+    }
+    
+    return $sent;
 }
 
 /**

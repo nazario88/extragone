@@ -71,7 +71,7 @@ include 'includes/header.php';
                             2
                         </div>
                     </div>
-                    <a href="/membre/<?= htmlspecialchars($top_reviewers[1]['username']) ?>" 
+                    <a href="membre/<?= htmlspecialchars($top_reviewers[1]['username']) ?>" 
                        class="font-bold text-lg hover:text-blue-500 transition-colors block mb-1">
                         <?= htmlspecialchars($top_reviewers[1]['display_name']) ?>
                     </a>
@@ -96,7 +96,7 @@ include 'includes/header.php';
                             👑
                         </div>
                     </div>
-                    <a href="/membre/<?= htmlspecialchars($top_reviewers[0]['username']) ?>" 
+                    <a href="membre/<?= htmlspecialchars($top_reviewers[0]['username']) ?>" 
                        class="font-bold text-xl text-white hover:text-yellow-100 transition-colors block mb-1">
                         <?= htmlspecialchars($top_reviewers[0]['display_name']) ?>
                     </a>
@@ -121,7 +121,7 @@ include 'includes/header.php';
                             3
                         </div>
                     </div>
-                    <a href="/membre/<?= htmlspecialchars($top_reviewers[2]['username']) ?>" 
+                    <a href="membre/<?= htmlspecialchars($top_reviewers[2]['username']) ?>" 
                        class="font-bold text-lg hover:text-blue-500 transition-colors block mb-1">
                         <?= htmlspecialchars($top_reviewers[2]['display_name']) ?>
                     </a>
@@ -172,7 +172,7 @@ include 'includes/header.php';
                          class="w-12 h-12 rounded-full">
                     
                     <div class="flex-1">
-                        <a href="/membre/<?= htmlspecialchars($reviewer['username']) ?>" 
+                        <a href="membre/<?= htmlspecialchars($reviewer['username']) ?>" 
                            class="font-bold hover:text-blue-500 transition-colors">
                             <?= htmlspecialchars($reviewer['display_name']) ?>
                         </a>

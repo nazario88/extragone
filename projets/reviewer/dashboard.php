@@ -99,6 +99,36 @@ include '../includes/header.php';
         </div>
     </div>
 
+    <!-- Alerte candidatures en attente (Admin uniquement) -->
+    <?php if (isAdmin()): ?>
+        <?php
+        $stmt = $pdo->query('SELECT COUNT(*) FROM extra_proj_reviewer_requests WHERE status = "pending"');
+        $pending_candidates = (int)$stmt->fetchColumn();
+        if ($pending_candidates > 0):
+        ?>
+        <div class="bg-orange-50 dark:bg-orange-900/20 rounded-2xl p-6 border-2 border-orange-200 dark:border-orange-800 mb-8">
+            <div class="flex items-start gap-4">
+                <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-user-plus text-white text-xl"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold text-orange-900 dark:text-orange-100 mb-2">
+                        <?= $pending_candidates ?> candidature<?= $pending_candidates > 1 ? 's' : '' ?> reviewer en attente
+                    </h3>
+                    <p class="text-sm text-orange-800 dark:text-orange-200 mb-4">
+                        Des membres souhaitent rejoindre l'équipe des reviewers. Consulte leurs candidatures pour les accepter ou les refuser.
+                    </p>
+                    <a href="admin/reviewer-requests" 
+                       class="inline-block px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                        <i class="fa-solid fa-shield-halved mr-2"></i>
+                        Gérer les candidatures
+                    </a>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+    <?php endif; ?>
+
     <!-- Mes reviews en cours -->
     <?php if (!empty($my_reviews)): ?>
     <div class="mb-8">
@@ -139,7 +169,7 @@ include '../includes/header.php';
                         <span><?= htmlspecialchars($project['display_name']) ?></span>
                     </div>
                     
-                    <a href="/reviewer/review/<?= $project['id'] ?>" 
+                    <a href="reviewer/review/<?= $project['id'] ?>" 
                        class="block w-full px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-center rounded-lg transition-colors font-medium">
                         <i class="fa-solid fa-edit mr-2"></i>
                         Continuer la review
@@ -248,7 +278,7 @@ include '../includes/header.php';
                     <?php endif; ?>
                     
                     <div class="flex-1">
-                        <a href="/projet/<?= htmlspecialchars($project['slug']) ?>" 
+                        <a href="projet/<?= htmlspecialchars($project['slug']) ?>" 
                            class="font-bold hover:text-blue-500 transition-colors">
                             <?= htmlspecialchars($project['title']) ?>
                         </a>
@@ -260,7 +290,7 @@ include '../includes/header.php';
                         </p>
                     </div>
                     
-                    <a href="/projet/<?= htmlspecialchars($project['slug']) ?>" 
+                    <a href="projet/<?= htmlspecialchars($project['slug']) ?>" 
                        class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors text-sm">
                         <i class="fa-solid fa-eye mr-1"></i>
                         Voir

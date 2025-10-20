@@ -64,7 +64,7 @@ include '../includes/header.php';
     <!-- Header -->
     <div class="mb-8">
         <div class="flex items-center gap-2 text-sm text-gray-500 mb-4">
-            <a href="/reviewer/dashboard" class="hover:text-blue-500">Dashboard</a>
+            <a href="reviewer/dashboard" class="hover:text-blue-500">Dashboard</a>
             <i class="fa-solid fa-chevron-right text-xs"></i>
             <span>Review en cours</span>
         </div>
@@ -183,7 +183,7 @@ include '../includes/header.php';
                         </span>
                     </button>
                     
-                    <a href="/reviewer/dashboard" class="px-6 py-4 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-xl transition-all">
+                    <a href="reviewer/dashboard" class="px-6 py-4 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-xl transition-all">
                         Annuler
                     </a>
                 </div>
