@@ -117,7 +117,7 @@ $largeur_premier_div = (isset($data_outil['is_french']) && $data_outil['is_frenc
 <div class="grid grid-cols-4 gap-4 mx-4">
 
     <!-- Détail de l'outil -->
-    <div class="col-span-4 md:<?=$largeur_premier_div?> bg-white rounded-xl shadow p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+    <div class="col-span-4 md:<?=$largeur_premier_div?> text-sm md:text-base bg-white rounded-xl shadow p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
         <!-- Titre -->
         <div class="grid grid-cols-2">
             <div class="col-span-2 md:col-span-1">
@@ -279,9 +279,7 @@ $largeur_premier_div = (isset($data_outil['is_french']) && $data_outil['is_frenc
         if($data_outil['description_longue']) {
             echo '
                 <h3 class="font-bold mt-2">Résumé</h3>
-                <p class="text-sm">
-                    '.nl2br(addCssClasses($data_outil['description_longue'])).'
-                </p>
+                <p>'.nl2br(addCssClasses($data_outil['description_longue'])).'</p>
             ';
         }
         ?>
