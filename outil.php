@@ -269,8 +269,11 @@ $largeur_premier_div = (isset($data_outil['is_french']) && $data_outil['is_frenc
 
         <!-- Boutons -->
         <div class="w-full mt-5 flex items-center justify-center gap-3">
-            <?php echo $link_article; ?>
-            <a class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 transition" href="<?=$data_outil['url']?>" target="_blank" title="Voir l'outil"><i class="fa-solid fa-up-right-from-square"> </i> Voir le site</a>
+            <?php
+            echo $link_article;
+            $url = buildUtmUrl($data_outil['url']);
+            ?>
+            <a class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 transition" href="<?=$url?>" target="_blank" title="Voir l'outil"><i class="fa-solid fa-up-right-from-square"> </i> Voir le site</a>
             <?php if(is_admin_logged_in()) echo '<a class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 transition" href="admin/edit-tool.php?id='.$data_outil['id'].'" title="Modifier"><i class="fa-solid fa-pen-to-square"></i> Modifier</a>'; ?>
         </div>
 
