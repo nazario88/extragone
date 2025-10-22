@@ -1,12 +1,13 @@
 <?php
 
-if($base == "/eXtragone/") { // dev
-    $base = "/eXtragone/projets/"; 
+if($base == "/eXtragone/") $base = "/eXtragone/projets/"; // dev
+if($base == "https://www.extrag.one") {
+    $base = "https://projets.extrag.one/"; //defaut)
+    if(!isset($url_canon)) $url_canon = "https://projets.extrag.one";
+    if(!isset($image_seo)) $image_seo = "https://projets.extrag.one/images/og-default.png";
 }
 
-if(!isset($base)) $base = "https://projets.extrag.one"; //defaut)
-if(!isset($url_canon)) $url_canon = "https://projets.extrag.one";
-if(!isset($image_seo)) $image_seo = "https://projets.extrag.one/images/og-default.png";
+
 if(!isset($noindex)) $noindex = FALSE;
 
 // Récupérer l'utilisateur connecté
@@ -138,7 +139,7 @@ $current_user = getCurrentUser();
                             $pending = getPendingReviewCount();
                             if ($pending > 0): 
                             ?>
-                                <span class="px-1.5 py-0.5 bg-red-500 text-white text-xs rounded-full"><?=$pending?></span>
+                                <span class="px-1.5 py-0.5 bg-orange-500 text-white text-xs rounded-full"><?=$pending?></span>
                             <?php endif; ?>
                         </a>
                     <?php endif; ?>

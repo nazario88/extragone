@@ -7,7 +7,7 @@ include 'includes/functions.php';
 $slug = $_GET['slug'] ?? '';
 
 if (empty($slug)) {
-    header('Location: /');
+    header('Location: '.$base);
     exit;
 }
 
@@ -16,7 +16,7 @@ $project = getProjectBySlug($slug);
 
 if (!$project) {
     $_SESSION['error'] = 'Projet non trouvé.';
-    header('Location: /');
+    header('Location: '.$base);
     exit;
 }
 
@@ -40,7 +40,7 @@ $image_seo = !empty($images) ? 'https://projets.extrag.one' . $images[0]['filepa
 include 'includes/header.php';
 
 // Inclure Parsedown pour le markdown
-require_once '../includes/Parsedown.php';
+require_once 'includes/Parsedown.php';
 $parsedown = new Parsedown();
 ?>
 
@@ -59,7 +59,7 @@ $parsedown = new Parsedown();
         <!-- Métadonnées -->
         <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
             <a href="membre/<?= htmlspecialchars($project['username']) ?>" class="flex items-center gap-2 hover:text-blue-500 transition-colors">
-                <img src="<?= $project['avatar'] ?: '/images/default-avatar.png' ?>" 
+                <img src="<?= $project['avatar'] ?: $base.'/uploads/avatars/'.$project['display_name'] ?>" 
                      class="w-8 h-8 rounded-full"
                      alt="<?= htmlspecialchars($project['display_name']) ?>">
                 <span class="font-medium"><?= htmlspecialchars($project['display_name']) ?></span>
@@ -88,7 +88,7 @@ $parsedown = new Parsedown();
         <div class="grid grid-cols-1 gap-4">
             <!-- Image principale (cover) -->
             <div class="rounded-2xl overflow-hidden">
-                <img src="<?= htmlspecialchars($images[0]['filepath']) ?>" 
+                <img src="<?= $base.htmlspecialchars($images[0]['filepath']) ?>" 
                      alt="<?= htmlspecialchars($project['title']) ?>"
                      class="w-full h-auto object-cover cursor-pointer"
                      onclick="openLightbox(0)">
@@ -100,7 +100,7 @@ $parsedown = new Parsedown();
                 <?php for ($i = 1; $i < count($images); $i++): ?>
                 <div class="rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
                      onclick="openLightbox(<?= $i ?>)">
-                    <img src="<?= htmlspecialchars($images[$i]['filepath']) ?>" 
+                    <img src="<?= $base.htmlspecialchars($images[$i]['filepath']) ?>" 
                          alt="Screenshot <?= $i + 1 ?>"
                          class="w-full h-32 object-cover">
                 </div>
@@ -137,12 +137,12 @@ $parsedown = new Parsedown();
 
             <!-- Revue du reviewer -->
             <?php if ($project['review_text']): ?>
-            <div class="bg-purple-50 dark:bg-purple-900/20 rounded-2xl p-6 border-2 border-purple-200 dark:border-purple-800">
+            <div class="bg-orange-50 dark:bg-orange-900/20 rounded-2xl p-6 border-2 border-orange-200 dark:border-orange-800">
                 <div class="flex items-center gap-3 mb-4">
-                    <i class="fa-solid fa-star text-2xl text-purple-500"></i>
+                    <i class="fa-solid fa-star text-2xl text-orange-500"></i>
                     <div>
-                        <h2 class="text-xl font-bold text-purple-900 dark:text-purple-100">Revue officielle</h2>
-                        <p class="text-sm text-purple-700 dark:text-purple-300">
+                        <h2 class="text-xl font-bold text-orange-900 dark:text-orange-100">Revue officielle</h2>
+                        <p class="text-sm text-orange-700 dark:text-orange-300">
                             Par 
                             <a href="membre/<?= htmlspecialchars($project['reviewer_username']) ?>" class="font-medium hover:underline">
                                 <?= htmlspecialchars($project['reviewer_name']) ?>
@@ -151,7 +151,7 @@ $parsedown = new Parsedown();
                         </p>
                     </div>
                 </div>
-                <div class="prose dark:prose-invert max-w-none text-purple-900 dark:text-purple-100">
+                <div class="prose dark:prose-invert max-w-none text-orange-900 dark:text-orange-100">
                     <?= $parsedown->text($project['review_text']) ?>
                 </div>
             </div>
@@ -199,7 +199,7 @@ $parsedown = new Parsedown();
                         <?php foreach ($comments as $comment): ?>
                         <div class="border-l-4 border-blue-500 pl-4 py-2" id="comment-<?= $comment['id'] ?>">
                             <div class="flex items-start gap-3">
-                                <img src="<?= $comment['avatar'] ?: '/images/default-avatar.png' ?>" 
+                                <img src="<?= $comment['avatar'] ?: $base.'/uploads/avatars/'.$comment['display_name'] ?>" 
                                      class="w-10 h-10 rounded-full"
                                      alt="<?= htmlspecialchars($comment['display_name']) ?>">
                                 

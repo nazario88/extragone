@@ -9,14 +9,14 @@ requireLogin();
 
 // Vérifier que c'est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: /devenir-reviewer');
+    header('Location: '.$base.'devenir-reviewer');
     exit;
 }
 
 // Vérifier le token CSRF
 if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
     $_SESSION['error'] = 'Token de sécurité invalide.';
-    header('Location: /devenir-reviewer');
+    header('Location: '.$base.'devenir-reviewer');
     exit;
 }
 
@@ -25,7 +25,7 @@ $user = getCurrentUser();
 // Vérifier si l'utilisateur est déjà reviewer
 if (isReviewer()) {
     $_SESSION['info'] = 'Tu es déjà reviewer !';
-    header('Location: /reviewer/dashboard');
+    header('Location: '.$base.'reviewer/dashboard');
     exit;
 }
 
@@ -34,13 +34,13 @@ $motivation = sanitizeInput($_POST['motivation'] ?? '');
 // Validation
 if (empty($motivation)) {
     $_SESSION['error'] = 'La motivation est obligatoire.';
-    header('Location: /devenir-reviewer');
+    header('Location: '.$base.'devenir-reviewer');
     exit;
 }
 
 if (strlen($motivation) < 100) {
     $_SESSION['error'] = 'Ta motivation doit contenir au moins 100 caractères.';
-    header('Location: /devenir-reviewer');
+    header('Location: '.$base.'devenir-reviewer');
     exit;
 }
 
@@ -49,7 +49,7 @@ $stmt = $pdo->prepare('SELECT id FROM extra_proj_reviewer_requests WHERE user_id
 $stmt->execute([$user['id']]);
 if ($stmt->fetch()) {
     $_SESSION['error'] = 'Tu as déjà une candidature en cours.';
-    header('Location: /devenir-reviewer');
+    header('Location: '.$base.'devenir-reviewer');
     exit;
 }
 
@@ -75,7 +75,7 @@ try {
 } catch (Exception $e) {
     error_log('Apply reviewer error: ' . $e->getMessage());
     $_SESSION['error'] = 'Erreur lors de l\'envoi de la candidature.';
-    header('Location: /devenir-reviewer');
+    header('Location: '.$base.'devenir-reviewer');
     exit;
 }
 ?>

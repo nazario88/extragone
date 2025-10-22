@@ -21,13 +21,8 @@ cache/
 # Dossiers contenant les sitemaps
 sitemaps/
 
-# Ignorer uniquement les fichiers d'images dans uploads/
-uploads/*.png
-uploads/*.jpg
-uploads/*.jpeg
-uploads/*.gif
-uploads/*.webp
-uploads/*.svg
+# Ignorer les fichiers uploadés
+projets/uploads/projects/
 
 # Ne pas ignorer les fichiers spécifiques
 !uploads/.htaccess

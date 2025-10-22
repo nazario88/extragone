@@ -64,7 +64,7 @@ include 'includes/header.php';
             <div class="order-2 md:order-1">
                 <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border-2 border-slate-300 dark:border-slate-600 text-center">
                     <div class="relative inline-block mb-4">
-                        <img src="<?= $top_reviewers[1]['avatar'] ?: '/images/default-avatar.png' ?>" 
+                        <img src="<?= $top_reviewers[1]['avatar'] ?: $base.'/uploads/avatars/'.$top_reviewers[1]['display_name'] ?>" 
                              alt="<?= htmlspecialchars($top_reviewers[1]['display_name']) ?>"
                              class="w-24 h-24 rounded-full border-4 border-slate-300">
                         <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-slate-300 text-slate-700 rounded-full flex items-center justify-center font-bold text-lg">
@@ -89,7 +89,7 @@ include 'includes/header.php';
             <div class="order-1 md:order-2">
                 <div class="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-2xl p-6 border-4 border-yellow-300 text-center transform md:-translate-y-4">
                     <div class="relative inline-block mb-4">
-                        <img src="<?= $top_reviewers[0]['avatar'] ?: '/images/default-avatar.png' ?>" 
+                        <img src="<?= $top_reviewers[0]['avatar'] ?: $base.'/uploads/avatars/'.$top_reviewers[0]['display_name'] ?>" 
                              alt="<?= htmlspecialchars($top_reviewers[0]['display_name']) ?>"
                              class="w-32 h-32 rounded-full border-4 border-white">
                         <div class="absolute -top-2 -right-2 w-12 h-12 bg-white text-yellow-600 rounded-full flex items-center justify-center font-bold text-xl shadow-lg">
@@ -114,7 +114,7 @@ include 'includes/header.php';
             <div class="order-3">
                 <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border-2 border-orange-300 dark:border-orange-600 text-center">
                     <div class="relative inline-block mb-4">
-                        <img src="<?= $top_reviewers[2]['avatar'] ?: '/images/default-avatar.png' ?>" 
+                        <img src="<?= $top_reviewers[2]['avatar'] ?: $base.'/uploads/avatars/'.$top_reviewers[2]['display_name'] ?>" 
                              alt="<?= htmlspecialchars($top_reviewers[2]['display_name']) ?>"
                              class="w-24 h-24 rounded-full border-4 border-orange-300">
                         <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-orange-400 text-white rounded-full flex items-center justify-center font-bold text-lg">
@@ -167,7 +167,7 @@ include 'includes/header.php';
                     </div>
                     
                     <!-- Avatar & Info -->
-                    <img src="<?= $reviewer['avatar'] ?: '/images/default-avatar.png' ?>" 
+                    <img src="<?= $reviewer['avatar'] ?: $base.'/uploads/avatars/'.$reviewer['display_name'] ?>" 
                          alt="<?= htmlspecialchars($reviewer['display_name']) ?>"
                          class="w-12 h-12 rounded-full">
                     

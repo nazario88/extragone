@@ -73,7 +73,7 @@ function requireRole($role) {
     
     if (!hasRole($role)) {
         $_SESSION['error'] = 'Accès non autorisé.';
-        header('Location: /');
+        header('Location: '.$base);
         exit;
     }
 }

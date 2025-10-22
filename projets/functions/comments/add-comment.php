@@ -9,7 +9,7 @@ requireLogin();
 
 // Vérifier que c'est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: /');
+    header('Location: '.$base);
     exit;
 }
 
@@ -44,7 +44,7 @@ $project = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$project) {
     $_SESSION['error'] = 'Projet non trouvé.';
-    header('Location: /');
+    header('Location: '.$base);
     exit;
 }
 
@@ -69,13 +69,13 @@ try {
     sendNewCommentEmail($project, $comment, $project_with_owner, $user);    
 
     $_SESSION['success'] = 'Commentaire publié !';
-    header('Location: /projet/' . $project['slug'] . '#comment-' . $pdo->lastInsertId());
+    header('Location: '.$base.'projet/' . $project['slug'] . '#comment-' . $pdo->lastInsertId());
     exit;
     
 } catch (Exception $e) {
     error_log('Add comment error: ' . $e->getMessage());
     $_SESSION['error'] = 'Erreur lors de la publication du commentaire.';
-    header('Location: /projet/' . $project['slug']);
+    header('Location: '.$base.'projet/' . $project['slug']);
     exit;
 }
 ?>

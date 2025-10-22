@@ -92,7 +92,7 @@ include 'includes/header.php';
                     <!-- Image de couverture -->
                     <a href="projet/<?= htmlspecialchars($project['slug']) ?>" class="block">
                         <?php if ($project['cover_image_path']): ?>
-                            <img src="<?= htmlspecialchars($project['cover_image_path']) ?>" 
+                            <img src="<?= $base.htmlspecialchars($project['cover_image_path']) ?>" 
                                  alt="<?= htmlspecialchars($project['title']) ?>"
                                  class="w-full h-48 object-cover">
                         <?php else: ?>
@@ -131,7 +131,7 @@ include 'includes/header.php';
                         <!-- Auteur -->
                         <div class="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-700">
                             <a href="membre/<?= htmlspecialchars($project['username']) ?>" class="flex items-center gap-2 hover:text-blue-500 transition-colors">
-                                <img src="<?= $project['avatar'] ?: '/images/default-avatar.png' ?>" 
+                                <img src="<?= $project['avatar'] ?: $base.'/uploads/avatars/'.$project['display_name'] ?>" 
                                      class="w-6 h-6 rounded-full"
                                      alt="<?= htmlspecialchars($project['display_name']) ?>">
                                 <span class="text-sm font-medium">
@@ -161,7 +161,7 @@ include 'includes/header.php';
             <?php foreach ($latest_comments as $comment): ?>
             <div class="p-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
                 <div class="flex items-start gap-3">
-                    <img src="<?= $comment['avatar'] ?: '/images/default-avatar.png' ?>" 
+                    <img src="<?= $comment['avatar'] ?: $base.'/uploads/avatars/'.$comment['display_name'] ?>" 
                          class="w-10 h-10 rounded-full"
                          alt="<?= htmlspecialchars($comment['display_name']) ?>">
                     

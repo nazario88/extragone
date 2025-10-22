@@ -7,7 +7,7 @@ include 'includes/functions.php';
 $username = $_GET['username'] ?? '';
 
 if (empty($username)) {
-    header('Location: /');
+    header('Location: '.$base);
     exit;
 }
 
@@ -16,7 +16,7 @@ $user = getUserByUsername($username);
 
 if (!$user) {
     $_SESSION['error'] = 'Utilisateur non trouvé.';
-    header('Location: /');
+    header('Location: '.$base);
     exit;
 }
 
@@ -182,7 +182,7 @@ include 'includes/header.php';
                     <a href="projet/<?= htmlspecialchars($project['slug']) ?>" class="block">
                     <?php endif; ?>
                         <?php if ($project['cover_image_path']): ?>
-                            <img src="<?= htmlspecialchars($project['cover_image_path']) ?>" 
+                            <img src="<?= $base.htmlspecialchars($project['cover_image_path']) ?>" 
                                  alt="<?= htmlspecialchars($project['title']) ?>"
                                  class="w-full h-48 object-cover">
                         <?php else: ?>

@@ -11,7 +11,7 @@ $user = getCurrentUser();
 // Vérifier si l'utilisateur est déjà reviewer
 if (isReviewer()) {
     $_SESSION['info'] = 'Tu es déjà reviewer !';
-    header('Location: /reviewer/dashboard');
+    header('Location: '.$base.'reviewer/dashboard');
     exit;
 }
 

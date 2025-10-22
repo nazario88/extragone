@@ -71,10 +71,10 @@ include '../includes/header.php';
         <div class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700">
             <div class="flex items-center justify-between">
                 <div>
-                    <div class="text-2xl font-bold text-yellow-500"><?= count($pending_projects) ?></div>
-                    <div class="text-sm text-gray-600 dark:text-gray-400">En attente</div>
+                    <div class="text-2xl font-bold text-orange-500"><?= count($pending_projects) ?></div>
+                    <div class="text-sm text-orange-600 dark:text-orange-400">En attente</div>
                 </div>
-                <i class="fa-solid fa-clock text-3xl text-yellow-500 opacity-50"></i>
+                <i class="fa-solid fa-clock text-3xl text-orange-500 opacity-50"></i>
             </div>
         </div>
         
@@ -143,7 +143,7 @@ include '../includes/header.php';
                 
                 <!-- Image -->
                 <?php if ($project['cover_image_path']): ?>
-                    <img src="<?= htmlspecialchars($project['cover_image_path']) ?>" 
+                    <img src="<?= $base.htmlspecialchars($project['cover_image_path']) ?>" 
                          alt="<?= htmlspecialchars($project['title']) ?>"
                          class="w-full h-40 object-cover">
                 <?php else: ?>
@@ -163,7 +163,7 @@ include '../includes/header.php';
                     </p>
                     
                     <div class="flex items-center gap-2 mb-4 text-xs text-gray-500">
-                        <img src="<?= $project['avatar'] ?: '/images/default-avatar.png' ?>" 
+                        <img src="<?= $project['avatar'] ?: $base.'/uploads/avatars/'.$project['display_name'] ?>" 
                              class="w-5 h-5 rounded-full"
                              alt="<?= htmlspecialchars($project['display_name']) ?>">
                         <span><?= htmlspecialchars($project['display_name']) ?></span>
@@ -184,7 +184,7 @@ include '../includes/header.php';
     <!-- Projets en attente -->
     <div class="mb-8">
         <h2 class="text-2xl font-bold mb-6 flex items-center">
-            <i class="fa-solid fa-clock text-yellow-500 mr-3"></i>
+            <i class="fa-solid fa-clock text-orange-500 mr-3"></i>
             Projets en attente de review (<?= count($pending_projects) ?>)
         </h2>
         
@@ -203,7 +203,7 @@ include '../includes/header.php';
                     $is_new = (time() - strtotime($project['created_at'])) < 86400;
                     if ($is_new): 
                     ?>
-                    <div class="px-4 py-2 bg-red-500 text-white text-xs font-medium text-center">
+                    <div class="px-4 py-2 bg-orange-500 text-white text-xs font-medium text-center">
                         <i class="fa-solid fa-sparkles mr-1"></i>
                         NOUVEAU
                     </div>
@@ -211,7 +211,7 @@ include '../includes/header.php';
                     
                     <!-- Image -->
                     <?php if ($project['cover_image_path']): ?>
-                        <img src="<?= htmlspecialchars($project['cover_image_path']) ?>" 
+                        <img src="<?= $base.htmlspecialchars($project['cover_image_path']) ?>" 
                              alt="<?= htmlspecialchars($project['title']) ?>"
                              class="w-full h-40 object-cover">
                     <?php else: ?>
@@ -231,7 +231,7 @@ include '../includes/header.php';
                         </p>
                         
                         <div class="flex items-center gap-2 mb-4 text-xs text-gray-500">
-                            <img src="<?= $project['avatar'] ?: '/images/default-avatar.png' ?>" 
+                            <img src="<?= $project['avatar'] ?: $base.'/uploads/avatars/'.$project['display_name'] ?>" 
                                  class="w-5 h-5 rounded-full"
                                  alt="<?= htmlspecialchars($project['display_name']) ?>">
                             <span><?= htmlspecialchars($project['display_name']) ?></span>
@@ -239,11 +239,11 @@ include '../includes/header.php';
                             <span><?= timeAgo($project['created_at']) ?></span>
                         </div>
                         
-                        <form method="post" action="/functions/reviews/claim-review.php">
+                        <form method="post" action="functions/reviews/claim-review.php">
                             <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
                             <input type="hidden" name="project_id" value="<?= $project['id'] ?>">
                             <button type="submit" 
-                                    class="w-full px-4 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors font-medium">
+                                    class="w-full px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors font-medium">
                                 <i class="fa-solid fa-hand-paper mr-2"></i>
                                 Prendre en charge
                             </button>
@@ -268,7 +268,7 @@ include '../includes/header.php';
             <div class="p-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
                 <div class="flex items-center gap-4">
                     <?php if ($project['cover_image_path']): ?>
-                        <img src="<?= htmlspecialchars($project['cover_image_path']) ?>" 
+                        <img src="<?= $base.htmlspecialchars($project['cover_image_path']) ?>" 
                              alt="<?= htmlspecialchars($project['title']) ?>"
                              class="w-20 h-20 object-cover rounded-lg">
                     <?php else: ?>

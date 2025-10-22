@@ -2,6 +2,7 @@
 include '../../includes/config.php';
 include '../includes/auth.php';
 include '../includes/functions.php';
+require_once '../includes/Parsedown.php';
 
 // Vérifier que l'utilisateur est reviewer
 requireRole('reviewer');
@@ -21,7 +22,7 @@ $project = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$project) {
     $_SESSION['error'] = 'Projet non trouvé ou non assigné à toi.';
-    header('Location: /reviewer/dashboard');
+    header('Location: '.$base.'reviewer/dashboard');
     exit;
 }
 
@@ -81,7 +82,7 @@ include '../includes/header.php';
         
         <!-- Colonne principale : Formulaire de review -->
         <div class="lg:col-span-2">
-            <form method="post" action="/functions/reviews/publish-project.php" id="reviewForm" class="space-y-6">
+            <form method="post" action="functions/reviews/publish-project.php" id="reviewForm" class="space-y-6">
                 <input type="hidden" name="csrf_token" value="<?= generateCSRFToken() ?>">
                 <input type="hidden" name="project_id" value="<?= $project_id ?>">
                 
@@ -111,7 +112,6 @@ include '../includes/header.php';
                     <textarea 
                         id="review_text" 
                         name="review_text" 
-                        required
                         rows="15"
                         class="w-full px-4 py-3 rounded-xl text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                         placeholder="Rédige ta review détaillée..."></textarea>
@@ -135,7 +135,7 @@ include '../includes/header.php';
                                     value="<?= $image['id'] ?>"
                                     <?= $image['is_cover'] ? 'checked' : '' ?>
                                     class="absolute top-2 right-2 w-5 h-5">
-                                <img src="<?= htmlspecialchars($image['filepath']) ?>" 
+                                <img src="<?= $base.htmlspecialchars($image['filepath']) ?>" 
                                      alt="Screenshot <?= $index + 1 ?>"
                                      class="w-full h-32 object-cover rounded-lg border-2 transition-all <?= $image['is_cover'] ? 'border-blue-500' : 'border-slate-300 dark:border-slate-600 group-hover:border-blue-400' ?>">
                                 <?php if ($image['is_cover']): ?>
@@ -204,7 +204,7 @@ include '../includes/header.php';
                     <div>
                         <span class="text-gray-500">Auteur :</span>
                         <div class="flex items-center gap-2 mt-1">
-                            <img src="<?= $project['avatar'] ?: '/images/default-avatar.png' ?>" 
+                            <img src="<?= $project['avatar'] ?: $base.'/uploads/avatars/'.$project['display_name'] ?>" 
                                  class="w-6 h-6 rounded-full"
                                  alt="<?= htmlspecialchars($project['display_name']) ?>">
                             <span class="font-medium"><?= htmlspecialchars($project['display_name']) ?></span>
@@ -247,7 +247,9 @@ include '../includes/header.php';
             <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
                 <h3 class="font-bold mb-3">Description courte</h3>
                 <p class="text-sm text-gray-700 dark:text-gray-300">
-                    <?= nl2br(htmlspecialchars($project['short_description'])) ?>
+                    <?php
+                    $parsedown = new Parsedown();
+                    echo nl2br(htmlspecialchars($project['short_description'])) ?>
                 </p>
             </div>
 
@@ -256,7 +258,6 @@ include '../includes/header.php';
                 <h3 class="font-bold mb-3">Description détaillée</h3>
                 <div class="text-sm text-gray-700 dark:text-gray-300 prose dark:prose-invert max-w-none">
                     <?php
-                    require_once '../../includes/Parsedown.php';
                     $parsedown = new Parsedown();
                     echo $parsedown->text($project['long_description']);
                     ?>
@@ -270,7 +271,7 @@ include '../includes/header.php';
                 <h3 class="font-bold mb-3">Screenshots (<?= count($images) ?>)</h3>
                 <div class="space-y-2">
                     <?php foreach ($images as $image): ?>
-                    <img src="<?= htmlspecialchars($image['filepath']) ?>" 
+                    <img src="<?= $base.htmlspecialchars($image['filepath']) ?>" 
                          alt="Screenshot"
                          class="w-full rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
                          onclick="window.open('<?= htmlspecialchars($image['filepath']) ?>', '_blank')">
