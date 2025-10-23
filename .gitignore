@@ -1,5 +1,6 @@
 # Fichier de configuration
 includes/config.php
+includes/cronTags.php # cle OpenAI
 includes/autopublish.php
 .env
 
