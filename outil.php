@@ -104,9 +104,32 @@ if(empty($data_outil['logo'])) $data_outil['logo'] = 'assets/link.jpg';
 $link_article = (!empty($data_outil['url_article'])) ? '<a class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 transition" href="'.$data_outil['url_article'].'" target="_blank" title="Cliquer pour lire l\'article sur InnoSpira.fr"><i class="fa-regular fa-newspaper"></i> Lire l\'article</a>':'';
 
 // Label
-$is_french = (isset($data_outil['is_french']) && $data_outil['is_french'])  ? '<span class="mx-1 bg-yellow-300 text-yellow-900 inline-block text-center px-2 py-1 rounded text-md font-semibold"><i class="fa-solid fa-check"></i> Outil français</span>':'';
-$is_free = (isset($data_outil['is_free']) && $data_outil['is_free'])        ? '<span class="mx-1 bg-yellow-300 text-yellow-900 inline-block text-center px-2 py-1 rounded text-md font-semibold"><i class="fa-solid fa-check"></i> Gratuit</span>':'';
-$is_paid = (isset($data_outil['is_paid']) && $data_outil['is_paid'])        ? '<span class="mx-1 bg-yellow-300 text-yellow-900 inline-block text-center px-2 py-1 rounded text-md font-semibold"><i class="fa-solid fa-check"></i> Payant</span>':'';
+$is_french = (isset($data_outil['is_french']) && $data_outil['is_french']) 
+    ? '<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+        <i class="fa-solid fa-flag text-[10px]"></i>
+        Français
+       </span>' 
+    : '';
+
+$is_free = (isset($data_outil['is_free']) && $data_outil['is_free']) 
+    ? '<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 border border-green-200 dark:border-green-800">
+        <i class="fa-solid fa-gift text-[10px]"></i>
+        Gratuit
+       </span>' 
+    : '';
+
+$is_paid = (isset($data_outil['is_paid']) && $data_outil['is_paid']) 
+    ? '<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
+        <i class="fa-solid fa-crown text-[10px]"></i>
+        Premium
+       </span>' 
+    : '';
+
+// Tags
+if($data_outil['tags']) {
+    $tags = array_filter(explode(',', $data_outil['tags']));
+    $tags = array_map('trim', $tags);
+}
 
 // si outil FR, le premier div prends 3/4 au lieu de 2/2
 $largeur_premier_div = (isset($data_outil['is_french']) && $data_outil['is_french']) ? 'col-span-3' : 'col-span-2';
@@ -138,7 +161,11 @@ $largeur_premier_div = (isset($data_outil['is_french']) && $data_outil['is_frenc
         <p class="text-sm">
             <?php echo htmlspecialchars($data_outil['description']); ?>
             <br>
-            <?php echo $is_french . $is_free . $is_paid ?>
+            <div class="flex flex-wrap gap-2 mt-3">
+                <?= $is_french ?>
+                <?= $is_free ?>
+                <?= $is_paid ?>
+            </div>
         </p>
 
         <!-- Image -->
@@ -286,6 +313,18 @@ $largeur_premier_div = (isset($data_outil['is_french']) && $data_outil['is_frenc
             ';
         }
         ?>
+
+        <!-- Tags -->
+        <?php if($data_outil['tags']): ?>
+        <h3 class="font-bold mt-2">Tags</h3>
+        <div class="flex flex-wrap gap-2 mt-3">
+            <?php foreach($tags as $tag): ?>
+            <span class="inline-block px-3 py-1.5 rounded-lg text-xs font-semibold bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800">
+                <?= htmlspecialchars($tag) ?>
+            </span>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
     </div>
 
     
