@@ -1,8 +1,6 @@
 # Fichier de configuration
 includes/config.php
-includes/autopublish.php
-includes/autopublishGetTools.php
-includes/autopublishUploadImage.php
+includes/autopub*.php
 .env
 
 # Fichiers RSS (sert à automatiser la création d'articles)
