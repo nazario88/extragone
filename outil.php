@@ -59,8 +59,8 @@ if($data_outil['id']) {
 /* SEO
 ——————————————————————————————————————————————————*/
 $title = $data_outil['nom'].' — eXtragone';
-$description = mb_strimwidth($data_outil['description'] . ' ' . $data_outil['description_longue'], 0, 150) . '...'; 
-$image_seo = $data_outil['screenshot'];
+$description = mb_strimwidth(strip_tags($data_outil['description']) . ' ' . strip_tags($data_outil['description_longue']), 0, 150) . '...'; 
+$image_seo = 'cache/tool-images/tool_'.$data_outil['id'].'.jpg';
 
 
 require_once 'admin/includes/auth.php';

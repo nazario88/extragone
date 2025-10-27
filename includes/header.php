@@ -19,7 +19,7 @@ if(!isset($image_seo)) $image_seo = "$base/assets/img/image-og.png";
     <meta property="og:site_name"   content="eXtragone">
     <meta property="og:title"       content="<?=$title?>">
     <meta property="og:description" content="<?=$description?>">
-    <meta property="og:image"       content="<?=$image_seo?>">
+    <meta property="og:image"       content="https://extrag.one/<?=$image_seo?>">
     <meta property="og:type"        content="website">
     <meta property="og:url"         content="<?=$url_canon?>">
 
