@@ -433,26 +433,33 @@ $largeur_premier_div = (isset($data_outil['is_french']) && $data_outil['is_frenc
 
 <?php
 
-//schema
-if((isset($stats_note)) && ($stats_note['average'] > 0)) {
-    echo '
-        <script type="application/ld+json">
-            { "@context": "http://schema.org",
-                "@type": "WebApplication",
-                "name": "'.$data_outil['nom'].'",
-                "image": "'.$data_outil['screenshot'].'",
-                "description": "'.$data_outil['description'].'",
-                "applicationCategory": "Utility",
-                "operatingSystem": "Web",
-                "aggregateRating":
-                    {"@type": "AggregateRating",
-                    "ratingValue": "'.$stats_note['average'].'",
-                    "reviewCount": "'.$stats_note['nb'].'"
-                    }
-            }
-        </script>
-    ';
+// Schema - toujours affiché
+echo '
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "' . htmlspecialchars($data_outil['nom'], ENT_QUOTES) . '",
+    "url": "https://www.extrag.one/outil/' . $data_outil['slug'] . '",
+    "image": "https://www.extrag.one/' . htmlspecialchars($data_outil['screenshot'], ENT_QUOTES) . '",
+    "description": "' . htmlspecialchars(strip_tags($data_outil['description']), ENT_QUOTES) . '",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web"';
+
+// Ajouter les notes seulement si elles existent
+if (isset($stats_note) && $stats_note['average'] > 0) {
+    echo ',
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "' . $stats_note['average'] . '",
+        "reviewCount": "' . $stats_note['nb'] . '"
+    }';
 }
+
+echo '
+}
+</script>
+';
 
 include 'includes/footer.php';
 ?>

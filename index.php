@@ -17,6 +17,23 @@ $articles = $stmt->fetchAll();
 
 ?>
 
+<!-- Schema.org JSON-LD -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://www.extrag.one/",
+    "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://www.extrag.one/outils?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+    }
+}
+</script>
+
 <div class="w-full lg:w-1/2 mx-auto">
     <!-- Accroche -->
     <h1 class="p-4 m-4 mx-auto text-xl md:text-4xl  text-center font-bold tracking-tight dark:text-slate-500">
