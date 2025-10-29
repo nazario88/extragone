@@ -3,8 +3,11 @@ if(!isset($base)) $base = "https://www.extrag.one"; //defaut)
 if(!isset($url_canon)) $url_canon = "https://www.extrag.one"; //defaut)
 if(!isset($recherche)) $recherche = "";
 if(!isset($image_seo)) $image_seo = "$base/assets/img/image-og.png";
-if(isset($image_seo) && !str_starts_with($image_seo, 'https')) {
-  $image_seo = 'https:// '.$image_seo;
+
+if(substr($image_seo, 0,5) !== 'https') {
+  $new_url = 'https://extrag.one';
+  if(substr($image_seo,-1) !== '/') $new_url .= '/';
+  $image_seo = $new_url.$image_seo;
 }
 ?>
 <!DOCTYPE html>
