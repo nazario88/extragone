@@ -21,7 +21,7 @@ try {
     if ($isRandom) {
         // --- MODE RANDOM ---
         // Outils valides, + vieux que 30 jours, non supprimés
-        $sql = "SELECT id, nom, description, screenshot 
+        $sql = "SELECT id, nom, description, description_longue, screenshot 
                 FROM extra_tools 
                 WHERE is_valid = 1 
                 AND is_deleted IS NULL 
@@ -44,7 +44,7 @@ try {
         
     } else {
         // --- MODE DERNIER OUTIL ---
-        $sql = "SELECT id, nom, description, screenshot 
+        $sql = "SELECT id, nom, description, description_longue, screenshot 
                 FROM extra_tools 
                 WHERE is_valid = 1 
                 AND is_deleted IS NULL 
@@ -73,6 +73,7 @@ try {
             'id' => (int)$tool['id'],
             'name' => $tool['nom'],
             'description' => $tool['description'],
+            'description_longue' => strip_tags($tool['description_longue']),
             'screenshot_url' => $tool['screenshot'] 
                 ? 'https://extrag.one/' . $tool['screenshot'] 
                 : null
