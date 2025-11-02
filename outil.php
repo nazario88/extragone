@@ -101,7 +101,7 @@ include 'includes/header.php';
 if(empty($data_outil['logo'])) $data_outil['logo'] = 'assets/link.jpg';
 
 // Consolidation du lien de l'article
-$link_article = (!empty($data_outil['url_article'])) ? '<a class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 transition" href="'.$data_outil['url_article'].'" target="_blank" title="Cliquer pour lire l\'article sur InnoSpira.fr"><i class="fa-regular fa-newspaper"></i> Lire l\'article</a>':'';
+$link_article = (!empty($data_outil['url_article'])) ? '<a class="w-full sm:w-auto px-3 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded transition-all duration-300 transform" href="'.$data_outil['url_article'].'" target="_blank" title="Cliquer pour lire l\'article sur InnoSpira.fr"><i class="fa-solid fa-book-open mr-2"></i> Lire le guide complet</a>':'';
 
 // Label
 $is_french = (isset($data_outil['is_french']) && $data_outil['is_french']) 
@@ -121,7 +121,7 @@ $is_free = (isset($data_outil['is_free']) && $data_outil['is_free'])
 $is_paid = (isset($data_outil['is_paid']) && $data_outil['is_paid']) 
     ? '<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
         <i class="fa-solid fa-crown text-[10px]"></i>
-        Premium
+        Payant
        </span>' 
     : '';
 
