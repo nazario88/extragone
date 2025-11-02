@@ -29,6 +29,13 @@ if($data_outil['id']) {
     $alternatives = $sql->fetchAll();
     $alternativesNb = count($alternatives);
 
+    /* Récupérer le libellé de la catégorie
+    ——————————————————————————————————————————————————*/
+    $sql = $pdo->prepare('SELECT c.slug FROM extra_tools_categories c WHERE c.id=?');
+    $sql->execute(array($data_outil['categorie_id']));
+    $data_category = $sql->fetch();
+    $slug_category = $data_category['slug'];
+
     /* Même catégorie
     ——————————————————————————————————————————————————*/
     $sql = $pdo->prepare('SELECT * FROM extra_tools WHERE is_valid=1 AND categorie_id=? AND id<>? order by rand() limit 3;');
@@ -131,16 +138,13 @@ if($data_outil['tags']) {
     $tags = array_map('trim', $tags);
 }
 
-// si outil FR, le premier div prends 3/4 au lieu de 2/2
-$largeur_premier_div = (isset($data_outil['is_french']) && $data_outil['is_french']) ? 'col-span-3' : 'col-span-2';
-
 ?>
 
 <!-- Grille 3 colonnes -->
 <div class="grid grid-cols-4 gap-4 mx-4">
 
     <!-- Détail de l'outil -->
-    <div class="col-span-4 md:<?=$largeur_premier_div?> text-sm md:text-base bg-white rounded-xl shadow p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+    <div class="col-span-4 md:col-span-2 text-sm md:text-base bg-white rounded-xl shadow p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
         <!-- Titre -->
         <div class="grid grid-cols-2">
             <div class="col-span-2 md:col-span-1">
@@ -282,7 +286,9 @@ $largeur_premier_div = (isset($data_outil['is_french']) && $data_outil['is_frenc
         <?php
         if($data_outil['screenshot']) {
             echo '
-                <h3 class="font-bold mt-2">Capture d\'écran</h3>
+                <h3 class="text-sm font-bold mt-2 mb-3 uppercase tracking-wider">
+                    <i class="fa-solid fa-image"></i> Capture d\'écran
+                </h3>
                 <div class="screenshot-container">
                     <img class="mx-auto h-auto my-3 rounded-md transition-transform duration-300 ease-in-out hover:scale-105 cursor-pointer" 
                         style="max-height: 200px" 
@@ -308,7 +314,9 @@ $largeur_premier_div = (isset($data_outil['is_french']) && $data_outil['is_frenc
         <?php
         if($data_outil['description_longue']) {
             echo '
-                <h3 class="font-bold mt-2">Résumé</h3>
+                <h3 class="text-sm font-bold mt-2 mb-3 uppercase tracking-wider">
+                    <i class="fa-regular fa-file-lines"></i> Résumé
+                </h3>
                 <p>'.nl2br(addCssClasses($data_outil['description_longue'])).'</p>
             ';
         }
@@ -316,7 +324,9 @@ $largeur_premier_div = (isset($data_outil['is_french']) && $data_outil['is_frenc
 
         <!-- Tags -->
         <?php if($data_outil['tags']): ?>
-        <h3 class="font-bold mt-2">Tags</h3>
+        <h3 class="text-sm font-bold mt-2 mb-3 uppercase tracking-wider">
+            <i class="fa-solid fa-tags"></i> Tags
+        </h3>
         <div class="flex flex-wrap gap-2 mt-3">
             <?php foreach($tags as $tag): ?>
             <span class="inline-block px-3 py-1.5 rounded-lg text-xs font-semibold bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800">
@@ -327,79 +337,190 @@ $largeur_premier_div = (isset($data_outil['is_french']) && $data_outil['is_frenc
         <?php endif; ?>
     </div>
 
-    
+    <!-- 2ème rangée -->
+    <div class="col-span-4 md:col-span-1">
+        
+        <!-- Stats & Infos -->
+        <div class="bg-white rounded-xl shadow mb-4 p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+            <h3 class="text-sm font-bold mb-3 uppercase tracking-wider">
+                <i class="fa-solid fa-chart-simple mr-2"></i>Statistiques
+            </h3>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                        <i class="fa-solid fa-eye w-4"></i>Vues
+                    </span>
+                    <span class="font-semibold text-blue-600 dark:text-blue-400">
+                        <?=number_format($data_outil['hits'])?>
+                    </span>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                        <i class="fa-solid fa-star w-4"></i>Notes
+                    </span>
+                    <span class="font-semibold text-yellow-600 dark:text-yellow-400">
+                        <?=$stats_note['nb']?> avis
+                    </span>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                        <i class="fa-solid fa-calendar w-4"></i>Ajouté
+                    </span>
+                    <span class="font-semibold text-gray-700 dark:text-gray-300">
+                        <?=date('d/m/Y', strtotime($data_outil['date_creation']))?>
+                    </span>
+                </div>
+            </div>
+        </div>
 
-    <!-- Equivalents -->
-    <?php
-    if(isset($data_outil['is_french']) && $data_outil['is_french']) {
-        // Si je décide d'ajouter un encart pour les outils déjà FR ..
-    }
-    else {
-        ?>
-    <div class="col-span-4 md:col-span-1 bg-white rounded-xl shadow p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
-        <!-- Titre -->
-        <h2 class="text-xl font-bold mb-2 flex gap-2">
-            Alternatives françaises
-            <?php echo $flag_FR; ?>
-        </h2>
-        <!-- Outils -->
-        <?php
-        if(!$alternativesNb) {
-            echo '
-                <p class="text-center mt-5">Aucune alternative n\'a été trouvée ☹️.</p>
-                <p class="text-center mt-5"><a class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 transition" href="ajouter" title="Ajouter un outil"><i class="fa-solid fa-plus"></i> Proposer un outil</a></p>
-            ';
-        }
-        else {
-            foreach ($alternatives as $alternatives): ?>
-                <div class="my-2 bg-white rounded-xl shadow p-4 flex flex-col items-center text-center border border-slate-200 dark:bg-slate-700 dark:border-slate-600">
-                    <a href="outil/<?php echo $alternatives['slug']; ?>">
-                        <h2 class="text-xl font-bold mb-2"><?php echo htmlspecialchars($alternatives['nom']); ?></h2>
-                    </a>
-                    <div class="h-[100px]">
-                        <a href="outil/<?php echo $alternatives['slug']; ?>" title="En savoir +">
-                            <img class="w-full h-auto mb-2 rounded-md transition-transform duration-300 ease-in-out hover:scale-105 max-h-[100px]" src="<?php echo $alternatives['logo']; ?>" alt="Logo de <?php echo htmlspecialchars($alternatives['nom']); ?>">
-                        </a>
+        <!-- Partage Social -->
+        <div class="bg-white rounded-xl shadow mb-4 p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+            <h3 class="text-sm font-bold mb-3 uppercase tracking-wider">
+                <i class="fa-solid fa-share-nodes mr-2"></i>Partager
+            </h3>
+            <div class="grid grid-cols-2 gap-2">
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?=urlencode($url_canon)?>" 
+                target="_blank"
+                class="flex items-center justify-center gap-2 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition text-sm">
+                    <i class="fa-brands fa-linkedin"></i>
+                    LinkedIn
+                </a>
+                
+                <a href="https://twitter.com/intent/tweet?url=<?=urlencode($url_canon)?>&text=<?=urlencode('Découvrez '.$data_outil['nom'].' sur eXtragone')?>" 
+                target="_blank"
+                class="flex items-center justify-center gap-2 p-2 bg-black hover:bg-gray-800 text-white rounded-lg transition text-sm">
+                    <i class="fa-brands fa-x-twitter"></i>
+                    Twitter
+                </a>
+                
+                <a href="https://www.facebook.com/sharer/sharer.php?u=<?=urlencode($url_canon)?>" 
+                target="_blank"
+                class="flex items-center justify-center gap-2 p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition text-sm">
+                    <i class="fa-brands fa-facebook"></i>
+                    Facebook
+                </a>
+                
+                <button onclick="navigator.clipboard.writeText('<?=$url_canon?>'); this.innerHTML='<i class=\'fa-solid fa-check\'></i> Copié !'" 
+                        class="flex items-center justify-center gap-2 p-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition text-sm">
+                    <i class="fa-solid fa-copy"></i>
+                    Copier
+                </button>
+            </div>
+        </div>
+
+        <!-- Actions diverses -->
+        <div class="bg-white rounded-xl shadow mb-4 p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+            <h3 class="text-sm font-bold mb-3 uppercase tracking-wider">
+                <i class="fa-solid fa-bolt mr-2"></i>Actions
+            </h3>
+            <div class="space-y-2">
+                <a href="outils/categorie/<?=$slug_category?>" 
+                class="flex items-center gap-3 p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-slate-700 transition text-sm group">
+                    <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-folder text-blue-600 dark:text-blue-400 text-xs"></i>
                     </div>
-                    <p class="text-sm"><?php echo htmlspecialchars($alternatives['description']); ?></p>
-                </div>            
-            <?php
-            endforeach;
-        }
-        echo '
-    </div>';
-    }
-    ?>
-    <!-- Même catégorie -->
-    <div class="col-span-4 md:col-span-1 bg-white rounded-xl shadow p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
-        <h2 class="text-xl font-bold mb-2">Dans la même catégorie</h2>
-        <!-- Outils -->
-        <?php
-        if(!$sameCategoryNb) {
-            echo '
-                <p class="text-center mt-5">Aucun autre outil n\'a été trouvé ☹️.</p>
-                <p class="text-center mt-5"><a class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 transition" href="ajouter" title="Ajouter un outil"><i class="fa-solid fa-plus"></i> Proposer un outil</a></p>
-            ';
-        }
-        else {
-            foreach ($sameCategory as $sameCategory): ?>
-                <div class="my-2 bg-white rounded-xl shadow p-4 flex flex-col items-center text-center border border-slate-200 dark:bg-slate-700 dark:border-slate-600">
-                    <a href="outil/<?php echo $sameCategory['slug']; ?>">
-                        <h2 class="text-xl font-bold mb-2"><?php echo htmlspecialchars($sameCategory['nom']); ?></h2>
-                    </a>
-                    <div class="h-[100px]">
-                        <a href="outil/<?php echo $sameCategory['slug']; ?>" title="En savoir +">
-                            <img class="w-full h-auto mb-2 rounded-md transition-transform duration-300 ease-in-out hover:scale-105 max-h-[100px]" src="<?php echo htmlspecialchars($sameCategory['logo']); ?>" alt="Logo de <?php echo htmlspecialchars($sameCategory['nom']); ?>">
-                        </a>
+                    <span class="flex-1">Voir la catégorie</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                </a>
+                
+                <a href="ajouter?site=<?=urlencode($data_outil['url'])?>" 
+                class="flex items-center gap-3 p-2 rounded-lg hover:bg-green-50 dark:hover:bg-slate-700 transition text-sm group">
+                    <div class="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-plus text-green-600 dark:text-green-400 text-xs"></i>
                     </div>
-                    <p class="text-sm"><?php echo htmlspecialchars($sameCategory['description']); ?></p>
-                </div>            
-            <?php
-            endforeach;
-        }
-        echo '
-    </div>';
-    ?>
+                    <span class="flex-1">Proposer une alternative</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                </a>
+                
+                <a href="contact" 
+                class="flex items-center gap-3 p-2 rounded-lg hover:bg-orange-50 dark:hover:bg-slate-700 transition text-sm group">
+                    <div class="w-8 h-8 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-flag text-orange-600 dark:text-orange-400 text-xs"></i>
+                    </div>
+                    <span class="flex-1">Signaler une erreur</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3ème rangée -->
+    <div class="col-span-4 md:col-span-1">
+        <?php if(!isset($data_outil['is_french']) || !$data_outil['is_french']): ?>
+        <div class="col-span-4 md:col-span-2 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl shadow-lg mb-4 p-4 border-2 border-blue-200 dark:border-blue-700">
+            <h2 class="text-lg font-bold mb-3 flex items-center gap-2">
+                <span>Alternatives françaises</span>
+                <?php echo $flag_FR; ?>
+            </h2>
+            
+            <?php if(!$alternativesNb): ?>
+                <div class="text-center py-6 text-gray-500 dark:text-gray-400">
+                    <i class="fa-solid fa-search text-3xl mb-2 opacity-50"></i>
+                    <p class="text-sm mb-3">Aucune alternative trouvée</p>
+                    <a class="inline-block px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition" 
+                    href="ajouter?site=<?=urlencode($data_outil['url'])?>" 
+                    title="Proposer une alternative">
+                        <i class="fa-solid fa-plus mr-2"></i>Proposer une alternative
+                    </a>
+                </div>
+            <?php else: ?>
+                <div class="space-y-2">
+                    <?php foreach ($alternatives as $alternative): ?>
+                    <a href="outil/<?=$alternative['slug']?>" 
+                    class="flex items-center gap-3 p-3 bg-white dark:bg-slate-800 rounded-lg border border-blue-200 dark:border-blue-700 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all group">
+                        <img src="<?=$alternative['logo']?>" 
+                            alt="<?=htmlspecialchars($alternative['nom'])?>" 
+                            class="w-12 h-12 rounded object-contain flex-shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-semibold text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                <?=htmlspecialchars($alternative['nom'])?>
+                            </h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">
+                                <?=htmlspecialchars($alternative['description'])?>
+                            </p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-400 group-hover:text-blue-500 transition-colors"></i>
+                    </a>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
+
+        <!-- Dans la même catégorie -->
+        <div class="col-span-4 md:col-span-<?=(!isset($data_outil['is_french']) || !$data_outil['is_french']) ? '2' : '3'?> bg-white rounded-xl shadow p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+            <h2 class="text-lg font-bold mb-3">Dans la même catégorie</h2>
+            
+            <?php if(!$sameCategoryNb): ?>
+                <div class="text-center py-6 text-gray-500 dark:text-gray-400">
+                    <i class="fa-solid fa-inbox text-3xl mb-2 opacity-50"></i>
+                    <p class="text-sm">Aucun autre outil</p>
+                </div>
+            <?php else: ?>
+                <div class="space-y-2">
+                    <?php foreach ($sameCategory as $similar): ?>
+                    <a href="outil/<?=$similar['slug']?>" 
+                    class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 dark:border-slate-600 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-slate-700 transition-all group">
+                        <img src="<?=htmlspecialchars($similar['logo'])?>" 
+                            alt="<?=htmlspecialchars($similar['nom'])?>" 
+                            class="w-12 h-12 rounded object-contain flex-shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-semibold text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                <?=htmlspecialchars($similar['nom'])?>
+                            </h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">
+                                <?=htmlspecialchars($similar['description'])?>
+                            </p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-400 group-hover:text-blue-500 transition-colors"></i>
+                    </a>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
 
     <!-- CTA Section -->
     <div class="col-span-4">
