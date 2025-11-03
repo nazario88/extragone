@@ -7,7 +7,7 @@ include 'includes/functions.php';
 $slug = $_GET['slug'] ?? '';
 
 if (empty($slug)) {
-    header('Location: '.$base);
+    header('Location: https://projets.extrag.one');
     exit;
 }
 
@@ -16,7 +16,7 @@ $project = getProjectBySlug($slug);
 
 if (!$project) {
     $_SESSION['error'] = 'Projet non trouvé.';
-    header('Location: '.$base);
+    header('Location: https://projets.extrag.one');
     exit;
 }
 

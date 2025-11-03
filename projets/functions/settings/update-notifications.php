@@ -8,14 +8,14 @@ requireLogin();
 
 // Vérifier que c'est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: '.$base.'reglages');
+    header('Location: reglages');
     exit;
 }
 
 // Vérifier le token CSRF
 if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
     $_SESSION['error'] = 'Token de sécurité invalide.';
-    header('Location: '.$base.'reglages');
+    header('Location: reglages');
     exit;
 }
 
@@ -48,13 +48,13 @@ try {
     logAction('update_notifications', $user['id']);
     
     $_SESSION['success'] = 'Préférences de notifications mises à jour !';
-    header('Location: '.$base.'reglages');
+    header('Location: reglages');
     exit;
     
 } catch (Exception $e) {
     error_log('Update notifications error: ' . $e->getMessage());
     $_SESSION['error'] = 'Erreur lors de la mise à jour des préférences.';
-    header('Location: '.$base.'reglages');
+    header('Location: reglages');
     exit;
 }
 ?>

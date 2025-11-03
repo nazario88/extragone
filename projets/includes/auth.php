@@ -73,7 +73,7 @@ function requireRole($role) {
     
     if (!hasRole($role)) {
         $_SESSION['error'] = 'Accès non autorisé.';
-        header('Location: '.$base);
+        header('Location: https://projets.extrag.one');
         exit;
     }
 }

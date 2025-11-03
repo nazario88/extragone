@@ -2,7 +2,7 @@
 
 if($base == "/eXtragone/") $base = "/eXtragone/projets/"; // dev
 if($base == "https://www.extrag.one") {
-    $base = "https://projets.extrag.one/"; //defaut)
+    $base = "https://projets.extrag.one"; //defaut)
     if(!isset($url_canon)) $url_canon = "https://projets.extrag.one";
     if(!isset($image_seo)) $image_seo = "https://projets.extrag.one/images/og-default.png";
 }

@@ -35,8 +35,15 @@ RewriteRule ^functions/(.+)$ functions/$1 [L]
 
 # Protection du dossier includes
 <IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Autoriser tous les scripts commençant par "cron-" et finissant par ".php"
+    RewriteCond %{REQUEST_URI} ^/includes/cron-[^/]+\.php$ [NC]
+    RewriteRule ^ - [L]
+
+    # Bloquer tout le reste du dossier includes/
     RewriteCond %{REQUEST_URI} ^/includes/
-    RewriteRule ^(.*)$ - [F,L]
+    RewriteRule ^ - [F,L]
 </IfModule>
 
 # Headers de sécurité

@@ -9,14 +9,14 @@ requireRole('reviewer');
 
 // Vérifier que c'est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: '.$base.'reviewer/dashboard');
+    header('Location: reviewer/dashboard');
     exit;
 }
 
 // Vérifier le token CSRF
 if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
     $_SESSION['error'] = 'Token de sécurité invalide.';
-    header('Location: '.$base.'reviewer/dashboard');
+    header('Location: reviewer/dashboard');
     exit;
 }
 
@@ -30,13 +30,13 @@ $cover_image_id = (int)($_POST['cover_image_id'] ?? 0);
 // Validation
 if (empty($meta_description) || empty($review_text)) {
     $_SESSION['error'] = 'La meta description et le texte de review sont obligatoires.';
-    header('Location: '.$base.'reviewer/review/' . $project_id);
+    header('Location: reviewer/review/' . $project_id);
     exit;
 }
 
 if (strlen($meta_description) > 300) {
     $_SESSION['error'] = 'La meta description ne peut pas dépasser 300 caractères.';
-    header('Location: '.$base.'reviewer/review/' . $project_id);
+    header('Location: reviewer/review/' . $project_id);
     exit;
 }
 
@@ -50,7 +50,7 @@ $project = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$project) {
     $_SESSION['error'] = 'Projet non trouvé ou non assigné à toi.';
-    header('Location: '.$base.'reviewer/dashboard');
+    header('Location: reviewer/dashboard');
     exit;
 }
 
@@ -105,13 +105,13 @@ try {
     $project_owner = $stmt->fetch(PDO::FETCH_ASSOC);
     
     $_SESSION['success'] = 'Projet publié avec succès ! 🎉';
-    header('Location: '.$base.'projet/' . $project['slug']);
+    header('Location: projet/' . $project['slug']);
     exit;
     
 } catch (Exception $e) {
     error_log('Publish project error: ' . $e->getMessage());
     $_SESSION['error'] = 'Erreur lors de la publication.';
-    header('Location: '.$base.'reviewer/review/' . $project_id);
+    header('Location: reviewer/review/' . $project_id);
     exit;
 }
 ?>

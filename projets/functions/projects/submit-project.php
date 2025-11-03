@@ -9,14 +9,14 @@ requireLogin();
 
 // Vérifier que c'est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: '.$base.'soumettre');
+    header('Location: soumettre');
     exit;
 }
 
 // Vérifier le token CSRF
 if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
     $_SESSION['error'] = 'Token de sécurité invalide.';
-    header('Location: '.$base.'soumettre');
+    header('Location: soumettre');
     exit;
 }
 
@@ -32,26 +32,26 @@ $tools_used = sanitizeInput($_POST['tools_used'] ?? '');
 // Validation
 if (empty($title) || empty($short_description)) {
     $_SESSION['error'] = 'Le titre et la description courte sont obligatoires.';
-    header('Location: '.$base.'soumettre');
+    header('Location: soumettre');
     exit;
 }
 
 if (strlen($title) > 200) {
     $_SESSION['error'] = 'Le titre ne peut pas dépasser 200 caractères.';
-    header('Location: '.$base.'soumettre');
+    header('Location: soumettre');
     exit;
 }
 
 if (strlen($short_description) > 500) {
     $_SESSION['error'] = 'La description courte ne peut pas dépasser 500 caractères.';
-    header('Location: '.$base.'soumettre');
+    header('Location: soumettre');
     exit;
 }
 
 // Validation du lien démo
 if (!empty($demo_link) && !filter_var($demo_link, FILTER_VALIDATE_URL)) {
     $_SESSION['error'] = 'Le lien vers la démo n\'est pas valide.';
-    header('Location: '.$base.'soumettre');
+    header('Location: soumettre');
     exit;
 }
 
@@ -131,13 +131,13 @@ try {
     sendNewProjectToReviewersEmail($project, $user);
     
     $_SESSION['success'] = 'Projet soumis avec succès ! Il sera bientôt reviewé par notre équipe.';
-    header('Location: '.$base.'membre/' . $user['username']);
+    header('Location: membre/' . $user['username']);
     exit;
     
 } catch (Exception $e) {
     error_log('Project submission error: ' . $e->getMessage());
     $_SESSION['error'] = 'Erreur lors de la soumission. Veuillez réessayer.';
-    header('Location: '.$base.'soumettre');
+    header('Location: soumettre');
     exit;
 }
 ?>

@@ -2,7 +2,8 @@
 
 $allowed_origins = [
     'https://www.extrag.one',
-    'https://nomi.extrag.one'
+    'https://nomi.extrag.one',
+	'https://projets.extrag.one'
 ];
 
 if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowed_origins)) {
@@ -39,7 +40,13 @@ else {
 	// Récupération des résultats
 	$outils = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-	echo json_encode($outils);
+	// Supprimer les espaces ou caractères invisibles autour des noms
+	foreach ($outils as &$outil) {
+		$outil['nom'] = trim($outil['nom']);
+	}
+
+	// Encodage JSON minifié
+	echo json_encode($outils, JSON_UNESCAPED_UNICODE);
 	$content = ob_get_contents();
 
 	// On enregistre le cache

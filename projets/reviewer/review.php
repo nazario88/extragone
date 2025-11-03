@@ -22,7 +22,7 @@ $project = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$project) {
     $_SESSION['error'] = 'Projet non trouvé ou non assigné à toi.';
-    header('Location: '.$base.'reviewer/dashboard');
+    header('Location: reviewer/dashboard');
     exit;
 }
 

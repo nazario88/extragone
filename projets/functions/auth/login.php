@@ -5,14 +5,14 @@ include '../../includes/functions.php';
 
 // Vérifier que c'est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: '.$base.'connexion');
+    header('Location: connexion');
     exit;
 }
 
 // Vérifier le token CSRF
 if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
     $_SESSION['error'] = 'Token de sécurité invalide.';
-    header('Location: '.$base.'connexion');
+    header('Location: connexion');
     exit;
 }
 
@@ -23,7 +23,7 @@ $password = $_POST['password'] ?? '';
 // Validation basique
 if (empty($email) || empty($password)) {
     $_SESSION['error'] = 'Tous les champs sont requis.';
-    header('Location: '.$base.'connexion');
+    header('Location: connexion');
     exit;
 }
 
@@ -32,7 +32,7 @@ $result = authenticateUser($email, $password);
 
 if (!$result['success']) {
     $_SESSION['error'] = $result['error'];
-    header('Location: '.$base.'connexion');
+    header('Location: connexion');
     exit;
 }
 
@@ -45,6 +45,6 @@ $_SESSION['success'] = 'Bienvenue ' . htmlspecialchars($result['user']['display_
 $redirect = $_SESSION['redirect_after_login'] ?? '/';
 unset($_SESSION['redirect_after_login']);
 
-header('Location: ' . $redirect);
+header('Location:  . $redirect);
 exit;
 ?>

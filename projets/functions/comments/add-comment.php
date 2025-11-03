@@ -9,14 +9,14 @@ requireLogin();
 
 // Vérifier que c'est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: '.$base);
+    header('Location: https://projets.extrag.one');
     exit;
 }
 
 // Vérifier le token CSRF
 if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
     $_SESSION['error'] = 'Token de sécurité invalide.';
-    header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '/'));
+    header('Location:  https://projets.extrag.one');
     exit;
 }
 
@@ -27,13 +27,13 @@ $content = sanitizeInput($_POST['content'] ?? '');
 // Validation
 if (empty($content)) {
     $_SESSION['error'] = 'Le commentaire ne peut pas être vide.';
-    header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '/'));
+    header('Location:  https://projets.extrag.one');
     exit;
 }
 
 if (strlen($content) > 2000) {
     $_SESSION['error'] = 'Le commentaire ne peut pas dépasser 2000 caractères.';
-    header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '/'));
+    header('Location:  https://projets.extrag.one');
     exit;
 }
 
@@ -44,7 +44,7 @@ $project = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$project) {
     $_SESSION['error'] = 'Projet non trouvé.';
-    header('Location: '.$base);
+    header('Location: https://projets.extrag.one');
     exit;
 }
 
@@ -69,13 +69,13 @@ try {
     sendNewCommentEmail($project, $comment, $project_with_owner, $user);    
 
     $_SESSION['success'] = 'Commentaire publié !';
-    header('Location: '.$base.'projet/' . $project['slug'] . '#comment-' . $pdo->lastInsertId());
+    header('Location: projet/' . $project['slug'] . '#comment-' . $pdo->lastInsertId());
     exit;
     
 } catch (Exception $e) {
     error_log('Add comment error: ' . $e->getMessage());
     $_SESSION['error'] = 'Erreur lors de la publication du commentaire.';
-    header('Location: '.$base.'projet/' . $project['slug']);
+    header('Location: projet/' . $project['slug']);
     exit;
 }
 ?>

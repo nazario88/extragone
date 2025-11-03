@@ -6,14 +6,14 @@ include '../../includes/email.php';
 
 // Vérifier que c'est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: '.$base.'connexion');
+    header('Location: connexion');
     exit;
 }
 
 // Vérifier le token CSRF
 if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
     $_SESSION['error'] = 'Token de sécurité invalide.';
-    header('Location: '.$base.'connexion');
+    header('Location: connexion');
     exit;
 }
 
@@ -26,7 +26,7 @@ $password = $_POST['password'] ?? '';
 // Validation basique
 if (empty($email) || empty($username) || empty($password)) {
     $_SESSION['error'] = 'Tous les champs obligatoires doivent être remplis.';
-    header('Location: '.$base.'connexion');
+    header('Location: connexion');
     exit;
 }
 
@@ -35,7 +35,7 @@ $result = registerUser($email, $password, $username, $display_name);
 
 if (!$result['success']) {
     $_SESSION['error'] = $result['error'];
-    header('Location: '.$base.'connexion');
+    header('Location: connexion');
     exit;
 }
 
@@ -54,6 +54,6 @@ loginUser($result['user_id']);
 
 $_SESSION['success'] = 'Compte créé avec succès ! Bienvenue sur Projets eXtragone.';
 
-header('Location: '.$base);
+header('Location: https://projets.extrag.one');
 exit;
 ?>

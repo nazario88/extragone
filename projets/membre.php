@@ -7,7 +7,7 @@ include 'includes/functions.php';
 $username = $_GET['username'] ?? '';
 
 if (empty($username)) {
-    header('Location: '.$base);
+    header('Location: https://projets.extrag.one');
     exit;
 }
 
@@ -16,7 +16,7 @@ $user = getUserByUsername($username);
 
 if (!$user) {
     $_SESSION['error'] = 'Utilisateur non trouvé.';
-    header('Location: '.$base);
+    header('Location: https://projets.extrag.one');
     exit;
 }
 

@@ -8,6 +8,6 @@ logoutUser();
 $_SESSION['success'] = 'Tu as été déconnecté avec succès.';
 
 // Rediriger vers l'accueil
-header('Location: '.$base);
+header('Location: https://projets.extrag.one');
 exit;
 ?>
