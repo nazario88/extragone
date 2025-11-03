@@ -8,14 +8,14 @@ requireLogin();
 
 // Vérifier que c'est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: reglages');
+    header('Location: https://projets.extrag.one/reglages');
     exit;
 }
 
 // Vérifier le token CSRF
 if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
     $_SESSION['error'] = 'Token de sécurité invalide.';
-    header('Location: reglages');
+    header('Location: https://projets.extrag.one/reglages');
     exit;
 }
 
@@ -29,25 +29,25 @@ $external_link = sanitizeInput($_POST['external_link'] ?? '');
 // Validation
 if (empty($display_name)) {
     $_SESSION['error'] = 'Le nom d\'affichage ne peut pas être vide.';
-    header('Location: reglages');
+    header('Location: https://projets.extrag.one/reglages');
     exit;
 }
 
 if (strlen($display_name) > 100) {
     $_SESSION['error'] = 'Le nom d\'affichage ne peut pas dépasser 100 caractères.';
-    header('Location: reglages');
+    header('Location: https://projets.extrag.one/reglages');
     exit;
 }
 
 if (strlen($bio) > 500) {
     $_SESSION['error'] = 'La bio ne peut pas dépasser 500 caractères.';
-    header('Location: reglages');
+    header('Location: https://projets.extrag.one/reglages');
     exit;
 }
 
 if (!empty($external_link) && !filter_var($external_link, FILTER_VALIDATE_URL)) {
     $_SESSION['error'] = 'Le lien externe n\'est pas valide.';
-    header('Location: reglages');
+    header('Location: https://projets.extrag.one/reglages');
     exit;
 }
 
@@ -61,13 +61,13 @@ try {
         
         if (!in_array($_FILES['avatar']['type'], $allowed_types)) {
             $_SESSION['error'] = 'Type de fichier non autorisé pour l\'avatar.';
-            header('Location: reglages');
+            header('Location: https://projets.extrag.one/reglages');
             exit;
         }
         
         if ($_FILES['avatar']['size'] > $max_size) {
             $_SESSION['error'] = 'L\'avatar ne peut pas dépasser 2 Mo.';
-            header('Location: reglages');
+            header('Location: https://projets.extrag.one/reglages');
             exit;
         }
         
@@ -113,13 +113,13 @@ try {
     logAction('update_profile', $user['id']);
     
     $_SESSION['success'] = 'Profil mis à jour avec succès !';
-    header('Location: reglages');
+    header('Location: https://projets.extrag.one/reglages');
     exit;
     
 } catch (Exception $e) {
     error_log('Update profile error: ' . $e->getMessage());
     $_SESSION['error'] = 'Erreur lors de la mise à jour du profil.';
-    header('Location: reglages');
+    header('Location: https://projets.extrag.one/reglages');
     exit;
 }
 ?>

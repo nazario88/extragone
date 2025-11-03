@@ -8,14 +8,14 @@ requireRole('reviewer');
 
 // Vérifier que c'est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: reviewer/dashboard');
+    header('Location: https://projets.extrag.one/reviewer/dashboard');
     exit;
 }
 
 // Vérifier le token CSRF
 if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
     $_SESSION['error'] = 'Token de sécurité invalide.';
-    header('Location: reviewer/dashboard');
+    header('Location: https://projets.extrag.one/reviewer/dashboard');
     exit;
 }
 
@@ -29,7 +29,7 @@ $project = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$project) {
     $_SESSION['error'] = 'Projet non trouvé ou déjà pris en charge.';
-    header('Location: reviewer/dashboard');
+    header('Location: https://projets.extrag.one/reviewer/dashboard');
     exit;
 }
 
@@ -45,7 +45,7 @@ try {
     // Vérifier que la mise à jour a bien eu lieu
     if ($stmt->rowCount() === 0) {
         $_SESSION['error'] = 'Ce projet a déjà été pris en charge par un autre reviewer.';
-        header('Location: reviewer/dashboard');
+        header('Location: https://projets.extrag.one/reviewer/dashboard');
         exit;
     }
     
@@ -53,13 +53,13 @@ try {
     logAction('claim_review', $user['id'], $project_id);
     
     $_SESSION['success'] = 'Projet pris en charge ! Tu peux maintenant rédiger ta review.';
-    header('Location: reviewer/review/' . $project_id);
+    header('Location: https://projets.extrag.one/reviewer/review/' . $project_id);
     exit;
     
 } catch (Exception $e) {
     error_log('Claim review error: ' . $e->getMessage());
     $_SESSION['error'] = 'Erreur lors de la prise en charge.';
-    header('Location: reviewer/dashboard');
+    header('Location: https://projets.extrag.one/reviewer/dashboard');
     exit;
 }
 ?>

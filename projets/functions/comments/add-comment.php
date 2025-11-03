@@ -69,13 +69,13 @@ try {
     sendNewCommentEmail($project, $comment, $project_with_owner, $user);    
 
     $_SESSION['success'] = 'Commentaire publié !';
-    header('Location: projet/' . $project['slug'] . '#comment-' . $pdo->lastInsertId());
+    header('Location: https://projets.extrag.one/projet/' . $project['slug'] . '#comment-' . $pdo->lastInsertId());
     exit;
     
 } catch (Exception $e) {
     error_log('Add comment error: ' . $e->getMessage());
     $_SESSION['error'] = 'Erreur lors de la publication du commentaire.';
-    header('Location: projet/' . $project['slug']);
+    header('Location: https://projets.extrag.one/projet/' . $project['slug']);
     exit;
 }
 ?>

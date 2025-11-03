@@ -8,14 +8,14 @@ requireLogin();
 
 // Vérifier que c'est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: reglages');
+    header('Location: https://projets.extrag.one/reglages');
     exit;
 }
 
 // Vérifier le token CSRF
 if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
     $_SESSION['error'] = 'Token de sécurité invalide.';
-    header('Location: reglages');
+    header('Location: https://projets.extrag.one/reglages');
     exit;
 }
 
@@ -29,26 +29,26 @@ $confirm_password = $_POST['confirm_password'] ?? '';
 // Validation
 if (empty($current_password) || empty($new_password) || empty($confirm_password)) {
     $_SESSION['error'] = 'Tous les champs sont requis.';
-    header('Location: reglages');
+    header('Location: https://projets.extrag.one/reglages');
     exit;
 }
 
 if (strlen($new_password) < 8) {
     $_SESSION['error'] = 'Le nouveau mot de passe doit contenir au moins 8 caractères.';
-    header('Location: reglages');
+    header('Location: https://projets.extrag.one/reglages');
     exit;
 }
 
 if ($new_password !== $confirm_password) {
     $_SESSION['error'] = 'Les mots de passe ne correspondent pas.';
-    header('Location: reglages');
+    header('Location: https://projets.extrag.one/reglages');
     exit;
 }
 
 // Vérifier le mot de passe actuel
 if (!password_verify($current_password, $user['password_hash'])) {
     $_SESSION['error'] = 'Le mot de passe actuel est incorrect.';
-    header('Location: reglages');
+    header('Location: https://projets.extrag.one/reglages');
     exit;
 }
 
@@ -69,13 +69,13 @@ try {
     logAction('change_password', $user['id']);
     
     $_SESSION['success'] = 'Mot de passe changé avec succès !';
-    header('Location: reglages');
+    header('Location: https://projets.extrag.one/reglages');
     exit;
     
 } catch (Exception $e) {
     error_log('Change password error: ' . $e->getMessage());
     $_SESSION['error'] = 'Erreur lors du changement de mot de passe.';
-    header('Location: reglages');
+    header('Location: https://projets.extrag.one/reglages');
     exit;
 }
 ?>

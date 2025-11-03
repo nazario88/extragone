@@ -60,7 +60,7 @@ function isAdmin() {
 function requireLogin() {
     if (!isLoggedIn()) {
         $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
-        header('Location: connexion');
+        header('Location: https://projets.extrag.one/connexion');
         exit;
     }
 }

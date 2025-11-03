@@ -22,7 +22,7 @@ $project = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$project) {
     $_SESSION['error'] = 'Projet non trouvé ou non assigné à toi.';
-    header('Location: reviewer/dashboard');
+    header('Location: https://projets.extrag.one/reviewer/dashboard');
     exit;
 }
 
