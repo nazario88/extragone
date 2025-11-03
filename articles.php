@@ -19,7 +19,7 @@ $articles = $stmt->fetchAll();
 <div class="w-full lg:w-4/5 xl:w-3/4 2xl:w-2/3 mx-auto">
     <!-- Tous les articles -->
     <div class="w-full px-5 py-5">
-        <h2 class="font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">tous nos articles (<?= count($articles) ?>)</h2>
+        <h1 class="font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">tous nos articles (<?= count($articles) ?>)</h1>
         
         <?php if ($articles): ?>
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">

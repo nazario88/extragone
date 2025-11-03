@@ -102,7 +102,7 @@ if(!$outils) {
 }
 
 $title = "Liste des outils référencés";
-
+$description = "Accédez à la liste complète des outils référencés sur eXtragone pour trouver des alternatives fiables et simples aux services numériques populaires.";
 $url_canon = 'https://www.extrag.one/outils';
 
 include 'includes/header.php';
