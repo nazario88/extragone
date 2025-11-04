@@ -27,13 +27,20 @@ $meta_description = sanitizeInput($_POST['meta_description'] ?? '');
 $review_text = $_POST['review_text'] ?? '';
 
 // Étape 1 : Nettoie
-$long_description = strip_tags($review_text);
-$long_description = trim($review_text);
+$review_text = strip_tags($review_text);
+$review_text = trim($review_text);
 
 // Étape 2 : Force les paragraphes
-$review_text = preg_replace('/\r\n|\r|\n/', "\n", $review_text); // uniformise
-$review_text = preg_replace('/\n{3,}/', "\n\n", $review_text);   // évite trop de \n
-$review_text = preg_replace('/\n/', "\n\n", $review_text);      // ← LIGNE MAGIQUE
+$review_text = preg_replace('/\r\n|\r|\n/', "\n", $review_text);
+$review_text = preg_replace([
+    '/\n\n+/m',           // plusieurs sauts → 2 max
+    '/\n([ \t]*[*+-] )/m' // ligne qui commence par * → PAS de \n\n avant
+], [
+    "\n\n",
+    "\n$1"
+], $review_text);
+
+$review_text = preg_replace('/^# (?!#)/m', '## ', $review_text); // Remplace les # en ##
 
 // Étape 3 : Échappe
 $review_text = htmlspecialchars($review_text, ENT_NOQUOTES);

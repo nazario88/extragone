@@ -32,10 +32,17 @@ $long_description = $_POST['long_description'] ?? '';
 $long_description = strip_tags($long_description);
 $long_description = trim($long_description);
 
-// Étape 2 : Force les paragraphes
-$long_description = preg_replace('/\r\n|\r|\n/', "\n", $long_description); // uniformise
-$long_description = preg_replace('/\n{3,}/', "\n\n", $long_description);   // évite trop de \n
-$long_description = preg_replace('/\n/', "\n\n", $long_description);      // ← LIGNE MAGIQUE
+// 2. UNIFORMISE les sauts
+$long_description = preg_replace('/\r\n|\r|\n/', "\n", $long_description);
+$long_description = preg_replace([
+    '/\n\n+/m',           // plusieurs sauts → 2 max
+    '/\n([ \t]*[*+-] )/m' // ligne qui commence par * → PAS de \n\n avant
+], [
+    "\n\n",
+    "\n$1"
+], $long_description);
+
+$long_description = preg_replace('/^# (?!#)/m', '## ', $long_description); // Remplace les # en ##
 
 // Étape 3 : Échappe
 $long_description = htmlspecialchars($long_description, ENT_NOQUOTES);
