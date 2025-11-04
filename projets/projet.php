@@ -43,6 +43,8 @@ include 'includes/header.php';
 require_once 'includes/Parsedown.php';
 $parsedown = new Parsedown();
 ?>
+<!-- Mardkdown CSS -->
+<link rel="stylesheet" href="https://extrag.one/assets/css/md.css">
 
 <div class="w-full max-w-6xl mx-auto px-5 py-8">
     
@@ -77,7 +79,10 @@ $parsedown = new Parsedown();
             <span>•</span>
             <span class="flex items-center">
                 <i class="fa-solid fa-comment mr-1"></i>
-                <?= count($comments) ?> commentaires
+                <?php 
+                $nb = count($comments);
+                echo "$nb commentaire" . ($nb > 1 ? 's' : '');
+                ?>
             </span>
         </div>
     </div>
@@ -129,7 +134,7 @@ $parsedown = new Parsedown();
             <?php if ($project['long_description']): ?>
             <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
                 <h2 class="text-xl font-bold mb-3">Description détaillée</h2>
-                <div class="prose dark:prose-invert max-w-none">
+                <div class="max-w-none text-gray-700 dark:text-gray-300 markdown-content">
                     <?= $parsedown->text($project['long_description']) ?>
                 </div>
             </div>
@@ -151,7 +156,7 @@ $parsedown = new Parsedown();
                         </p>
                     </div>
                 </div>
-                <div class="prose dark:prose-invert max-w-none text-orange-900 dark:text-orange-100">
+                <div class="text-orange-900 dark:text-orange-100 markdown-content">
                     <?= $parsedown->text($project['review_text']) ?>
                 </div>
             </div>
@@ -248,8 +253,8 @@ $parsedown = new Parsedown();
             <!-- Lien démo -->
             <?php if ($project['demo_link']): ?>
             <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
-                <h3 class="font-bold mb-3 flex items-center">
-                    <i class="fa-solid fa-link text-blue-500 mr-2"></i>
+                <h3 class="text-sm font-bold mb-3 uppercase tracking-wider flex items-center">
+                    <i class="fa-solid fa-link mr-2"></i>
                     Lien
                 </h3>
                 <a href="<?= htmlspecialchars($project['demo_link']) ?>" 
@@ -265,8 +270,8 @@ $parsedown = new Parsedown();
             <!-- Outils utilisés -->
             <?php if (!empty($tools)): ?>
             <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
-                <h3 class="font-bold mb-3 flex items-center">
-                    <i class="fa-solid fa-toolbox text-yellow-500 mr-2"></i>
+                <h3 class="text-sm font-bold mb-3 uppercase tracking-wider flex items-center">
+                    <i class="fa-solid fa-toolbox mr-2"></i>
                     Technologies
                 </h3>
                 <div class="flex flex-wrap gap-2">
@@ -282,8 +287,8 @@ $parsedown = new Parsedown();
             <!-- Vidéo YouTube si présente -->
             <?php if ($project['youtube_video_id']): ?>
             <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
-                <h3 class="font-bold mb-3 flex items-center">
-                    <i class="fa-brands fa-youtube text-red-500 mr-2"></i>
+                <h3 class="text-sm font-bold mb-3 uppercase tracking-wider flex items-center">
+                    <i class="fa-brands fa-youtube mr-2"></i>
                     Présenté sur YouTube
                 </h3>
                 <div class="aspect-video rounded-lg overflow-hidden">
@@ -300,8 +305,8 @@ $parsedown = new Parsedown();
             
             <!-- Partage -->
             <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
-                <h3 class="font-bold mb-3 flex items-center">
-                    <i class="fa-solid fa-share-nodes text-green-500 mr-2"></i>
+                <h3 class="text-sm font-bold mb-3 uppercase tracking-wider flex items-center">
+                    <i class="fa-solid fa-share-nodes mr-2"></i>
                     Partager
                 </h3>
                 <div class="flex gap-2">

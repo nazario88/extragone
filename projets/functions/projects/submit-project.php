@@ -25,7 +25,21 @@ $user = getCurrentUser();
 // Récupération des données
 $title = sanitizeInput($_POST['title'] ?? '');
 $short_description = sanitizeInput($_POST['short_description'] ?? '');
-$long_description = sanitizeInput($_POST['long_description'] ?? '');
+
+$long_description = $_POST['long_description'] ?? '';
+
+// Étape 1 : Nettoie
+$long_description = strip_tags($long_description);
+$long_description = trim($long_description);
+
+// Étape 2 : Force les paragraphes
+$long_description = preg_replace('/\r\n|\r|\n/', "\n", $long_description); // uniformise
+$long_description = preg_replace('/\n{3,}/', "\n\n", $long_description);   // évite trop de \n
+$long_description = preg_replace('/\n/', "\n\n", $long_description);      // ← LIGNE MAGIQUE
+
+// Étape 3 : Échappe
+$long_description = htmlspecialchars($long_description, ENT_NOQUOTES);
+
 $demo_link = sanitizeInput($_POST['demo_link'] ?? '');
 $tools_used = sanitizeInput($_POST['tools_used'] ?? '');
 

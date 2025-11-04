@@ -101,7 +101,8 @@ include 'includes/header.php';
                     name="long_description" 
                     rows="8"
                     class="w-full px-4 py-3 rounded-xl text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    placeholder="Décris ton projet en détail : fonctionnalités, process, défis rencontrés..."></textarea>
+                    placeholder="Décris ton projet en détail : fonctionnalités, process, défis rencontrés..."
+                    enterkeyhint="enter"></textarea>
                 <p class="text-xs text-gray-500 mt-1">Markdown supporté (gras, italique, liens, titres...)</p>
             </div>
 
@@ -218,7 +219,7 @@ const simplemde = new SimpleMDE({
     element: document.getElementById("long_description"),
     spellChecker: false,
     placeholder: "Décris ton projet en détail...",
-    toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link", "|", "preview", "guide"],
+    toolbar: ["bold", "italic", "heading-2", "heading-3", "|", "quote", "unordered-list", "ordered-list", "|", "link", "|", "preview", "guide"],
     status: false
 });
 

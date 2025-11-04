@@ -23,7 +23,21 @@ if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
 $user = getCurrentUser();
 $project_id = (int)($_POST['project_id'] ?? 0);
 $meta_description = sanitizeInput($_POST['meta_description'] ?? '');
-$review_text = sanitizeInput($_POST['review_text'] ?? '');
+
+$review_text = $_POST['review_text'] ?? '';
+
+// Étape 1 : Nettoie
+$long_description = strip_tags($review_text);
+$long_description = trim($review_text);
+
+// Étape 2 : Force les paragraphes
+$review_text = preg_replace('/\r\n|\r|\n/', "\n", $review_text); // uniformise
+$review_text = preg_replace('/\n{3,}/', "\n\n", $review_text);   // évite trop de \n
+$review_text = preg_replace('/\n/', "\n\n", $review_text);      // ← LIGNE MAGIQUE
+
+// Étape 3 : Échappe
+$review_text = htmlspecialchars($review_text, ENT_NOQUOTES);
+
 $youtube_video_id = sanitizeInput($_POST['youtube_video_id'] ?? '');
 $cover_image_id = (int)($_POST['cover_image_id'] ?? 0);
 

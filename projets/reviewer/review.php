@@ -114,7 +114,8 @@ include '../includes/header.php';
                         name="review_text" 
                         rows="15"
                         class="w-full px-4 py-3 rounded-xl text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="Rédige ta review détaillée..."></textarea>
+                        placeholder="Rédige ta review détaillée..."
+                        enterkeyhint="enter"></textarea>
                     <p class="text-xs text-gray-500 mt-1">Markdown supporté : **gras**, *italique*, ## Titre, [lien](url)</p>
                 </div>
 
