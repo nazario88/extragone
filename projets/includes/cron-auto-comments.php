@@ -13,11 +13,11 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 */
-include '../../includes/config.php';
+include __DIR__ . '/../../includes/config.php';
 
 // IDs des comptes bots (à adapter après création)
 $BOT_USERS = [
-    'NiouiNina' => null,  // Sera récupéré dynamiquement
+    'NiouiNina' => null,
     'JulienM' => null,
     'Youn' => null
 ];
@@ -36,15 +36,15 @@ if (in_array(null, $BOT_USERS)) {
     exit(1);
 }
 
-// =================== PHRASES ===================
+// =================== PHRASES GÉNÉRIQUES ===================
 
-$INTROS = [
+$COMMENTS_SIMPLE = [
     "Super projet !",
     "Bravo !",
     "Excellent travail !",
     "Belle réalisation !",
     "Vraiment bien fait !",
-    "J'adore !",
+    "J'adore ! 😍",
     "Très chouette !",
     "Sympa comme projet !",
     "Beau boulot !",
@@ -53,124 +53,82 @@ $INTROS = [
     "Impressionnant !",
     "Joli !",
     "Bien joué !",
-    "Cool !",
+    "Cool ! 👍",
     "Stylé !",
     "Nickel !",
+    "GG ! 🔥",
+    "Pas mal du tout !",
+    "C'est propre ! ✨",
 ];
 
-$CORPS = [
-    // UI/Design
-    "L'interface est vraiment intuitive.",
-    "Le design est épuré, j'aime beaucoup.",
-    "Les couleurs sont bien choisies.",
-    "L'UI est moderne et agréable.",
-    "Le choix des polices est top.",
-    "C'est visuellement très réussi.",
-    "L'ergonomie est au rendez-vous.",
-    "Le design est cohérent du début à la fin.",
-    "Les animations sont subtiles et bien dosées.",
-    "La navigation est fluide.",
-    
-    // Technique
-    "Le code a l'air propre.",
-    "Les performances semblent optimales.",
-    "C'est techniquement solide.",
-    "La stack technique est bien choisie.",
-    "L'architecture est claire.",
-    "Le projet est bien structuré.",
-    "Les fonctionnalités sont bien implémentées.",
-    "C'est responsive, parfait.",
-    "Le chargement est rapide.",
-    "Les transitions sont smooth.",
-    
-    // Concept
-    "Le concept est original.",
-    "L'idée est vraiment intéressante.",
-    "C'est exactement ce qu'il manquait.",
-    "Le besoin est bien identifié.",
-    "La proposition de valeur est claire.",
-    "C'est innovant.",
-    "L'approche est pertinente.",
-    "Le problème est bien résolu.",
-    "C'est un vrai gain de temps.",
-    "L'utilité est évidente.",
-    
-    // Expérience utilisateur
-    "L'expérience utilisateur est top.",
-    "C'est agréable à utiliser.",
-    "La prise en main est immédiate.",
-    "C'est intuitif dès le premier clic.",
-    "On comprend tout de suite comment ça marche.",
-    "Les feedbacks visuels sont clairs.",
-    "Aucune friction dans le parcours.",
-    "L'onboarding est bien pensé.",
-    "Les cas d'usage sont bien couverts.",
-    "C'est accessible et inclusif.",
-    
-    // Qualité générale
-    "La qualité est au rendez-vous.",
-    "Tout est soigné.",
-    "On voit le travail accompli.",
-    "C'est abouti.",
-    "Rien à redire sur la finition.",
-    "Les détails font la différence.",
-    "C'est du travail professionnel.",
-    "La qualité est constante.",
-    "Tout fonctionne comme attendu.",
-    "C'est stable et fiable.",
-    
-    // Inspiration/Motivation
-    "Ça donne envie de tester.",
-    "Je vais l'ajouter à mes bookmarks.",
-    "Je pense l'utiliser régulièrement.",
-    "Ça m'inspire pour mes propres projets.",
-    "Je vais le recommander autour de moi.",
-    "C'est le genre d'outil qu'on garde.",
-    "Ça mérite d'être plus connu.",
-    "Je vais suivre l'évolution.",
-    "Hâte de voir les prochaines features.",
-    "C'est prometteur.",
+$COMMENTS_MEDIUM = [
+    "Super projet ! Continue comme ça.",
+    "Bravo ! C'est quoi les next steps ?",
+    "Excellent travail ! J'ai hâte de voir la suite.",
+    "Belle réalisation ! Ça donne envie de tester.",
+    "Vraiment bien fait ! Keep it up 💪",
+    "J'adore ! Bon courage pour la suite.",
+    "Très chouette ! Vivement les prochaines features.",
+    "Sympa comme projet ! Tu prévois quoi après ?",
+    "Beau boulot ! Je vais suivre ça de près.",
+    "Top ! Ça mérite d'être partagé.",
+    "Génial ! Continue sur cette lancée.",
+    "Impressionnant ! Félicitations.",
+    "Joli ! C'est exactement ce qu'il fallait.",
+    "Bien joué ! Hâte de voir l'évolution.",
+    "Cool ! Je pense l'utiliser régulièrement.",
+    "Stylé ! Bravo encore.",
+    "Nickel ! Ça fait le job. 👌",
+    "GG ! Tu gères ! 🚀",
+    "Pas mal du tout ! Bien pensé.",
+    "C'est propre ! Rien à redire.",
 ];
 
-$CONCLUSIONS = [
-    "Continue comme ça !",
-    "Vivement la suite !",
-    "J'ai hâte de voir les évolutions.",
-    "Bon courage pour la suite !",
-    "Bravo encore !",
-    "Keep it up!",
-    "Belle continuation !",
-    "Félicitations !",
-    "GG !",
-    "Bien joué !",
-    "💪",
-    "🚀",
-    "👏",
-    "🔥",
-    "👍",
-    "",  // Pas de conclusion (33% de chances)
-    "",
-    "",
+$COMMENTS_LONG = [
+    "Super projet ! L'idée est vraiment intéressante. Continue comme ça !",
+    "Bravo ! Le design est épuré et l'interface intuitive. C'est quoi les next steps ?",
+    "Excellent travail ! On voit que c'est soigné. J'ai hâte de voir la suite.",
+    "Belle réalisation ! Le concept est original. Ça donne envie de tester.",
+    "Vraiment bien fait ! L'expérience utilisateur est au rendez-vous. Keep it up 💪",
+    "J'adore ! Les fonctionnalités sont bien pensées. Bon courage pour la suite.",
+    "Très chouette ! C'est exactement ce qu'il manquait. Vivement les prochaines features.",
+    "Sympa comme projet ! C'est fluide et agréable à utiliser. Tu prévois quoi après ?",
+    "Beau boulot ! Ça répond bien au besoin. Je vais suivre ça de près.",
+    "Top ! L'approche est pertinente. Ça mérite d'être partagé.",
+    "Génial ! C'est moderne et bien exécuté. Continue sur cette lancée.",
+    "Impressionnant ! Tout fonctionne comme attendu. Félicitations.",
+    "Joli ! Les détails font la différence. C'est exactement ce qu'il fallait.",
+    "Bien joué ! C'est abouti et stable. Hâte de voir l'évolution.",
+    "Cool ! L'interface est claire et efficace. Je pense l'utiliser régulièrement.",
+    "Stylé ! On sent que c'est du travail pro. Bravo encore.",
+    "Nickel ! Ça fait exactement le job. Rien à redire. 👌",
+    "GG ! Le projet est solide et prometteur. Tu gères ! 🚀",
+    "Pas mal du tout ! C'est bien structuré et pratique. Bien pensé.",
+    "C'est propre ! Tout est cohérent du début à la fin. Bravo. ✨",
 ];
 
 // =================== LOGIQUE ===================
 
 /**
- * Génère un commentaire aléatoire composé
+ * Génère un commentaire aléatoire
  */
 function generateComment() {
-    global $INTROS, $CORPS, $CONCLUSIONS;
+    global $COMMENTS_SIMPLE, $COMMENTS_MEDIUM, $COMMENTS_LONG;
     
-    // 60% de chance d'avoir une intro
-    $intro = (rand(1, 100) <= 60) ? $INTROS[array_rand($INTROS)] . ' ' : '';
+    // Distribution aléatoire :
+    // 40% courts, 40% moyens, 20% longs
+    $rand = rand(1, 100);
     
-    // Corps (obligatoire)
-    $corps = $CORPS[array_rand($CORPS)];
-    
-    // 40% de chance d'avoir une conclusion
-    $conclusion = (rand(1, 100) <= 40) ? ' ' . $CONCLUSIONS[array_rand($CONCLUSIONS)] : '';
-    
-    return trim($intro . $corps . $conclusion);
+    if ($rand <= 40) {
+        // Commentaire court
+        return $COMMENTS_SIMPLE[array_rand($COMMENTS_SIMPLE)];
+    } elseif ($rand <= 80) {
+        // Commentaire moyen
+        return $COMMENTS_MEDIUM[array_rand($COMMENTS_MEDIUM)];
+    } else {
+        // Commentaire long
+        return $COMMENTS_LONG[array_rand($COMMENTS_LONG)];
+    }
 }
 
 /**

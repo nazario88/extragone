@@ -6,7 +6,7 @@
 set_time_limit(0);
 ini_set('memory_limit', '512M');
 
-include('config.php');
+include __DIR__ . '/config.php';
 
 $validToken = 'Ninja44';
 if (!isset($_GET['token']) || $_GET['token'] !== $validToken) {
