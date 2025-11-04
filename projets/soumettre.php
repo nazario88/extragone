@@ -12,6 +12,8 @@ $url_canon = 'https://projets.extrag.one/soumettre';
 
 include 'includes/header.php';
 ?>
+<!-- Mardkdown CSS -->
+<link rel="stylesheet" href="https://extrag.one/assets/css/md.css">
 
 <!-- SimpleMDE CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
@@ -212,7 +214,7 @@ include 'includes/header.php';
 </div>
 
 <!-- SimpleMDE JS -->
-<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 <script>
 // Initialiser SimpleMDE pour la description longue
 const simplemde = new SimpleMDE({
