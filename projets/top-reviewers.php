@@ -4,8 +4,8 @@ include '../includes/config.php';
 include 'includes/auth.php';
 include 'includes/functions.php';
 
-$title = "Top Reviewers — Projets eXtragone";
-$description = "Découvre les reviewers les plus actifs de la communauté eXtragone.";
+$title = "Classement des reviewers — Projets eXtragone";
+$description = "Classement des reviewers les plus actifs sur eXtragone, la plateforme qui met en avant les projets et avis de la communauté tech française.";
 $url_canon = 'https://projets.extrag.one/top-reviewers';
 
 // Récupérer les top reviewers
@@ -23,7 +23,7 @@ include 'includes/header.php';
         </div>
         <h1 class="px-4 m-2 mx-auto text-xl md:text-4xl text-center font-bold tracking-tight dark:text-slate-500">Top Reviewers</h1>
         <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Ils analysent, évaluent et aident la communauté à découvrir les meilleurs projets
+            Ils analysent, évaluent et aident la communauté à découvrir les meilleurs projets.
         </p>
     </div>
 
@@ -51,95 +51,115 @@ include 'includes/header.php';
         </div>
     </div>
 
-    <!-- Podium (Top 3) -->
-    <?php if (count($top_reviewers) >= 3): ?>
-    <div class="mb-12">
-        <h2 class="text-2xl font-bold text-center mb-8">🏆 Podium</h2>
+    <!-- Podium (Top 3) - Version épurée -->
+<?php if (count($top_reviewers) >= 3): ?>
+<div class="mb-12">
+    <h2 class="text-2xl font-bold text-center mb-8 flex items-center justify-center gap-3">
+        Podium
+    </h2>
+    
+    <div class="relative flex items-end justify-center gap-4 max-w-4xl mx-auto">
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
-            <!-- 2ème place -->
-            <div class="order-2 md:order-1">
-                <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border-2 border-slate-300 dark:border-slate-600 text-center">
-                    <div class="relative inline-block mb-4">
-                        <img src="<?= $top_reviewers[1]['avatar'] ?: $base.'/uploads/avatars/'.$top_reviewers[1]['display_name'] ?>" 
-                             alt="<?= htmlspecialchars($top_reviewers[1]['display_name']) ?>"
-                             class="w-24 h-24 rounded-full border-4 border-slate-300">
-                        <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-slate-300 text-slate-700 rounded-full flex items-center justify-center font-bold text-lg">
-                            2
-                        </div>
-                    </div>
-                    <a href="membre/<?= htmlspecialchars($top_reviewers[1]['username']) ?>" 
-                       class="font-bold text-lg hover:text-blue-500 transition-colors block mb-1">
-                        <?= htmlspecialchars($top_reviewers[1]['display_name']) ?>
-                    </a>
-                    <p class="text-sm text-gray-500 mb-3">@<?= htmlspecialchars($top_reviewers[1]['username']) ?></p>
-                    <div class="inline-block px-4 py-2 bg-slate-100 dark:bg-slate-700 rounded-lg">
-                        <span class="font-bold text-xl text-slate-600 dark:text-slate-300">
-                            <?= $top_reviewers[1]['review_count'] ?>
-                        </span>
-                        <span class="text-xs text-gray-500 ml-1">reviews</span>
-                    </div>
+        <!-- 2ème place -->
+        <div class="flex-1 max-w-xs animate-fadeIn" style="animation-delay: 0.2s">
+            <!-- Piédestal -->
+            <div class="bg-gradient-to-b from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 rounded-t-2xl p-6 text-center border-t-4 border-slate-400 relative">
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-8 bg-slate-400 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                    2
+                </div>
+                
+                <div class="relative inline-block mb-4 mt-2">
+                    <img src="<?= $top_reviewers[1]['avatar'] ?: $base.'/uploads/avatars/'.$top_reviewers[1]['display_name'] ?>" 
+                         alt="<?= htmlspecialchars($top_reviewers[1]['display_name']) ?>"
+                         class="w-20 h-20 rounded-full border-4 border-white dark:border-slate-600 shadow-lg">
+                </div>
+                
+                <a href="membre/<?= htmlspecialchars($top_reviewers[1]['username']) ?>" 
+                   class="font-bold text-lg hover:text-blue-500 transition-colors block mb-1">
+                    <?= htmlspecialchars($top_reviewers[1]['display_name']) ?>
+                </a>
+                <p class="text-sm text-gray-500 mb-3">@<?= htmlspecialchars($top_reviewers[1]['username']) ?></p>
+                
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-600 rounded-xl shadow-inner">
+                    <span class="font-bold text-2xl">
+                        <?= $top_reviewers[1]['review_count'] ?>
+                    </span>
+                    <span class="text-xs">reviews</span>
                 </div>
             </div>
+            <!-- Base du piédestal -->
+            <div class="h-20 bg-slate-300 dark:bg-slate-700 rounded-b-xl shadow-lg"></div>
+        </div>
 
-            <!-- 1ère place -->
-            <div class="order-1 md:order-2">
-                <div class="bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-2xl p-6 border-4 border-yellow-300 text-center transform md:-translate-y-4">
-                    <div class="relative inline-block mb-4">
-                        <img src="<?= $top_reviewers[0]['avatar'] ?: $base.'/uploads/avatars/'.$top_reviewers[0]['display_name'] ?>" 
-                             alt="<?= htmlspecialchars($top_reviewers[0]['display_name']) ?>"
-                             class="w-32 h-32 rounded-full border-4 border-white">
-                        <div class="absolute -top-2 -right-2 w-12 h-12 bg-white text-yellow-600 rounded-full flex items-center justify-center font-bold text-xl shadow-lg">
-                            👑
-                        </div>
-                    </div>
-                    <a href="membre/<?= htmlspecialchars($top_reviewers[0]['username']) ?>" 
-                       class="font-bold text-xl text-white hover:text-yellow-100 transition-colors block mb-1">
-                        <?= htmlspecialchars($top_reviewers[0]['display_name']) ?>
-                    </a>
-                    <p class="text-sm text-yellow-100 mb-3">@<?= htmlspecialchars($top_reviewers[0]['username']) ?></p>
-                    <div class="inline-block px-4 py-2 bg-white rounded-lg">
-                        <span class="font-bold text-2xl text-yellow-600">
-                            <?= $top_reviewers[0]['review_count'] ?>
-                        </span>
-                        <span class="text-xs text-yellow-700 ml-1">reviews</span>
-                    </div>
+        <!-- 1ère place -->
+        <div class="flex-1 max-w-xs animate-fadeIn">
+            <!-- Piédestal -->
+            <div class="bg-gradient-to-b from-purple-100 to-purple-200 dark:from-purple-900/30 dark:to-purple-900/50 rounded-t-2xl p-6 text-center border-t-4 border-purple-500 relative shadow-xl">
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+                
+                <div class="relative inline-block mb-4 mt-2">
+                    <img src="<?= $top_reviewers[0]['avatar'] ?: $base.'/uploads/avatars/'.$top_reviewers[0]['display_name'] ?>" 
+                         alt="<?= htmlspecialchars($top_reviewers[0]['display_name']) ?>"
+                         class="w-28 h-28 rounded-full border-4 border-purple-500 shadow-2xl ring-4 ring-purple-200 dark:ring-purple-800">
+                </div>
+                
+                <a href="membre/<?= htmlspecialchars($top_reviewers[0]['username']) ?>" 
+                   class="font-bold text-xl text-purple-900 dark:text-purple-100 hover:text-purple-600 dark:hover:text-purple-300 transition-colors block mb-1">
+                    <?= htmlspecialchars($top_reviewers[0]['display_name']) ?>
+                </a>
+                <p class="text-sm text-purple-700 dark:text-purple-300 mb-3">@<?= htmlspecialchars($top_reviewers[0]['username']) ?></p>
+                
+                <div class="inline-flex items-center gap-2 px-5 py-2 bg-white dark:bg-purple-800 rounded-xl shadow-lg">
+                    <span class="font-bold text-3xl">
+                        <?= $top_reviewers[0]['review_count'] ?>
+                    </span>
+                    <span class="text-xs">reviews</span>
                 </div>
             </div>
+            <!-- Base du piédestal -->
+            <div class="h-32 bg-purple-300 dark:bg-purple-800/50 rounded-b-xl shadow-lg"></div>
+        </div>
 
-            <!-- 3ème place -->
-            <div class="order-3">
-                <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border-2 border-orange-300 dark:border-orange-600 text-center">
-                    <div class="relative inline-block mb-4">
-                        <img src="<?= $top_reviewers[2]['avatar'] ?: $base.'/uploads/avatars/'.$top_reviewers[2]['display_name'] ?>" 
-                             alt="<?= htmlspecialchars($top_reviewers[2]['display_name']) ?>"
-                             class="w-24 h-24 rounded-full border-4 border-orange-300">
-                        <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-orange-400 text-white rounded-full flex items-center justify-center font-bold text-lg">
-                            3
-                        </div>
-                    </div>
-                    <a href="membre/<?= htmlspecialchars($top_reviewers[2]['username']) ?>" 
-                       class="font-bold text-lg hover:text-blue-500 transition-colors block mb-1">
-                        <?= htmlspecialchars($top_reviewers[2]['display_name']) ?>
-                    </a>
-                    <p class="text-sm text-gray-500 mb-3">@<?= htmlspecialchars($top_reviewers[2]['username']) ?></p>
-                    <div class="inline-block px-4 py-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
-                        <span class="font-bold text-xl text-orange-600 dark:text-orange-400">
-                            <?= $top_reviewers[2]['review_count'] ?>
-                        </span>
-                        <span class="text-xs text-orange-500 ml-1">reviews</span>
-                    </div>
+        <!-- 3ème place -->
+        <div class="flex-1 max-w-xs animate-fadeIn" style="animation-delay: 0.4s">
+            <!-- Piédestal -->
+            <div class="bg-gradient-to-b from-amber-50 to-amber-100 dark:from-amber-900/20 dark:to-amber-900/30 rounded-t-2xl p-6 text-center border-t-4 border-amber-500 relative">
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                    3
+                </div>
+                
+                <div class="relative inline-block mb-4 mt-2">
+                    <img src="<?= $top_reviewers[2]['avatar'] ?: $base.'/uploads/avatars/'.$top_reviewers[2]['display_name'] ?>" 
+                         alt="<?= htmlspecialchars($top_reviewers[2]['display_name']) ?>"
+                         class="w-20 h-20 rounded-full border-4 border-white dark:border-slate-600 shadow-lg">
+                </div>
+                
+                <a href="membre/<?= htmlspecialchars($top_reviewers[2]['username']) ?>" 
+                   class="font-bold text-lg hover:text-blue-500 transition-colors block mb-1">
+                    <?= htmlspecialchars($top_reviewers[2]['display_name']) ?>
+                </a>
+                <p class="text-sm text-gray-500 mb-3">@<?= htmlspecialchars($top_reviewers[2]['username']) ?></p>
+                
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-600 rounded-xl shadow-inner">
+                    <span class="font-bold text-2xl">
+                        <?= $top_reviewers[2]['review_count'] ?>
+                    </span>
+                    <span class="text-xs">reviews</span>
                 </div>
             </div>
+            <!-- Base du piédestal -->
+            <div class="h-12 bg-amber-200 dark:bg-amber-800/30 rounded-b-xl shadow-lg"></div>
         </div>
     </div>
-    <?php endif; ?>
+</div>
+<?php endif; ?>
 
     <!-- Classement complet -->
     <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
         <div class="p-6 border-b border-slate-200 dark:border-slate-700">
             <h2 class="text-2xl font-bold flex items-center">
-                <i class="fa-solid fa-list text-blue-500 mr-3"></i>
                 Classement complet
             </h2>
         </div>
