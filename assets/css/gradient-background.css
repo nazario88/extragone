@@ -1,0 +1,38 @@
+.gradient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(120deg, var(--grad-color1), var(--grad-color2), var(--grad-color3), var(--grad-color2));
+  background-size: 300% 300%;
+  animation: gradientFlow 7s ease-in-out infinite;
+  will-change: background-position;
+  transform: translateZ(0);
+  transition: background 0.4s ease;
+}
+
+/* Thème clair */
+html:not(.dark) .gradient-bg {
+  --grad-color1: oklch(98.4% 0.003 247.858);
+  --grad-color2: oklch(92.9% 0.013 255.508);
+  --grad-color3: oklch(93.2% 0.032 255.585);
+}
+
+/* Thème sombre */
+html.dark .gradient-bg {
+  --grad-color1: oklch(13% 0.028 261.692);
+  --grad-color2: oklch(21% 0.034 264.665);
+  --grad-color3: oklch(27.8% 0.033 256.848);
+}
+
+/* Animation fluide */
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

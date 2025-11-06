@@ -91,6 +91,8 @@ if(substr($image_seo, 0,5) !== 'https') {
     <?php
     }
     ?>
+    <!-- Gradiant CSS -->
+    <link rel="stylesheet" href="assets/css/gradient-background.css">
 
     <!-- FontAwesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
@@ -98,6 +100,9 @@ if(substr($image_seo, 0,5) !== 'https') {
   </head>
   <body class="bg-slate-50 text-slate-900 dark:bg-gray-900 dark:text-white min-h-screen flex flex-col">
 
+    <!-- Gradiant Background -->
+    <div class="gradient-bg"></div>
+    
     <!-- Header -->
     <header class="bg-gray-100 dark:bg-slate-950 shadow px-6 py-4 flex items-center justify-between">
       <div class="container mx-auto flex items-center justify-between px-4">
