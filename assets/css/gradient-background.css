@@ -1,10 +1,21 @@
+/* ========================================
+   Animated Gradient Background - Optimized
+   eXtragone - Compatible Light/Dark
+   ======================================== */
+
 .gradient-bg {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(120deg, var(--grad-color1), var(--grad-color2), var(--grad-color3), var(--grad-color2));
+  background: linear-gradient(
+    120deg, 
+    var(--grad-color1), 
+    var(--grad-color2), 
+    var(--grad-color3), 
+    var(--grad-color2)
+  );
   background-size: 300% 300%;
-  animation: gradientFlow 7s ease-in-out infinite;
+  animation: gradientFlow 15s ease-in-out infinite;
   will-change: background-position;
   transform: translateZ(0);
   transition: background 0.4s ease;
@@ -26,13 +37,25 @@ html.dark .gradient-bg {
 
 /* Animation fluide */
 @keyframes gradientFlow {
-  0% {
+  0%, 100% {
     background-position: 0% 50%;
   }
   50% {
     background-position: 100% 50%;
   }
-  100% {
+}
+
+/* Désactiver l'animation si prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .gradient-bg {
+    animation: none;
     background-position: 0% 50%;
+  }
+}
+
+/* Optimisation mobile - Animation plus lente */
+@media (max-width: 768px) {
+  .gradient-bg {
+    animation-duration: 20s;
   }
 }
