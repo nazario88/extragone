@@ -29,6 +29,12 @@ if(substr($image_seo, 0,5) !== 'https') {
     <meta property="og:type"        content="website">
     <meta property="og:url"         content="<?=$url_canon?>">
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?=$title?>">
+    <meta name="twitter:description" content="<?=$description?>">
+    <meta name="twitter:image" content="<?=$image_seo?>">
+    <meta name="twitter:url" content="<?=$url_canon?>">
 
     <!-- Link -->
     <link rel="canonical" href="<?=$url_canon?>" />
