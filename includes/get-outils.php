@@ -35,18 +35,23 @@ else {
 	ob_start();
 
 	// Requête
-	$stmt = $pdo->query("SELECT nom, description FROM extra_tools WHERE is_valid=1 ORDER BY nom ASC");
+	$stmt = $pdo->query("SELECT nom, slug, description FROM extra_tools WHERE is_valid=1 ORDER BY nom ASC");
 
 	// Récupération des résultats
 	$outils = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+	$data = [];
 	// Supprimer les espaces ou caractères invisibles autour des noms
-	foreach ($outils as &$outil) {
-		$outil['nom'] = trim($outil['nom']);
+	foreach ($outils as $o) {
+		$data[] = [
+			'n' => trim($o['nom']),
+			's' => $o['slug'],
+			'd' => $o['description']
+		];
 	}
 
 	// Encodage JSON minifié
-	echo json_encode($outils, JSON_UNESCAPED_UNICODE);
+	echo json_encode($data, JSON_UNESCAPED_UNICODE);
 	$content = ob_get_contents();
 
 	// On enregistre le cache

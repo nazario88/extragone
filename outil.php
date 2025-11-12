@@ -301,20 +301,22 @@ if($data_outil['tags']) {
         ?>
 
         <!-- Boutons -->
-        <div class="w-full mt-5 flex items-center justify-center gap-3">
+        <div class="w-full mt-5 flex flex-col sm:flex-row items-center justify-center gap-3">
             <?php
             echo $link_article;
             $url = buildUtmUrl($data_outil['url']);
             ?>
-            <a class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 transition" href="<?=$url?>" target="_blank" title="Voir l'outil"><i class="fa-solid fa-up-right-from-square"> </i> Voir le site</a>
-            <?php if(is_admin_logged_in()) echo '<a class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 transition" href="admin/edit-tool.php?id='.$data_outil['id'].'" title="Modifier"><i class="fa-solid fa-pen-to-square"></i> Modifier</a>'; ?>
+            <a class="w-full md:w-auto px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 transition" href="<?=$url?>" target="_blank" title="Voir l'outil">
+                <i class="fa-solid fa-up-right-from-square mr-2"> </i> Voir le site
+            </a>
+            <?php if(is_admin_logged_in()) echo '<a class="w-full md:w-auto px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 transition" href="admin/edit-tool.php?id='.$data_outil['id'].'" title="Modifier"><i class="fa-solid fa-pen-to-square mr-2"></i> Modifier</a>'; ?>
         </div>
 
         <!-- Description longue -->
         <?php
         if($data_outil['description_longue']) {
             echo '
-                <h3 class="text-sm font-bold mt-2 mb-3 uppercase tracking-wider">
+                <h3 class="text-sm font-bold mt-5 mb-3 uppercase tracking-wider">
                     <i class="fa-regular fa-file-lines"></i> Résumé
                 </h3>
                 <p>'.nl2br(addCssClasses($data_outil['description_longue'])).'</p>
@@ -324,7 +326,7 @@ if($data_outil['tags']) {
 
         <!-- Tags -->
         <?php if($data_outil['tags']): ?>
-        <h3 class="text-sm font-bold mt-2 mb-3 uppercase tracking-wider">
+        <h3 class="text-sm font-bold mt-5 mb-3 uppercase tracking-wider">
             <i class="fa-solid fa-tags"></i> Tags
         </h3>
         <div class="flex flex-wrap gap-2 mt-3">

@@ -129,7 +129,7 @@ function handleSearch(query) {
   }
 
   const results = outils.filter(outil => {
-    const content = `${outil.nom} ${outil.description}`.toLowerCase();
+    const content = `${outil.n} ${outil.d}`.toLowerCase();
     return content.includes(query.toLowerCase());
   });
 
@@ -146,11 +146,11 @@ function displayResults(results) {
   }
 
   container.innerHTML = results.map(r => {
-    const slug = slugify(r.nom);
+    //const slug = slugify(r.slug);
     return `
-      <a href="outil/${slug}" class="block px-6 py-4 hover:bg-gray-100 dark:hover:bg-slate-700 border-b border-gray-100 dark:border-slate-600">
-        <strong class="text-blue-600 dark:text-blue-500">${r.nom}</strong><br>
-        <span class="text-sm text-gray-500 dark:text-slate-300">${r.description}</span>
+      <a href="outil/${r.s}" class="block px-6 py-4 hover:bg-gray-100 dark:hover:bg-slate-700 border-b border-gray-100 dark:border-slate-600">
+        <strong class="text-blue-600 dark:text-blue-500">${r.n}</strong><br>
+        <span class="text-sm text-gray-500 dark:text-slate-300">${r.d}</span>
       </a>
     `;
   }).join('');
