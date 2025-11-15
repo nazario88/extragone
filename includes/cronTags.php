@@ -44,7 +44,7 @@ foreach ($tools as $tool) {
         Règles :
         - Les tags doivent venir EXCLUSIVEMENT de cette liste.
         - Évite les tags génériques si un tag plus spécifique s’applique.
-        - Utilise le tag \"productivité\" uniquement si l’outil aide directement à gagner du temps, à automatiser une tâche ou à mieux s’organiser.
+        - Utilise le tag \"productivité\" uniquement si l’outil aide à automatiser une tâche ou à mieux s’organiser.
         - Réponds uniquement au format JSON, par exemple :
           [\"design\",\"photo\",\"marketing\"]
         
