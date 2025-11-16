@@ -50,7 +50,7 @@ include 'includes/header.php';
     <?=$message?>
 </div>
 <div class="flex items-center justify-center">
-    <div class="p-6 rounded-2xl shadow-lg w-full md:w-1/2">
+    <div class="p-6 bg-slate-100 rounded-xl shadow border border-slate-200 dark:bg-slate-800 dark:border-slate-700 w-full md:w-1/2">
         <form method="post" name="add_tool">
             <!-- Nom -->
             <div class="mb-4">

@@ -49,7 +49,7 @@ $articles = $stmt->fetchAll();
             for="search-bar">
 
             <input id="search-bar" placeholder="Exemple: ChatGPT, Slack, Notion, &hellip;" name="q"
-                class="px-6 py-2 w-full rounded-md flex-1 outline-none bg-white dark:bg-slate-800"   oninput="handleSearch(this.value)" required="">
+                class="px-6 py-2 w-full rounded-md flex-1 outline-none bg-white dark:bg-slate-800" autofocus oninput="handleSearch(this.value)" required="">
             <button type="submit"
                 class="w-full md:w-auto px-6 py-3 bg-blue-500 border-blue-600 dark:bg-slate-900 dark:border-slate-950 text-white fill-white active:scale-95 duration-100 border will-change-transform overflow-hidden relative rounded-xl transition-all">
                 <div class="flex items-center transition-all opacity-1">
@@ -68,10 +68,10 @@ $articles = $stmt->fetchAll();
 
 
     <!-- Separateur -->
-    <hr class="mt-16 h-[1px] border-0 bg-gradient-to-r from-primary via-white to-secondary">
+    <hr class="my-8 h-[1px] border-0 bg-gradient-to-r from-primary via-white to-secondary">
 
     <!-- Explications -->
-    <div class="w-full px-5 py-5">
+    <div class="w-full mb-8 px-5 py-5 bg-slate-100 rounded-xl shadow border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
         <h2 class="font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">extragone, c'est quoi ?</h2>
         <div class="flex gap-4 m-2">
             <div class="hidden text-center md:flex md:items-center w-[100px]"><i class="my-auto fa-solid fa-question text-primary text-xl md:text-4xl"></i></div>
@@ -87,7 +87,7 @@ $articles = $stmt->fetchAll();
     </div>
 
     <!-- Plugin -->
-    <div class="w-full px-5 py-5">
+    <div class="w-full mb-8 px-5 py-5 bg-slate-100 rounded-xl shadow border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
         <h2 class="font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">Un plugin, vraiment ?</h2>
         <div class="flex gap-4 m-2">
             <div class="hidden text-center md:flex md:items-center w-[100px]"><i class="my-auto fab fa-chrome text-primary text-xl md:text-4xl"></i></div>
@@ -103,7 +103,7 @@ $articles = $stmt->fetchAll();
     </div>
 
     <!-- Nomi -->
-    <div class="w-full px-5 py-5">
+    <div class="w-full px-5 py-5 bg-slate-100 rounded-xl shadow border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
         <h2 class="font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">tu cherches un nom pour ton projet ?</h2>
         <div class="flex gap-4 m-2">
             <div class="hidden text-center md:flex md:items-center w-[100px]">
@@ -121,10 +121,10 @@ $articles = $stmt->fetchAll();
     </div>
 
     <!-- Separateur -->
-    <hr class="mt-16 h-[1px] border-0 bg-gradient-to-r from-primary via-white to-secondary">
+    <hr class="my-8 h-[1px] border-0 bg-gradient-to-r from-primary via-white to-secondary">
 
     <!-- Derniers articles -->
-    <div class="w-full px-5 py-5">
+    <div class="w-full mb-8 px-5 py-5 bg-slate-100 rounded-xl shadow border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
         <h2 class="font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">derniers articles</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 rounded-xl relative z-20 p-8 sm:p-4">
             <!-- Articles -->

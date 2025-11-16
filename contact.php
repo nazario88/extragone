@@ -60,77 +60,75 @@ $url_canon = 'https://www.extrag.one/contact';
 include 'includes/header.php';
 ?>
 
-<div class="w-full px-5 py-5">
+<div class="w-full p-5">
     <p class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">&rarr; a propos</p>
-    <h1 class="mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
+    <h1 class="my-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
         En savoir + sur eXtragone
     </h1>
     <?=$message?>
-</div>
 
-<!-- A propos -->
-<div class="w-full px-5">
-    <p class="p-2 m-2">
-        Le projet vise à mettre en avant les outils web français, qui peuvent constituer des alternatives sérieuses. L'idée n'est pas de remplacer l'ensemble de vos outils par des solutions 100 % françaises, mais plutôt de vous faire découvrir nos propres outils. Se tourner vers des sites français dans un premier temps nous semble être une bonne démarche. Ces outils seront conformes aux exigences réglementaires (RGPD, etc.) et contribueront à renforcer le marché local.
-    </p>
-    <p class="p-2 m-2">
-        &rarr; Dans le même registre, le site <a href="https://european-alternatives.eu" target="_blank" class="border-b-2 border-blue-500 hover:border-dotted">european-alternatives.eu</a> recense les outils européens.
-    </p>
-    <p class="p-2 m-2">
-        Ah, et l'outil a été conçu à Nantes, en France 😅. Il est hébergé sur les serveurs français d'<a href="outil/ovh">OVH</a>.
-    </p>
-</div>
+    <!-- A propos -->
+    <div class="w-full px-5 py-5 bg-slate-100 rounded-xl shadow border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+        <p class="p-2 m-2">
+            Le projet vise à mettre en avant les outils web français, qui peuvent constituer des alternatives sérieuses. L'idée n'est pas de remplacer l'ensemble de vos outils par des solutions 100 % françaises, mais plutôt de vous faire découvrir nos propres outils. Se tourner vers des sites français dans un premier temps nous semble être une bonne démarche. Ces outils seront conformes aux exigences réglementaires (RGPD, etc.) et contribueront à renforcer le marché local.
+        </p>
+        <p class="p-2 m-2">
+            &rarr; Dans le même registre, le site <a href="https://european-alternatives.eu" target="_blank" class="border-b-2 border-blue-500 hover:border-dotted">european-alternatives.eu</a> recense les outils européens.
+        </p>
+        <p class="p-2 m-2">
+            Ah, et l'outil a été conçu à Nantes, en France 😅. Il est hébergé sur les serveurs français d'<a href="outil/ovh">OVH</a>.
+        </p>
+    </div>
 
-<!-- Separateur -->
-<hr class="h-[1px] border-0 bg-gradient-to-r from-primary via-white to-secondary">
+    <!-- Separateur -->
+    <hr class="my-8 h-[1px] border-0 bg-gradient-to-r from-primary via-white to-secondary">
 
-<div class="w-full px-5 py-5">
-    <p class="p-2 m-2">
-        Pour nous contacter, utilisez le formulaire ci-dessous en renseignant vos coordonnées pour être recontacté.
-    </p>
-</div>
-
-<script>
-function validForm() {
-      const form = document.getElementById('contactForm');
-      grecaptcha.ready(function() {
-        grecaptcha.execute('<?=$_ENV['RECAPTCHA_SITE_KEY'];?>', {action: 'submit'}).then(function(token) {
-            // Add your logic to submit to your backend server here.
-            document.getElementById("recaptcha-token").value = token;
-            form.requestSubmit();
+    <p class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">&rarr; envoyer un message</p>
+    <h2 class="my-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
+        Prendre contact avec nous
+    </h2>
+    <script>
+    function validForm() {
+        const form = document.getElementById('contactForm');
+        grecaptcha.ready(function() {
+            grecaptcha.execute('<?=$_ENV['RECAPTCHA_SITE_KEY'];?>', {action: 'submit'}).then(function(token) {
+                // Add your logic to submit to your backend server here.
+                document.getElementById("recaptcha-token").value = token;
+                form.requestSubmit();
+            });
         });
-      });
-}
-</script>
+    }
+    </script>
 
-<div class="flex items-center justify-center">
-    <div class="p-6 rounded-2xl shadow-lg w-full md:w-1/2">
-        <form method="post" id="contactForm">
-            <!-- Nom -->
-            <div class="mb-4">
-                <label for="nom" class="block font-medium">Votre prénom/nom</label>
-                <input type="text" id="nom" name="nom" value="" placeholder="Prénom et nom" class="w-full px-3 py-1 rounded-md text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring" required minlength="5">
-            </div>
+    <div class="flex items-center justify-center">
+        <div class="w-full px-5 py-5 bg-slate-100 rounded-xl shadow border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+            <form method="post" id="contactForm">
+                <!-- Nom -->
+                <div class="mb-4">
+                    <label for="nom" class="block font-medium">Votre prénom/nom</label>
+                    <input type="text" id="nom" name="nom" value="" placeholder="Prénom et nom" class="w-full px-3 py-1 rounded-md text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring" required minlength="5">
+                </div>
 
-            <!-- Email -->
-            <div class="mb-4">
-                <label for="email" class="block font-medium">Votre email</label>
-                <input type="email" id="email" name="email" value="" placeholder="john.doe@extrag.one" class="w-full px-3 py-1 rounded-md text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring" required minlength="5">
-            </div>
+                <!-- Email -->
+                <div class="mb-4">
+                    <label for="email" class="block font-medium">Votre email</label>
+                    <input type="email" id="email" name="email" value="" placeholder="john.doe@extrag.one" class="w-full px-3 py-1 rounded-md text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring" required minlength="5">
+                </div>
 
-            <!-- Description courte -->
-            <div class="mb-4">
-                <label for="message" class="block font-medium">Votre message</label>
-                <textarea id="message" name="message" placeholder="Votre message" rows=5 class="w-full px-3 py-1 rounded-md text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring" required minlength="20"></textarea>
-            </div>
+                <!-- Description courte -->
+                <div class="mb-4">
+                    <label for="message" class="block font-medium">Votre message</label>
+                    <textarea id="message" name="message" placeholder="Votre message et vos coordonnées" rows=5 class="w-full px-3 py-1 rounded-md text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring" required minlength="20"></textarea>
+                </div>
 
-            <!-- Submit Button -->
-            <div>
-                <input type="hidden" name="recaptcha_token" id="recaptcha-token">
-                <button type="button" onclick="validForm()" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-700 transition"><i class="fa-solid fa-check"></i> Valider</button>
-            </div>
+                <!-- Submit Button -->
+                <div>
+                    <input type="hidden" name="recaptcha_token" id="recaptcha-token">
+                    <button type="button" onclick="validForm()" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-700 transition"><i class="fa-solid fa-check"></i> Valider</button>
+                </div>
 
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 
