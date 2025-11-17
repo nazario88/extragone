@@ -17,9 +17,27 @@ if (!isset($input['domain'])) {
     exit;
 }
 
-$domain = strtolower(trim($input['domain']));
+$rawDomain = trim($input['domain']);
+$domain    = strtolower($rawDomain);
 
-// Validation du domaine
+// Normalisation du nom de domaine
+$domain = str_replace(
+    ['é','è','ê','ë','à','â','ä','ô','ö','ù','û','ü','î','ï','ç',' '],
+    ['e','e','e','e','a','a','a','o','o','u','u','u','i','i','c','-'],
+    $domain
+);
+$domain = preg_replace('/\s+/', '-', $domain);                    // espaces → tirets
+$domain = preg_replace('/[^a-z0-9\.\-]/', '', $domain);           // que alphanum + . + -
+$domain = trim($domain, '-');                                     // pas de tiret début/fin
+$domain = preg_replace('/\-+/', '-', $domain);                    // pas de doubles tirets
+$domain = trim($domain, '.');                                     // sécurité
+
+if ($domain === '' || $domain === '.') {
+    echo json_encode(['error' => 'Domain cannot be empty', 'available' => false]);
+    exit;
+}
+
+// Validation finale
 if (!filter_var($domain, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
     echo json_encode(['error' => 'Invalid domain format', 'available' => false]);
     exit;
