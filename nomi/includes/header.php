@@ -78,18 +78,12 @@ if(!isset($noindex)) $noindex = FALSE;
       })();
     </script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y899RD39ZS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-Y899RD39ZS');
-    </script>
+    <!-- Statistiques -->
+    <script src="https://www.extrag.one/assets/js/analytics.js" defer></script>
 
     <!-- FontAwesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="https://www.extrag.one/assets/fontawesome-solid/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://www.extrag.one/assets/fontawesome-solid/css/solid.min.css">
     
   </head>
   <body class="bg-slate-50 text-slate-900 dark:bg-gray-900 dark:text-white min-h-screen flex flex-col">
