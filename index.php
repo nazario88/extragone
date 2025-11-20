@@ -107,7 +107,7 @@ $articles = $stmt->fetchAll();
         <h2 class="font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">tu cherches un nom pour ton projet ?</h2>
         <div class="flex gap-4 m-2">
             <div class="hidden text-center md:flex md:items-center w-[100px]">
-                <i class="my-auto fas fa-lightbulb text-primary text-xl md:text-4xl"></i>
+                <i class="my-auto fa-solid fa-lightbulb text-primary text-xl md:text-4xl"></i>
             </div>
             <p class="text-sm text-justify">
                 <span class="font-bold">Nomi génère le nom parfait pour ton projet !</span> Décris ton idée en quelques mots et laisse l'IA générer des dizaines de propositions créatives, avec explications et vérification de disponibilité. Des noms organisés par thèmes, la disponibilité des domaines vérifiée automatiquement, et un partage facile de tes favoris.
@@ -115,7 +115,7 @@ $articles = $stmt->fetchAll();
         </div>
         <p class="mt-3">
             <a href="https://nomi.extrag.one/" role="button" class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-700 transition">
-                <i class="fas fa-magic"></i> Générer des noms avec Nomi
+                <i class="fa-solid fa-magic"></i> Générer des noms avec Nomi
             </a>
         </p>
     </div>
