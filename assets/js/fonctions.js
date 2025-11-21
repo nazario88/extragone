@@ -108,14 +108,14 @@ function slugify(text) {
 
 /* Recherche lors de la saisie
 ——————————————————————————————————————————————————*/
-let outils = [];
+let outilsData = [];
 
 window.addEventListener('DOMContentLoaded', () => {
   fetch('https://www.extrag.one/includes/get-outils.php')
     .then(response => response.json())
     .then(data => {
-      outils = data;
-      //displayResults(outils); //A décommenter pour afficher tous les outils d'un coup (et tester)
+      outilsData = data;
+      //displayResults(outilsData); //A décommenter pour afficher tous les outilsData d'un coup (et tester)
     });
 });
 function handleSearch(query) {
@@ -128,7 +128,7 @@ function handleSearch(query) {
     return;
   }
 
-  const results = outils.filter(outil => {
+  const results = outilsData.filter(outil => {
     const content = `${outil.n} ${outil.d}`.toLowerCase();
     return content.includes(query.toLowerCase());
   });
