@@ -61,7 +61,7 @@ $articles = $stmt->fetchAll();
         </label>
     </form>
     <!-- Résultats dynamiques -->
-    <div id="search-results" class="hidden w-full max-w-3xl mx-auto bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-2xl shadow-lg absolute">
+    <div id="search-results" class="hidden z-50 w-full max-w-3xl mx-auto bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-2xl shadow-lg absolute">
       <!-- Les résultats JS viendront ici -->
     </div>
 </div>
