@@ -83,7 +83,7 @@ if(substr($image_seo, 0,5) !== 'https') {
     </script>
 
     <?php
-    if(!is_admin_logged_in()) {
+    if(!is_admin_logged_in() && basename($_SERVER['PHP_SELF']) !== 'login.php') {
       ?>
     <!-- Statistiques -->
     <script src="https://www.extrag.one/assets/js/analytics.js" defer></script>
