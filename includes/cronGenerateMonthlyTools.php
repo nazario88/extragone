@@ -273,7 +273,7 @@ foreach ($tools as $t) {
     &lt;td&gt;<?= htmlspecialchars($o['description_courte'] ?: '–') ?>&lt;/td&gt;
     &lt;td style="text-align:center;"&gt;<?= $prixStr ?>&lt;/td&gt;
     &lt;td style="text-align:center;"&gt;<?= $fr ?>&lt;/td&gt;
-    &lt;td style="text-align:center;"&gt;&lt;a href="<?= $link ?>" style="background:#3a3a3a; color:#ffab3f; padding:8px 16px; border-radius:6px; text-decoration:none; font-weight:bold;"&gt;Voir l’outil&lt;/a&gt;&lt;/td&gt;
+    &lt;td style="text-align:center;"&gt;&lt;a href="<?= $link ?>" style="background:#3a3a3a; color:#ffab3f; padding:8px 16px; border-radius:6px; text-decoration:none; font-weight:bold;"&gt;Voir l'outil&lt;/a&gt;&lt;/td&gt;
 &lt;/tr&gt;
 <?php endforeach; ?>
 &lt;/tbody&gt;
