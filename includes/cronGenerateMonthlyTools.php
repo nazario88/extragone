@@ -2,11 +2,11 @@
 // generate-monthly-tools.php
 // Objectif unique : sortir un JSON + une image mosaïque pour n8n
 
-/*
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-*/
+
 
 date_default_timezone_set('Europe/Paris');
 header('Content-Type: application/json; charset=utf-8');
@@ -194,22 +194,202 @@ function generateMosaicAndReturnPath(array $tools): string {
     return 'https://extrag.one/cache/month-tools/' . $file;
 }
 
-// Fonction arrondi (à garder une seule fois dans le fichier)
-function imagefilledroundedrect($img, $x1, $y1, $x2, $y2, $r, $c) {
-    imagefilledrectangle($img, $x1+$r, $y1,    $x2-$r, $y2, $c);
-    imagefilledrectangle($img, $x1,    $y1+$r, $x2,    $y2-$r, $c);
-    imagefilledellipse($img, $x1+$r, $y1+$r, $r*2, $r*2, $c);
-    imagefilledellipse($img, $x2-$r, $y1+$r, $r*2, $r*2, $c);
-    imagefilledellipse($img, $x1+$r, $y2-$r, $r*2, $r*2, $c);
-    imagefilledellipse($img, $x2-$r, $y2-$r, $r*2, $r*2, $c);
-}
-
 $cover_url = generateMosaicAndReturnPath($tools);
 
-// ================================================================
-// 3. Réponse JSON pour n8n
-// ================================================================
+// =======================================================
+// 3. Génération du titre + contenu HTML de l'article WordPress
+// =======================================================
+$mois_fr = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+$month_fr = $mois_fr[date('n')-1] . ' ' . date('Y');
 
+$total_tools = count($tools);
+
+$titre_article = "$total_tools nouveau" . ($total_tools > 1 ? 'x' : '') . " outil" . ($total_tools > 1 ? 's' : '') . " – $month_fr";
+
+// Regroupement par catégorie (au cas où ce ne serait pas déjà fait)
+$tools_by_cat = [];
+foreach ($tools as $t) {
+    $cat = $t['category'] ?: 'Autres';
+    $tools_by_cat[$cat][] = $t;
+}
+
+// === Génération du HTML ===
+$html = '<p style="font-size:18px;"><strong>' . $total_tools . ' nouveau' . ($total_tools > 1 ? 'x' : '') . ' outil' . ($total_tools > 1 ? 's' : '') . '</strong> découverts en <strong>' . $month_fr . '</strong> !</p>';
+$html .= '<p>Ci-dessous le récap mensuel, mis à jour automatiquement chaque 25 du mois.</p><hr><br>';
+
+foreach ($tools_by_cat as $cat => $outils) {
+    $html .= '<h2 style="color:#0066ff; border-bottom:2px solid #0066ff; padding-bottom:8px;">' . htmlspecialchars($cat) . ' <span style="font-size:0.6em; color:#555;">(' . count($outils) . ')</span></h2>';
+
+    $html .= '<div style="overflow-x:auto; margin:20px 0;">
+<table width="100%" cellpadding="12" cellspacing="0" style="border-collapse:collapse; background:#f8f9fa; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+<thead>
+<tr style="background:#0066ff; color:white; text-align:left;">
+    <th style="border-radius:12px 0 0 0;">Logo</th>
+    <th>Outil</th>
+    <th>Description</th>
+    <th>Prix</th>
+    <th>FR</th>
+    <th style="border-radius:0 12px 0 0;"></th>
+</tr>
+</thead>
+<tbody>';
+
+    foreach ($outils as $o) {
+        $link   = 'https://extrag.one/outil/' . $o['slug'];
+        $logo   = !empty($o['logo']) ? 'https://extrag.one/' . $o['logo'] : '';
+        $logoImg = $logo ? '<img src="'.$logo.'" width="48" height="48" style="border-radius:8px; vertical-align:middle;" alt="'.htmlspecialchars($o['nom']).'">' : '–';
+
+        $prix = [];
+        if ($o['is_free']) $prix[] = 'Gratuit';
+        if ($o['is_paid']) $prix[] = 'Payant';
+        $prixStr = $prix ? implode(' / ', $prix) : '–';
+
+        $fr = $o['is_french'] ? '<strong style="color:#0066ff;">FR</strong>' : 'Non';
+
+        $desc = htmlspecialchars($o['description_courte'] ?? '');
+
+        $html .= '<tr style="border-bottom:1px solid #eee;">
+    <td>'.$logoImg.'</td>
+    <td><strong><a href="'.$link.'" target="_blank" style="color:#0066ff; text-decoration:none;">'.htmlspecialchars($o['nom']).'</a></strong></td>
+    <td>'.$desc.'</td>
+    <td style="text-align:center;">'.$prixStr.'</td>
+    <td style="text-align:center;">'.$fr.'</td>
+    <td><a href="'.$link.'" target="_blank" style="background:#0066ff; color:white; padding:10px 18px; border-radius:8px; text-decoration:none; font-weight:bold; display:inline-block;">+ d’info</a></td>
+</tr>';
+    }
+
+    $html .= '</tbody></table></div><br><br>';
+}
+
+// Outro
+$html .= '<p style="font-size:16px; color:#555;">
+    Prochain récap le 25 du mois prochain !<br>
+    <a href="https://twitter.com/extragone">Suis-nous sur Twitter</a> • 
+    <a href="https://www.linkedin.com/company/extragone">LinkedIn</a> • 
+    <a href="https://extrag.one/newsletter">Newsletter</a>
+</p>';
+
+/*
+MARCHE PAS ERREUR 500 et pas d'affichages
+déplacer ce fichier sur le serveur WordPress et utiliser wp-load.php ?
+Ou aller le chercher ici directement ?
+*/
+
+// =======================================================
+// 4. Publication directe sur WordPress via REST API (même serveur)
+// =======================================================
+function publishToMyWordPress(string $title, string $content, string $imageUrl, string $month_fr): ?string
+{
+    $wp_url      = 'https://innospira.fr';                    // Change si différent
+    $username    = 'CronPHPMonthWP';                            // Change
+    $appPassword = 'Z8KN edyI aeTo MYGH t2TO Chzg';           // Change (avec espaces)
+
+    echo "Début publication WordPress...\n";
+
+    // 1. Upload de l'image
+    echo "Upload de l'image : $imageUrl\n";
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL            => $wp_url . '/wp-json/wp/v2/media',
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => file_get_contents($imageUrl),
+        CURLOPT_HTTPHEADER     => [
+            'Content-Disposition: attachment; filename="cover-' . date('Y-m') . '.webp"',
+            'Content-Type: image/webp',
+            'Authorization: Basic ' . base64_encode($username . ':' . $appPassword)
+        ],
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_TIMEOUT        => 30,
+        CURLOPT_HEADER         => true,           // pour voir les headers
+    headers
+    ]);
+
+    $rawResponse = curl_exec($ch);
+    $headerSize  = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $httpCode    = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $header      = substr($rawResponse, 0, $headerSize);
+    $body        = substr($rawResponse, $headerSize);
+
+    if ($httpCode !== 201) {
+        echo "Échec upload image – Code HTTP : $httpCode\n";
+        echo "Réponse : " . substr($body, 0, 500) . "\n";
+        $featuredId = 0;
+    } else {
+        $media = json_decode($body, true);
+        $featuredId = $media['id'] ?? 0;
+        echo "Image uploadée avec succès – ID média : $featuredId\n";
+    }
+
+    // 2. Création du post
+    $data = [
+        'title'          => $title,
+        'content'        => $content,
+        'status'         => 'draft',
+        'slug'           => 'outils-' . strtolower(str_replace(' ', '-', $month_fr)),
+        'featured_media' => $featuredId,
+        'categories'     => [12], // Change l'ID si besoin
+    ];
+
+    curl_setopt_array($ch, [
+        CURLOPT_URL            => $wp_url . '/wp-json/wp/v2/posts',
+        CURLOPT_POSTFIELDS     => json_encode($data),
+        CURLOPT_HTTPHEADER     => [
+            [
+            'Content-Type: application/json',
+            'Authorization: Basic ' . base64_encode($username . ':' . $appPassword)
+        ],
+    ]);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    echo "Code HTTP création post : $httpCode\n";
+    echo "Réponse brute : " . substr($response, 0, 800) . "\n";
+
+    if ($httpCode === 201) {
+        $post = json_decode($response, true);
+        $link = $post['link'] ?? 'inconnu';
+        echo "ARTICLE PUBLIÉ AVEC SUCCÈS : $link\n";
+        return $link;
+    } else {
+        echo "ÉCHEC CRÉATION POST – Code : $httpCode\n";
+        return null;
+    }
+}
+
+function uploadMedia(string $wp_url, string $user, string $pass, string $imageUrl): ?array
+{
+    $ch = curl_init($wp_url . '/wp-json/wp/v2/media');
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_HTTPHEADER     => [
+            'Content-Disposition: attachment; filename="cover-' . date('Y-m') . '.webp"',
+            'Authorization: Basic ' . base64_encode($user . ':' . $pass)
+        ],
+        CURLOPT_POSTFIELDS     => file_get_contents($imageUrl),
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+    ]);
+
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    return json_decode($response, true) ?: null;
+}
+
+// Utilisation à la fin de ton script
+$articleUrl = publishToMyWordPress($titre_article, $html, $cover_url, $month_fr);
+
+if ($articleUrl) {
+    echo "Article publié : $articleUrl\n";
+    // Ici tu peux faire tes posts LinkedIn / X avec ce lien
+} else {
+    echo "Échec publication WordPress\n";
+}
+
+/*
 $mois_fr = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 $month_fr = $mois_fr[date('n')-1] . ' ' . date('Y');
 
@@ -223,3 +403,4 @@ echo json_encode([
     'raw_tools'       => $tools, // si jamais tu veux tout
     'generated_at'    => date('c')
 ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+*/
