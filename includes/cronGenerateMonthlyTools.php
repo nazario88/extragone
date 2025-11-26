@@ -2,14 +2,11 @@
 // generate-monthly-tools.php
 // Objectif unique : sortir un JSON + une image mosaïque pour n8n
 
-
+/*
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
-
-date_default_timezone_set('Europe/Paris');
-header('Content-Type: application/json; charset=utf-8');
+*/
 
 include __DIR__ . '/config.php'; // $pdo obligatoirement défini
 
@@ -202,7 +199,9 @@ $cover_url = generateMosaicAndReturnPath($tools);
 $mois_fr = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 $month_fr = $mois_fr[date('n')-1] . ' ' . date('Y');
 
-$total_tools = count($tools);
+$total = count($tools);
+$total_tools = $total;
+$mois_actuel = $mois_fr[date('n')-1] . ' ' . date('Y');
 
 $titre_article = "$total_tools nouveau" . ($total_tools > 1 ? 'x' : '') . " outil" . ($total_tools > 1 ? 's' : '') . " – $month_fr";
 
@@ -214,193 +213,95 @@ foreach ($tools as $t) {
 }
 
 // === Génération du HTML ===
-$html = '<p style="font-size:18px;"><strong>' . $total_tools . ' nouveau' . ($total_tools > 1 ? 'x' : '') . ' outil' . ($total_tools > 1 ? 's' : '') . '</strong> découverts en <strong>' . $month_fr . '</strong> !</p>';
-$html .= '<p>Ci-dessous le récap mensuel, mis à jour automatiquement chaque 25 du mois.</p><hr><br>';
+// === 2. Génération du HTML propre ===
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Récap outils <?= htmlspecialchars($mois_actuel) ?> – Copier ce HTML</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
+        pre { background: white; padding: 20px; border: 1px solid #ddd; border-radius: 8px; height: 200px; overflow: auto; }
+    </style>
+</head>
+<body>
 
-foreach ($tools_by_cat as $cat => $outils) {
-    $html .= '<h2 style="color:#0066ff; border-bottom:2px solid #0066ff; padding-bottom:8px;">' . htmlspecialchars($cat) . ' <span style="font-size:0.6em; color:#555;">(' . count($outils) . ')</span></h2>';
+<h2>Récapitulatif du mois de <?= htmlspecialchars($mois_actuel) ?> (<?= $total ?> nouvel<?= $total > 1 ? 's' : '' ?> outil<?= $total > 1 ? 's' : '' ?>)</h2>
+<p>
+    <img src="<?= htmlspecialchars($cover_url) ?>" alt="Mosaïque des nouveaux outils de <?= htmlspecialchars($mois_actuel) ?>" style="max-width:50%; height:auto; border:1px solid #ddd; border-radius:8px;">
+</p>
+<p><strong>Copiez tout le code HTML ci-dessous</strong> et collez-le dans un bloc "HTML personnalisé" dans WordPress :</p>
 
-    $html .= '<div style="overflow-x:auto; margin:20px 0;">
-<table width="100%" cellpadding="12" cellspacing="0" style="border-collapse:collapse; background:#f8f9fa; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.08);">
-<thead>
-<tr style="background:#0066ff; color:white; text-align:left;">
-    <th style="border-radius:12px 0 0 0;">Logo</th>
-    <th>Outil</th>
-    <th>Description</th>
-    <th>Prix</th>
-    <th>FR</th>
-    <th style="border-radius:0 12px 0 0;"></th>
-</tr>
-</thead>
-<tbody>';
+<pre id="code-to-copy" style="background:#fff; padding:20px; border:1px solid #ddd; border-radius:8px; white-space: pre; overflow-x:auto; font-family:Consolas,Monaco,monospace; font-size:14px;">
+&lt;p style="font-size:18px;"&gt;&lt;strong&gt;<?= $total ?> nouvel<?= $total > 1 ? 's' : '' ?> outil<?= $total > 1 ? 's' : '' ?>&lt;/strong&gt; découvert<?= $total > 1 ? 's' : '' ?> en &lt;strong&gt;<?= $mois_actuel ?>&lt;/strong&gt; !&lt;/p&gt;
 
-    foreach ($outils as $o) {
-        $link   = 'https://extrag.one/outil/' . $o['slug'];
-        $logo   = !empty($o['logo']) ? 'https://extrag.one/' . $o['logo'] : '';
-        $logoImg = $logo ? '<img src="'.$logo.'" width="48" height="48" style="border-radius:8px; vertical-align:middle;" alt="'.htmlspecialchars($o['nom']).'">' : '–';
+&lt;p&gt;Voici le récapitulatif mensuel des nouveaux outils ajoutés sur eXtrag.one ce mois-ci :&lt;/p&gt;
 
-        $prix = [];
-        if ($o['is_free']) $prix[] = 'Gratuit';
-        if ($o['is_paid']) $prix[] = 'Payant';
-        $prixStr = $prix ? implode(' / ', $prix) : '–';
+&lt;hr&gt;
 
-        $fr = $o['is_french'] ? '<strong style="color:#0066ff;">FR</strong>' : 'Non';
+<?php foreach ($tools_by_cat as $categorie => $outils): ?>
+&lt;h2&gt;<?= htmlspecialchars($categorie) ?> &lt;small style="color:#666;"&gt;(<?= count($outils) ?>)&lt;/small&gt;&lt;/h2&gt;
 
-        $desc = htmlspecialchars($o['description_courte'] ?? '');
+&lt;table width="100%" cellpadding="12" cellspacing="0" style="border-collapse:collapse; border:1px solid #ddd; background:#fff; margin-bottom:30px;"&gt;
+&lt;thead&gt;
+&lt;tr style="background:#0066ff; color:white; text-align:left;"&gt;
+    &lt;th width="80"&gt;Logo&lt;/th&gt;
+    &lt;th&gt;Outil&lt;/th&gt;
+    &lt;th&gt;Description&lt;/th&gt;
+    &lt;th width="100"&gt;Prix&lt;/th&gt;
+    &lt;th width="60"&gt;FR&lt;/th&gt;
+    &lt;th width="120"&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+<?php foreach ($outils as $o):
+    $link = 'https://extrag.one/outil/' . $o['slug'];
+    $logo = !empty($o['logo']) ? 'https://extrag.one/' . $o['logo'] : '';
+    $logoImg = $logo ? '&lt;img src="'.$logo.'" width="48" height="48" alt="'.htmlspecialchars($o['nom']).'" style="border-radius:6px;"&gt;' : '–';
 
-        $html .= '<tr style="border-bottom:1px solid #eee;">
-    <td>'.$logoImg.'</td>
-    <td><strong><a href="'.$link.'" target="_blank" style="color:#0066ff; text-decoration:none;">'.htmlspecialchars($o['nom']).'</a></strong></td>
-    <td>'.$desc.'</td>
-    <td style="text-align:center;">'.$prixStr.'</td>
-    <td style="text-align:center;">'.$fr.'</td>
-    <td><a href="'.$link.'" target="_blank" style="background:#0066ff; color:white; padding:10px 18px; border-radius:8px; text-decoration:none; font-weight:bold; display:inline-block;">+ d’info</a></td>
-</tr>';
-    }
+    $prix = [];
+    if ($o['is_free']) $prix[] = 'Gratuit';
+    if ($o['is_paid']) $prix[] = 'Payant';
+    $prixStr = $prix ? implode(' / ', $prix) : '–';
 
-    $html .= '</tbody></table></div><br><br>';
+    $fr = $o['is_french'] ? 'Oui' : 'Non';
+?>
+&lt;tr style="border-bottom:1px solid #eee;"&gt;
+    &lt;td&gt;<?= $logoImg ?>&lt;/td&gt;
+    &lt;td&gt;&lt;strong&gt;&lt;a href="<?= $link ?>"&gt;<?= htmlspecialchars($o['nom']) ?>&lt;/a&gt;&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;<?= htmlspecialchars($o['description_courte'] ?: '–') ?>&lt;/td&gt;
+    &lt;td style="text-align:center;"&gt;<?= $prixStr ?>&lt;/td&gt;
+    &lt;td style="text-align:center;"&gt;<?= $fr ?>&lt;/td&gt;
+    &lt;td style="text-align:center;"&gt;&lt;a href="<?= $link ?>" style="background:#3a3a3a; color:#ffab3f; padding:8px 16px; border-radius:6px; text-decoration:none; font-weight:bold;"&gt;Voir l’outil&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+<?php endforeach; ?>
+&lt;/tbody&gt;
+&lt;/table&gt;
+<?php endforeach; ?>
+
+&lt;p style="color:#555; font-size:15px; margin-top:40px;"&gt;
+    Prochain récap le 25 du mois prochain !&lt;br&gt;&lt;br&gt;
+    &lt;a href="https://twitter.com/extragone"&gt;Twitter&lt;/a&gt; • 
+    &lt;a href="https://www.linkedin.com/company/extragone"&gt;LinkedIn&lt;/a&gt; • 
+    &lt;a href="https://extrag.one/newsletter"&gt;Newsletter&lt;/a&gt;
+&lt;/p&gt;
+</pre>
+
+<p style="margin-top:20px;">
+    <button onclick="selectCode()" style="padding:10px 20px; background:#0066ff; color:white; border:none; border-radius:6px; cursor:pointer;">Sélectionner tout le code</button>
+    <small style="margin-left:20px; color:#555;">(puis Ctrl+C pour copier)</small>
+</p>
+
+<script>
+function selectCode() {
+    var range = document.createRange();
+    range.selectNode(document.getElementById('code-to-copy'));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
 }
+</script>
 
-// Outro
-$html .= '<p style="font-size:16px; color:#555;">
-    Prochain récap le 25 du mois prochain !<br>
-    <a href="https://twitter.com/extragone">Suis-nous sur Twitter</a> • 
-    <a href="https://www.linkedin.com/company/extragone">LinkedIn</a> • 
-    <a href="https://extrag.one/newsletter">Newsletter</a>
-</p>';
-
-/*
-MARCHE PAS ERREUR 500 et pas d'affichages
-déplacer ce fichier sur le serveur WordPress et utiliser wp-load.php ?
-Ou aller le chercher ici directement ?
-*/
-
-// =======================================================
-// 4. Publication directe sur WordPress via REST API (même serveur)
-// =======================================================
-function publishToMyWordPress(string $title, string $content, string $imageUrl, string $month_fr): ?string
-{
-    $wp_url      = 'https://innospira.fr';                    // Change si différent
-    $username    = 'CronPHPMonthWP';                            // Change
-    $appPassword = 'Z8KN edyI aeTo MYGH t2TO Chzg';           // Change (avec espaces)
-
-    echo "Début publication WordPress...\n";
-
-    // 1. Upload de l'image
-    echo "Upload de l'image : $imageUrl\n";
-    $ch = curl_init();
-    curl_setopt_array($ch, [
-        CURLOPT_URL            => $wp_url . '/wp-json/wp/v2/media',
-        CURLOPT_POST           => true,
-        CURLOPT_POSTFIELDS     => file_get_contents($imageUrl),
-        CURLOPT_HTTPHEADER     => [
-            'Content-Disposition: attachment; filename="cover-' . date('Y-m') . '.webp"',
-            'Content-Type: image/webp',
-            'Authorization: Basic ' . base64_encode($username . ':' . $appPassword)
-        ],
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_TIMEOUT        => 30,
-        CURLOPT_HEADER         => true,           // pour voir les headers
-    headers
-    ]);
-
-    $rawResponse = curl_exec($ch);
-    $headerSize  = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    $httpCode    = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $header      = substr($rawResponse, 0, $headerSize);
-    $body        = substr($rawResponse, $headerSize);
-
-    if ($httpCode !== 201) {
-        echo "Échec upload image – Code HTTP : $httpCode\n";
-        echo "Réponse : " . substr($body, 0, 500) . "\n";
-        $featuredId = 0;
-    } else {
-        $media = json_decode($body, true);
-        $featuredId = $media['id'] ?? 0;
-        echo "Image uploadée avec succès – ID média : $featuredId\n";
-    }
-
-    // 2. Création du post
-    $data = [
-        'title'          => $title,
-        'content'        => $content,
-        'status'         => 'draft',
-        'slug'           => 'outils-' . strtolower(str_replace(' ', '-', $month_fr)),
-        'featured_media' => $featuredId,
-        'categories'     => [12], // Change l'ID si besoin
-    ];
-
-    curl_setopt_array($ch, [
-        CURLOPT_URL            => $wp_url . '/wp-json/wp/v2/posts',
-        CURLOPT_POSTFIELDS     => json_encode($data),
-        CURLOPT_HTTPHEADER     => [
-            [
-            'Content-Type: application/json',
-            'Authorization: Basic ' . base64_encode($username . ':' . $appPassword)
-        ],
-    ]);
-
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    echo "Code HTTP création post : $httpCode\n";
-    echo "Réponse brute : " . substr($response, 0, 800) . "\n";
-
-    if ($httpCode === 201) {
-        $post = json_decode($response, true);
-        $link = $post['link'] ?? 'inconnu';
-        echo "ARTICLE PUBLIÉ AVEC SUCCÈS : $link\n";
-        return $link;
-    } else {
-        echo "ÉCHEC CRÉATION POST – Code : $httpCode\n";
-        return null;
-    }
-}
-
-function uploadMedia(string $wp_url, string $user, string $pass, string $imageUrl): ?array
-{
-    $ch = curl_init($wp_url . '/wp-json/wp/v2/media');
-    curl_setopt_array($ch, [
-        CURLOPT_POST           => true,
-        CURLOPT_HTTPHEADER     => [
-            'Content-Disposition: attachment; filename="cover-' . date('Y-m') . '.webp"',
-            'Authorization: Basic ' . base64_encode($user . ':' . $pass)
-        ],
-        CURLOPT_POSTFIELDS     => file_get_contents($imageUrl),
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_FOLLOWLOCATION => true,
-    ]);
-
-    $response = curl_exec($ch);
-    curl_close($ch);
-
-    return json_decode($response, true) ?: null;
-}
-
-// Utilisation à la fin de ton script
-$articleUrl = publishToMyWordPress($titre_article, $html, $cover_url, $month_fr);
-
-if ($articleUrl) {
-    echo "Article publié : $articleUrl\n";
-    // Ici tu peux faire tes posts LinkedIn / X avec ce lien
-} else {
-    echo "Échec publication WordPress\n";
-}
-
-/*
-$mois_fr = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-$month_fr = $mois_fr[date('n')-1] . ' ' . date('Y');
-
-echo json_encode([
-    'success'          => true,
-    'month'           => date('Y-m'),
-    'month_fr'        => $mois_fr[date('n')-1] . ' ' . date('Y'),
-    'total_tools'      => count($tools),
-    'cover_image_url' => $cover_url,
-    'tools_by_category' => $by_category,
-    'raw_tools'       => $tools, // si jamais tu veux tout
-    'generated_at'    => date('c')
-], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-*/
+</body>
+</html>
+<?php
