@@ -13,7 +13,7 @@ include __DIR__ . '/config.php'; // $pdo obligatoirement défini
 // ================================================================
 // 1. Récupération des outils du mois en cours
 // ================================================================
-$premierJourMoisEnCours = date('Y-m-01');
+$debutPeriode = date('Y-m-25', strtotime('previous month'));
 
 $sql = "
     SELECT 
@@ -34,7 +34,7 @@ $sql = "
 ";
 
 $stmt = $pdo->prepare($sql);
-$stmt->execute([$premierJourMoisEnCours]);
+$stmt->execute([$debutPeriode]);
 $tools = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if (empty($tools)) {
