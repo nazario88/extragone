@@ -11,7 +11,10 @@ if (!isset($_GET['site'])) {
 include('config.php');
 
 $site = strtolower(trim($_GET['site']));
-$domain = str_replace("www.","",parse_url($site, PHP_URL_HOST));
+$urlParts = parse_url($site);
+
+$host = str_replace("www.", "", $urlParts['host'] ?? '');
+$path = $urlParts['path'] ?? '';
 
 // Exclusions pour les sous domaines différents du domaine majeur
 $exclusions = [
@@ -20,13 +23,27 @@ $exclusions = [
     'docs.google.com',
     'photos.google.com',
     'keep.google.com',
-    'drive.google.com'
+    'drive.google.com',
+    'maps.google.com',
 ];
 
-// On prends le domaine uniquement, si pas exclus dans l'array ci-dessus
-if(!in_array($domain, $exclusions)) {
-    $array = explode(".", $domain);
-    $domain = (array_key_exists(count($array) - 2, $array) ? $array[count($array) - 2] : "").".".$array[count($array) - 1];
+// 1. Cas particulier : Google Maps (google.com/maps/...)
+if ($host === 'google.com' && str_starts_with(ltrim($path, '/'), 'maps')) {
+    $domain = 'maps.google.com';
+}
+// 2. Autres exclusions classiques
+elseif (in_array($host, $exclusions)) {
+    $domain = $host;
+}
+// 3. Sinon on prend juste le domaine principal (ex: sub.site.com → site.com)
+else {
+    $parts = explode('.', $host);
+    $count = count($parts);
+    if ($count >= 2) {
+        $domain = $parts[$count - 2] . '.' . $parts[$count - 1];
+    } else {
+        $domain = $host;
+    }
 }
 
 /* Conversions pour bien matcher les résultats
@@ -35,6 +52,7 @@ if($domain == "google.com") $domain = "google.fr";
 if($domain == "notion.com") $domain = "notion.so";
 if($domain == "bubbleapps.io") $domain = "bubble.io";
 if($domain == "openai.com") $domain = "chatgpt.com";
+
 
 // Si on a un domaine, c'est OK
 if($domain) {
