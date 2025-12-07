@@ -4,7 +4,7 @@ if($base == "/eXtragone/") $base = "/eXtragone/projets/"; // dev
 if($base == "https://www.extrag.one") {
     $base = "https://projets.extrag.one"; //defaut)
     if(!isset($url_canon)) $url_canon = "https://projets.extrag.one";
-    if(!isset($image_seo)) $image_seo = "https://projets.extrag.one/images/og-default.png";
+    if(!isset($image_seo)) $image_seo = "https://projets.extrag.one/assets/images/og-image.png";
 }
 
 
@@ -39,7 +39,7 @@ $current_user = getCurrentUser();
 
     <!-- Link -->
     <link rel="canonical" href="<?=$url_canon?>" />
-    <link rel="icon" href="https://www.extrag.one/assets/img/extragone.ico">
+    <link rel="icon" href="assets/images/favicon.ico">
     
     <!-- Base -->
     <base href="<?=$base?>">
@@ -86,8 +86,7 @@ $current_user = getCurrentUser();
     <script src="https://www.extrag.one/assets/js/analytics.js" defer></script>
 
     <!-- FontAwesome CSS -->
-    <link rel="stylesheet" href="https://www.extrag.one/assets/fontawesome-solid/css/fontawesome.min.css">
-    <link rel="stylesheet" href="https://www.extrag.one/assets/fontawesome-solid/css/solid.min.css">
+    <link rel="stylesheet" href="assets/fontawesome/css/fontawesome.min.css">
     
     <style>
         @keyframes fadeIn {
@@ -108,7 +107,7 @@ $current_user = getCurrentUser();
             <!-- Logo & Titre -->
             <div class="flex items-center gap-2 md:gap-3 text-xl md:text-2xl bg-gradient-to-r from-primary to-slate-500 dark:from-slate-600 dark:to-slate-300 text-transparent bg-clip-text">
                 <a href="<?=$base?>" class="transition-transform duration-300 hover:scale-105 flex-shrink-0">
-                    <img src="https://www.extrag.one/assets/img/logo.webp" class="w-[40px] md:w-[50px]" alt="Logo eXtragone">
+                    <img src="assets/images/logo_projets.png" class="w-[40px] md:w-[50px]" alt="Logo Projets">
                 </a>
                 <div class="space-y-0">
                     <h1 class="text-lg md:text-2xl"><a href="<?=$base?>">Projets</a></h1>
@@ -148,7 +147,7 @@ $current_user = getCurrentUser();
                     <div class="relative" id="userDropdownMenu">
                         <button type="button" id="userDropdownButton" class="flex items-center gap-2 hover:text-blue-500 transition-colors">
                             <img src="<?= $current_user['avatar'] ?: $base.'/uploads/avatars/'.$current_user['display_name'] ?>" 
-                                 class="w-8 h-8 rounded-full ring-1 ring-slate-300/70 dark:ring-white/10" 
+                                 class="w-8 h-8 object-cover rounded-full ring-1 ring-slate-300/70 dark:ring-white/10" 
                                  alt="Avatar">
                             <span class="hidden lg:inline"><?= htmlspecialchars($current_user['display_name'], ENT_QUOTES, 'UTF-8') ?></span>
                             <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -231,7 +230,7 @@ $current_user = getCurrentUser();
                     
                     <div class="px-4 py-2 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                         <img src="<?= $current_user['avatar'] ?: $base.'/uploads/avatars/'.$current_user['display_name'] ?>" 
-                             class="w-8 h-8 rounded-full ring-1 ring-slate-300/70 dark:ring-white/10" 
+                             class="w-8 h-8 object-cover rounded-full ring-1 ring-slate-300/70 dark:ring-white/10" 
                              alt="Avatar">
                         <span><?= htmlspecialchars($current_user['display_name'], ENT_QUOTES, 'UTF-8') ?></span>
                     </div>

@@ -13,6 +13,12 @@ $description = "Gère ton profil et tes préférences.";
 $url_canon = 'https://projets.extrag.one/reglages';
 $noindex = TRUE;
 
+// Affichage des messages d'erreur
+if (isset($_SESSION['error'])) {
+    $message = '<div class="mx-auto text-center p-3 bg-red-100 text-red-800 rounded-xl border border-red-200 mt-4">' . $_SESSION['error'] . '</div>';
+    unset($_SESSION['error']);
+}
+
 include 'includes/header.php';
 ?>
 
@@ -24,6 +30,7 @@ include 'includes/header.php';
         <p class="text-gray-600 dark:text-gray-300">
             Gère ton profil et tes préférences de notifications
         </p>
+        <?= $message ?>
     </div>
 
     <div class="space-y-8">
@@ -47,7 +54,7 @@ include 'includes/header.php';
                         <img src="<?= $user['avatar'] ?: $base.'/uploads/avatars/'.$current_user['display_name'] ?>" 
                              id="avatar-preview"
                              alt="Avatar"
-                             class="w-24 h-24 rounded-full ring-1 ring-slate-300/70 dark:ring-white/10">
+                             class="w-24 h-24 rounded-full object-cover ring-1 ring-slate-300/70 dark:ring-white/10">
                         
                         <div>
                             <input type="file" 

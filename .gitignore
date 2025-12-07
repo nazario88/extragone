@@ -23,7 +23,7 @@ sitemaps/
 
 # Ignorer les fichiers uploadés
 projets/uploads/projects/
-
+projets/assets/fontawesome/
 # Ne pas ignorer les fichiers spécifiques
 !uploads/.htaccess
 !uploads/*.php

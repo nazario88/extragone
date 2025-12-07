@@ -132,7 +132,7 @@ include 'includes/header.php';
                         <div class="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-700">
                             <a href="membre/<?= htmlspecialchars($project['username']) ?>" class="flex items-center gap-2 hover:text-blue-500 transition-colors">
                                 <img src="<?= $project['avatar'] ?: $base.'/uploads/avatars/'.$project['display_name'] ?>" 
-                                     class="w-6 h-6 rounded-full"
+                                     class="w-6 h-6 object-cover rounded-full"
                                      alt="<?= htmlspecialchars($project['display_name']) ?>">
                                 <span class="text-sm font-medium">
                                     <?= htmlspecialchars($project['display_name']) ?>
@@ -162,7 +162,7 @@ include 'includes/header.php';
             <div class="p-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
                 <div class="flex items-start gap-3">
                     <img src="<?= $comment['avatar'] ?: $base.'/uploads/avatars/'.$comment['display_name'] ?>" 
-                         class="w-10 h-10 rounded-full"
+                         class="w-10 h-10 object-cover rounded-full"
                          alt="<?= htmlspecialchars($comment['display_name']) ?>">
                     
                     <div class="flex-1">

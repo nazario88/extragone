@@ -164,7 +164,7 @@ include '../includes/header.php';
                     
                     <div class="flex items-center gap-2 mb-4 text-xs text-gray-500">
                         <img src="<?= $project['avatar'] ?: $base.'/uploads/avatars/'.$project['display_name'] ?>" 
-                             class="w-5 h-5 rounded-full"
+                             class="w-5 h-5 object-cover rounded-full"
                              alt="<?= htmlspecialchars($project['display_name']) ?>">
                         <span><?= htmlspecialchars($project['display_name']) ?></span>
                     </div>
@@ -232,7 +232,7 @@ include '../includes/header.php';
                         
                         <div class="flex items-center gap-2 mb-4 text-xs text-gray-500">
                             <img src="<?= $project['avatar'] ?: $base.'/uploads/avatars/'.$project['display_name'] ?>" 
-                                 class="w-5 h-5 rounded-full"
+                                 class="w-5 h-5 object-cover rounded-full"
                                  alt="<?= htmlspecialchars($project['display_name']) ?>">
                             <span><?= htmlspecialchars($project['display_name']) ?></span>
                             <span>•</span>

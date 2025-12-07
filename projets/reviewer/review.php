@@ -206,7 +206,7 @@ include '../includes/header.php';
                         <span class="text-gray-500">Auteur :</span>
                         <div class="flex items-center gap-2 mt-1">
                             <img src="<?= $project['avatar'] ?: $base.'/uploads/avatars/'.$project['display_name'] ?>" 
-                                 class="w-6 h-6 rounded-full"
+                                 class="w-6 h-6 object-cover rounded-full"
                                  alt="<?= htmlspecialchars($project['display_name']) ?>">
                             <span class="font-medium"><?= htmlspecialchars($project['display_name']) ?></span>
                         </div>

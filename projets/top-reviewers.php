@@ -71,7 +71,7 @@ include 'includes/header.php';
                 <div class="relative inline-block mb-4 mt-2">
                     <img src="<?= $top_reviewers[1]['avatar'] ?: $base.'/uploads/avatars/'.$top_reviewers[1]['display_name'] ?>" 
                          alt="<?= htmlspecialchars($top_reviewers[1]['display_name']) ?>"
-                         class="w-20 h-20 rounded-full border-4 border-white dark:border-slate-600 shadow-lg">
+                         class="w-20 h-20 object-cover rounded-full border-4 border-white dark:border-slate-600 shadow-lg">
                 </div>
                 
                 <a href="membre/<?= htmlspecialchars($top_reviewers[1]['username']) ?>" 
@@ -102,7 +102,7 @@ include 'includes/header.php';
                 <div class="relative inline-block mb-4 mt-2">
                     <img src="<?= $top_reviewers[0]['avatar'] ?: $base.'/uploads/avatars/'.$top_reviewers[0]['display_name'] ?>" 
                          alt="<?= htmlspecialchars($top_reviewers[0]['display_name']) ?>"
-                         class="w-28 h-28 rounded-full border-4 border-purple-500 shadow-2xl ring-4 ring-purple-200 dark:ring-purple-800">
+                         class="w-28 h-28 object-cover rounded-full border-4 border-purple-500 shadow-2xl ring-4 ring-purple-200 dark:ring-purple-800">
                 </div>
                 
                 <a href="membre/<?= htmlspecialchars($top_reviewers[0]['username']) ?>" 
@@ -133,7 +133,7 @@ include 'includes/header.php';
                 <div class="relative inline-block mb-4 mt-2">
                     <img src="<?= $top_reviewers[2]['avatar'] ?: $base.'/uploads/avatars/'.$top_reviewers[2]['display_name'] ?>" 
                          alt="<?= htmlspecialchars($top_reviewers[2]['display_name']) ?>"
-                         class="w-20 h-20 rounded-full border-4 border-white dark:border-slate-600 shadow-lg">
+                         class="w-20 h-20 object-cover rounded-full border-4 border-white dark:border-slate-600 shadow-lg">
                 </div>
                 
                 <a href="membre/<?= htmlspecialchars($top_reviewers[2]['username']) ?>" 
@@ -186,7 +186,7 @@ include 'includes/header.php';
                     <!-- Avatar & Info -->
                     <img src="<?= $reviewer['avatar'] ?: $base.'/uploads/avatars/'.$reviewer['display_name'] ?>" 
                          alt="<?= htmlspecialchars($reviewer['display_name']) ?>"
-                         class="w-12 h-12 rounded-full">
+                         class="w-12 h-12 object-cover rounded-full">
                     
                     <div class="flex-1">
                         <a href="membre/<?= htmlspecialchars($reviewer['username']) ?>" 

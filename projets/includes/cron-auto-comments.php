@@ -150,7 +150,6 @@ function getEligibleProject() {
             SELECT DISTINCT project_id 
             FROM extra_proj_comments 
             WHERE user_id IN ($bot_ids)
-            AND DATE(created_at) = CURDATE()
         )
         ORDER BY RAND()
         LIMIT 1

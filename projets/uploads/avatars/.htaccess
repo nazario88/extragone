@@ -1,11 +1,11 @@
 RewriteEngine On
 
-# Redirige /avatars/NOM/TAILLE ou /avatars/NOM (avec taille par défaut)
+# Cas 1 : nom + taille (ex: /avatars/Alpha-b/64)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
-# Cas 1 : nom + taille (ex: /avatars/Alpha-b/64)
 RewriteRule ^([^/]+)/([0-9]+)\.?(svg)?$ avatar.php?name=$1&size=$2 [L,QSA]
 
 # Cas 2 : seulement le nom (ex: /avatars/Alpha-b)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([^/]+)/?\.?(svg)?$ avatar.php?name=$1 [L,QSA]

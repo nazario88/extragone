@@ -58,7 +58,7 @@ include 'includes/header.php';
             <!-- Avatar -->
             <img src="<?= $user['avatar'] ?: $base.'/uploads/avatars/'.$user['display_name'] ?>" 
                  alt="<?= htmlspecialchars($user['display_name']) ?>"
-                 class="w-32 h-32 rounded-full ring-1 ring-slate-300/70 dark:ring-white/10">
+                 class="w-32 h-32 object-cover rounded-full ring-1 ring-slate-300/70 dark:ring-white/10">
             
             <!-- Informations -->
             <div class="flex-1 text-center md:text-left">

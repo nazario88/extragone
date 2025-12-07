@@ -90,7 +90,18 @@ try {
         $relative_path = '/uploads/avatars/' . $filename;
         
         if (move_uploaded_file($_FILES['avatar']['tmp_name'], $filepath)) {
-            $avatar_path = $relative_path;
+            // Optimiser l'image
+            $optimized_filename = 'avatar_' . $user['id'] . '_' . uniqid() . '.webp';
+            $optimized_filepath = $upload_dir . $optimized_filename;
+            
+            if (optimizeAvatar($filepath, $optimized_filepath, 256, 85)) {
+                // Supprimer l'original
+                unlink($filepath);
+                $avatar_path = '/uploads/avatars/' . $optimized_filename;
+            } else {
+                // Garder l'original si l'optimisation échoue
+                $avatar_path = $relative_path;
+            }
         }
     }
     
@@ -122,4 +133,75 @@ try {
     header('Location: https://projets.extrag.one/reglages');
     exit;
 }
+
+function optimizeAvatar($source_path, $destination_path, $max_size = 256, $quality = 85) {
+    // Déterminer le type d'image
+    $image_info = getimagesize($source_path);
+    if ($image_info === false) {
+        return false;
+    }
+    
+    $mime_type = $image_info['mime'];
+    
+    // Créer l'image source selon le type
+    switch ($mime_type) {
+        case 'image/jpeg':
+            $source = imagecreatefromjpeg($source_path);
+            break;
+        case 'image/png':
+            $source = imagecreatefrompng($source_path);
+            break;
+        case 'image/gif':
+            $source = imagecreatefromgif($source_path);
+            break;
+        case 'image/webp':
+            $source = imagecreatefromwebp($source_path);
+            break;
+        default:
+            return false;
+    }
+    
+    if (!$source) {
+        return false;
+    }
+    
+    // Dimensions originales
+    $width = imagesx($source);
+    $height = imagesy($source);
+    
+    // Calculer les nouvelles dimensions (carré)
+    $new_size = min($width, $height, $max_size);
+    
+    // Créer la nouvelle image
+    $destination = imagecreatetruecolor($new_size, $new_size);
+    
+    // Préserver la transparence pour PNG et GIF
+    if ($mime_type === 'image/png' || $mime_type === 'image/gif') {
+        imagealphablending($destination, false);
+        imagesavealpha($destination, true);
+        $transparent = imagecolorallocatealpha($destination, 0, 0, 0, 127);
+        imagefilledrectangle($destination, 0, 0, $new_size, $new_size, $transparent);
+    }
+    
+    // Redimensionner (crop centré si pas carré)
+    $crop_x = ($width - min($width, $height)) / 2;
+    $crop_y = ($height - min($width, $height)) / 2;
+    
+    imagecopyresampled(
+        $destination, $source,
+        0, 0, $crop_x, $crop_y,
+        $new_size, $new_size,
+        min($width, $height), min($width, $height)
+    );
+    
+    // Sauvegarder selon le type (convertir en WebP pour meilleure compression)
+    $result = imagewebp($destination, $destination_path, $quality);
+    
+    // Libérer la mémoire
+    imagedestroy($source);
+    imagedestroy($destination);
+    
+    return $result;
+}
+
 ?>
