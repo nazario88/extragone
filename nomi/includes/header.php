@@ -34,7 +34,7 @@ if(!isset($noindex)) $noindex = FALSE;
 
     <!-- Link -->
     <link rel="canonical" href="<?=$url_canon?>" />
-    <link rel="icon" href="https://www.extrag.one/assets/img/extragone.ico">
+    <link rel="icon" href="images/favicon.ico">
 
     <!-- Balise Base -->
     <base href="<?=$base?>">
@@ -102,7 +102,7 @@ if(!isset($noindex)) $noindex = FALSE;
 
         <!-- Titre -->
         <div id="menu-title" class="flex gap-3 text-2xl bg-gradient-to-r from-primary to-slate-500 dark:from-slate-600 dark:to-slate-300 text-transparent bg-clip-text">
-            <a href="<?=$base?>" class="transition-transform duration-300 hover:scale-105 hover:brightness-110"><img src="https://www.extrag.one/assets/img/logo.webp" class="w-[50px]" alt="Logo d'Extragone"></a>
+            <a href="<?=$base?>" class="transition-transform duration-300 hover:scale-105 hover:brightness-110"><img src="images/nomi_logo.webp" class="w-[50px]" alt="Logo d'Extragone"></a>
             <div class="space-y-0">
                 <h1><a href="<?=$base?>">Nomi</a></h1>
                 <a href="https://www.extrag.one" class="flex items-center gap-1 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400 hover:font-bold transition">
