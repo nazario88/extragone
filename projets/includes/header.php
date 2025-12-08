@@ -86,7 +86,7 @@ $current_user = getCurrentUser();
     <script src="https://www.extrag.one/assets/js/analytics.js" defer></script>
 
     <!-- FontAwesome CSS -->
-    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="https://www.extrag.one/assets/fontawesome/css/all.min.css">
     
     <style>
         @keyframes fadeIn {

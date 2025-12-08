@@ -82,8 +82,7 @@ if(!isset($noindex)) $noindex = FALSE;
     <script src="https://www.extrag.one/assets/js/analytics.js" defer></script>
 
     <!-- FontAwesome CSS -->
-    <link rel="stylesheet" href="https://www.extrag.one/assets/fontawesome-solid/css/fontawesome.min.css">
-    <link rel="stylesheet" href="https://www.extrag.one/assets/fontawesome-solid/css/solid.min.css">
+    <link rel="stylesheet" href="https://www.extrag.one/assets/fontawesome/css/all.min.css">
     
   </head>
   <body class="bg-slate-50 text-slate-900 dark:bg-gray-900 dark:text-white min-h-screen flex flex-col">

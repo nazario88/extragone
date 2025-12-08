@@ -94,8 +94,7 @@ if(substr($image_seo, 0,5) !== 'https') {
     <link rel="stylesheet" href="assets/css/gradient-background.css">
 
     <!-- FontAwesome CSS -->
-    <link rel="stylesheet" href="assets/fontawesome-solid/css/fontawesome.min.css">
-    <link rel="stylesheet" href="assets/fontawesome-solid/css/solid.min.css">
+    <link rel="stylesheet" href="https://www.extrag.one/assets/fontawesome/css/all.min.css">
     
   </head>
   <body class="bg-slate-50 text-slate-900 dark:bg-gray-900 dark:text-white min-h-screen flex flex-col">

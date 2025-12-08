@@ -70,6 +70,8 @@ $articles = $stmt->fetchAll();
     <!-- Separateur -->
     <hr class="my-8 h-[1px] border-0 bg-gradient-to-r from-primary via-white to-secondary">
 
+    <?php include 'includes/index/tools.php'; ?>
+    
     <!-- Explications -->
     <div class="w-full mb-8 px-5 py-5 bg-slate-100 rounded-xl shadow border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
         <h2 class="font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">extragone, c'est quoi ?</h2>
@@ -82,40 +84,6 @@ $articles = $stmt->fetchAll();
         <p class="mt-3">
             <a href="outils" role="button" class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-700 transition">
                 <i class="fa-solid fa-arrow-right"></i> Voir les outils
-            </a>
-        </p>
-    </div>
-
-    <!-- Plugin -->
-    <div class="w-full mb-8 px-5 py-5 bg-slate-100 rounded-xl shadow border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
-        <h2 class="font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">Un plugin, vraiment ?</h2>
-        <div class="flex gap-4 m-2">
-            <div class="hidden text-center md:flex md:items-center w-[100px]"><i class="my-auto fab fa-chrome text-primary text-xl md:text-4xl"></i></div>
-            <p class="text-sm text-justify">
-                Pour trouver systématiquement les alternatives françaises, quoi de mieux qu'une extension Google Chrome ? L'icône clignote pour vous informer qu'un équivalent existe, et d'un simple clic, vous pouvez consulter les propositions. <span class="font-bold">De quoi ne plus passer à côté des outils locaux !</span> L'extension est légère, rapide, et ne collecte aucune donnée personnelle. N'hésitez pas à donner votre avis sur la fiche Google pour encourager le projet !
-            </p>
-        </div>
-        <p class="mt-3">
-            <a href="https://chromewebstore.google.com/detail/fjcfkhkhplfpngmffdkfekcpelkaggof?utm_source=item-share-cb" role="button" target="_blank" class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-700 transition">
-                <i class="fa-solid fa-download"></i> Télécharger l'extension
-            </a>
-        </p>
-    </div>
-
-    <!-- Nomi -->
-    <div class="w-full px-5 py-5 bg-slate-100 rounded-xl shadow border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
-        <h2 class="font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">tu cherches un nom pour ton projet ?</h2>
-        <div class="flex gap-4 m-2">
-            <div class="hidden text-center md:flex md:items-center w-[100px]">
-                <i class="my-auto fa-solid fa-lightbulb text-primary text-xl md:text-4xl"></i>
-            </div>
-            <p class="text-sm text-justify">
-                <span class="font-bold">Nomi génère le nom parfait pour ton projet !</span> Décris ton idée en quelques mots et laisse l'IA générer des dizaines de propositions créatives, avec explications et vérification de disponibilité. Des noms organisés par thèmes, la disponibilité des domaines vérifiée automatiquement, et un partage facile de tes favoris.
-            </p>
-        </div>
-        <p class="mt-3">
-            <a href="https://nomi.extrag.one/" role="button" class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-700 transition">
-                <i class="fa-solid fa-magic"></i> Générer des noms avec Nomi
             </a>
         </p>
     </div>
