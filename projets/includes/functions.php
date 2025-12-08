@@ -281,8 +281,33 @@ function uploadProjectImage($file, $project_id, $is_cover = false) {
     $filepath = $upload_dir . $filename;
     $relative_path = '/uploads/projects/' . $filename;
     
+    $uploadedPath = $filepath;
     // Upload
-    if (move_uploaded_file($file['tmp_name'], $filepath)) {
+    if (move_uploaded_file($file['tmp_name'], $uploadedPath)) {
+
+        // Chemins absolus sur le disque
+        $uploadDirAbs   = $_SERVER['DOCUMENT_ROOT'] . '/uploads/projects'; // chemin disque absolu
+        $basename       = pathinfo($filepath, PATHINFO_FILENAME);          // ex: proj_9_693735c2e3dec
+        $webpPathAbs    = $uploadDirAbs . '/' . $basename . '.webp';       // chemin disque du futur .webp
+
+        // Chemins relatifs pour la base de données et l'affichage
+        $webpPathRel    = '/uploads/projects/' . $basename . '.webp';       // ← ce qu’on veut en BDD + HTML
+
+        // Traitement + conversion WebP
+        if (processAndOptimizeImage($filepath, $webpPathAbs, 1200)) {
+
+            // Succès → on supprime le fichier original (.png, .jpg, etc.)
+            @unlink($filepath);
+
+            $finalFilename = $basename . '.webp';
+            $finalFilepath = $webpPathRel; // ← chemin propre sans ../
+
+        } else {
+            // Échec conversion → on garde l’original (rare)
+            $finalFilename = $filename;
+            $finalFilepath = $relative_path;
+        }
+
         // Si c'est une cover, retirer le flag des autres images
         if ($is_cover) {
             $stmt = $pdo->prepare('UPDATE extra_proj_images SET is_cover = 0 WHERE project_id = ?');
@@ -295,14 +320,93 @@ function uploadProjectImage($file, $project_id, $is_cover = false) {
             INSERT INTO extra_proj_images (project_id, filename, filepath, display_order, is_cover) 
             VALUES (?, ?, ?, ?, ?)
         ');
-        $stmt->execute([$project_id, $filename, $relative_path, $display_order, $is_cover ? 1 : 0]);
+        $stmt->execute([$project_id, $finalFilename, $finalFilepath, $display_order, $is_cover ? 1 : 0]);
         
-        return ['success' => true, 'filepath' => $relative_path, 'image_id' => $pdo->lastInsertId()];
+        return [
+            'success'   => true,
+            'filepath'  => $finalFilepath,
+            'filename'  => $finalFilename,
+            'image_id'  => $pdo->lastInsertId()
+        ];
     }
     
     return ['success' => false, 'error' => 'Erreur lors de l\'upload'];
 }
 
+/**
+ * Redimensionner et optimisation d'une image
+ */
+function processAndOptimizeImage(string $sourcePath, string $destPath, int $maxWidth = 1200): bool
+{
+    // Récupérer les infos de l'image
+    $info = getimagesize($sourcePath);
+    if ($info === false) return false;
+
+    $width  = $info[0];
+    $height = $info[1];
+    $type   = $info[2]; // IMAGETYPE_JPEG, IMAGETYPE_PNG, etc.
+
+    // Créer l'image source selon le type
+    switch ($type) {
+        case IMAGETYPE_JPEG:
+            $srcImage = imagecreatefromjpeg($sourcePath);
+            break;
+        case IMAGETYPE_PNG:
+            $srcImage = imagecreatefrompng($sourcePath);
+            // Conserver la transparence si besoin
+            imagealphablending($srcImage, false);
+            imagesavealpha($srcImage, true);
+            break;
+        case IMAGETYPE_WEBP:
+            $srcImage = imagecreatefromwebp($sourcePath);
+            break;
+        case IMAGETYPE_GIF:
+            $srcImage = imagecreatefromgif($sourcePath);
+            break;
+        default:
+            return false;
+    }
+
+    if (!$srcImage) return false;
+
+    // Calculer les nouvelles dimensions (on garde le ratio)
+    if ($width <= $maxWidth) {
+        // L'image est déjà assez petite → on copie juste (mais on compresse quand même)
+        $newWidth  = $width;
+        $newHeight = $height;
+    } else {
+        $newWidth  = $maxWidth;
+        $newHeight = (int)($height * ($maxWidth / $width));
+    }
+
+    // Créer une nouvelle image redimensionnée (qualité optimale)
+    $dstImage = imagecreatetruecolor($newWidth, $newHeight);
+
+    // Améliorer la qualité du redimensionnement
+    imagecopyresampled($dstImage, $srcImage, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+
+    // === SAUVEGARDE OPTIMISÉE ===
+    $dir = dirname($destPath);
+    if (!is_dir($dir)) mkdir($dir, 0755, true);
+
+    $success = false;
+
+    // Priorité au WebP (meilleur ratio qualité/poids en 2025)
+    if (function_exists('imagewebp')) {
+        $success = imagewebp($dstImage, $destPath, 82);
+        imagedestroy($srcImage);
+        imagedestroy($dstImage);
+        return $success;
+    }
+
+    // Si pas de WebP (très rare en 2025), fallback JPEG
+    $jpegPath = preg_replace('/\.webp$/i', '.jpg', $destPath);
+    $success = imagejpeg($dstImage, $jpegPath, 82);
+    if ($success) copy($jpegPath, $destPath); // on garde quand même l'extension .webp pour cohérence
+    imagedestroy($srcImage);
+    imagedestroy($dstImage);
+    return $success;
+}
 /**
  * Supprime une image de projet
  */
