@@ -32,8 +32,9 @@ $comments = getProjectComments($project['id']);
 // Parser les outils utilisés
 $tools = $project['tools_used'] ? json_decode($project['tools_used'], true) : [];
 
-$title = htmlspecialchars($project['title']) . " — Projets eXtragone";
+$title = "Projets — " . htmlspecialchars($project['title']);
 $description = $project['meta_description'] ?: htmlspecialchars($project['short_description']);
+$description = "Description du projet: " . $description . " [par " . htmlspecialchars($project['display_name']) . "]";
 $url_canon = 'https://projets.extrag.one/projet/' . htmlspecialchars($slug);
 $image_seo = !empty($images) ? 'https://projets.extrag.one' . $images[0]['filepath'] : 'https://projets.extrag.one/images/og-default.png';
 
