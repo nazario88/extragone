@@ -79,28 +79,9 @@ include 'includes/header.php';
 
 <div class="w-full px-5 py-5">
     <p class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">&rarr; Fiche</p>
-    <div class="grid grid-cols-2">
-        <div class="col-span-2 md:col-span-1">
-            <h1 class="mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
-                En savoir + sur <?=$data_outil['nom']?>
-            </h1>
-        </div>
-        <div class="col-span-2 mt-2 py-2 md:py-1 md:col-span-1 md:text-right">
-            <!-- AddToAny BEGIN -->
-            <span class="pr-3 text-sm">Partager la page</span>
-            <div class="a2a_kit a2a_kit_size_24 a2a_default_style float-right">
-                <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
-                <a class="a2a_button_linkedin"></a>
-                <a class="a2a_button_whatsapp"></a>
-                <a class="a2a_button_facebook"></a>
-                <a class="a2a_button_facebook_messenger"></a>
-                <a class="a2a_button_copy_link"></a>
-                <a class="a2a_button_email"></a>
-            </div>
-            <script defer src="https://static.addtoany.com/menu/page.js"></script>
-            <!-- AddToAny END -->
-        </div>
-    </div>
+    <h1 class="mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
+        En savoir + sur <?=$data_outil['nom']?>
+    </h1>
 </div>
 
 <?php
@@ -146,20 +127,7 @@ if($data_outil['tags']) {
     <!-- Détail de l'outil -->
     <div class="col-span-4 md:col-span-2 text-sm md:text-base bg-white rounded-xl shadow p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
         <!-- Titre -->
-        <div class="grid grid-cols-2">
-            <div class="col-span-2 md:col-span-1">
-                <h2 class="text-xl font-bold mb-2">Description de <?php echo htmlspecialchars($data_outil['nom']); ?></h2>
-            </div>
-            <div class="col-span-2 md:col-span-1 text-right" title="Note actuelle : <?=$stats_note['average']?>/5">
-                <?php
-                for($i = 1; $i <= $stats_note['average']; $i++) {
-                    echo '<i class="fa-solid fa-star text-yellow-400"></i>';
-                }
-                $i--;
-                if($stats_note['average'] >= ($i + 0.50)) echo '<i class="fa-solid fa-star-half text-yellow-900"></i>';
-                ?>
-            </div>
-        </div>
+        <h2 class="text-xl font-bold mb-2">Description de <?php echo htmlspecialchars($data_outil['nom']); ?></h2>
 
         <!-- Courte description -->
         <p class="text-sm">
@@ -174,113 +142,6 @@ if($data_outil['tags']) {
 
         <!-- Image -->
         <img class="mx-auto h-auto my-3 rounded-md transition-transform duration-300 ease-in-out hover:scale-105" style="max-height: 100px" src="<?php echo htmlspecialchars($data_outil['logo']); ?>" alt="Logo de <?php echo htmlspecialchars($data_outil['nom']); ?>">
-
-        <!-- Notation -->
-        <?php
-        if(!$check_note) {
-            ?>
-        <p class="text-sm">
-            Attribuez une note à cet outil !
-        </p>
-        <div class="flex items-center space-x-1" id="ratingForm">
-          <input type="hidden" name="rating" id="ratingInput" value="0">
-          <input type="hidden" name="tool_id" id="toolIdInput" value="<?=$data_outil['id']?>"> <!-- ID de la fiche outil -->
-
-          <div class="flex" id="starContainer">
-            <button type="button" data-value="1" class="star text-2xl text-gray-300 hover:text-yellow-400 transition-colors duration-200">
-              <i class="fa-solid fa-star"></i>
-            </button>
-            <button type="button" data-value="2" class="star text-2xl text-gray-300 hover:text-yellow-400 transition-colors duration-200">
-              <i class="fa-solid fa-star"></i>
-            </button>
-            <button type="button" data-value="3" class="star text-2xl text-gray-300 hover:text-yellow-400 transition-colors duration-200">
-              <i class="fa-solid fa-star"></i>
-            </button>
-            <button type="button" data-value="4" class="star text-2xl text-gray-300 hover:text-yellow-400 transition-colors duration-200">
-              <i class="fa-solid fa-star"></i>
-            </button>
-            <button type="button" data-value="5" class="star text-2xl text-gray-300 hover:text-yellow-400 transition-colors duration-200">
-              <i class="fa-solid fa-star"></i>
-            </button>
-          </div>
-          <span class="ml-2 text-sm text-gray-600" id="ratingLabel">0 / 5</span>
-        </div>
-        <!-- Message de confirmation -->
-        <p id="ratingMessage" class="mx-auto text-center p-2 bg-green-300 text-green-800 rounded text-sm mt-2 hidden">Merci pour votre note !</p>
-        <script>
-          const stars = document.querySelectorAll('.star');
-          const ratingInput = document.getElementById('ratingInput');
-          const toolIdInput = document.getElementById('toolIdInput');
-          const ratingLabel = document.getElementById('ratingLabel');
-          const ratingMessage = document.getElementById('ratingMessage');
-          let currentRating = 4;
-
-          stars.forEach((star, index) => {
-            const value = index + 1;
-
-            star.addEventListener('mouseover', () => {
-              highlightStars(value);
-            });
-
-            star.addEventListener('mouseout', () => {
-              highlightStars(currentRating);
-            });
-
-            star.addEventListener('click', async () => {
-              currentRating = value;
-              ratingInput.value = currentRating;
-              ratingLabel.textContent = `${currentRating} / 5`;
-              highlightStars(currentRating);
-
-              // Données à envoyer
-              const payload = {
-                rating: currentRating,
-                tool_id: toolIdInput.value
-              };
-
-              try {
-                const response = await fetch('includes/push_note.php', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify(payload)
-                });
-
-                if (response.ok) {
-                  ratingMessage.classList.remove('hidden');
-                  ratingMessage.textContent = 'Merci pour votre note !';
-                } else {
-                  throw new Error('Erreur serveur');
-                }
-              } catch (error) {
-                ratingMessage.classList.remove('hidden');
-                ratingMessage.classList.replace('bg-green-300', 'bg-red-300');
-                ratingMessage.classList.replace('text-green-800', 'text-red-800');
-                ratingMessage.textContent = 'Erreur lors de l’envoi. Veuillez réessayer.';
-              }
-            });
-          });
-
-          function highlightStars(value) {
-            stars.forEach((star, index) => {
-              if (index < value) {
-                star.classList.add('text-yellow-400');
-                star.classList.remove('text-gray-300');
-              } else {
-                star.classList.remove('text-yellow-400');
-                star.classList.add('text-gray-300');
-              }
-            });
-          }
-        </script>
-
-            <?php
-        }
-        else {
-            echo '<p class="mx-auto text-center p-2 bg-green-300 text-green-800 rounded text-sm">Merci d\'avoir voté !</p>';
-        }
-        ?>
 
         <!-- Capture d'écran -->
         <?php
@@ -361,9 +222,22 @@ if($data_outil['tags']) {
                     <span class="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
                         <i class="fa-solid fa-star w-4"></i>Notes
                     </span>
-                    <span class="font-semibold text-yellow-600 dark:text-yellow-400">
-                        <?=$stats_note['nb']?> avis
-                    </span>
+                    <div class="flex items-center gap-2">
+                        <span class="font-semibold text-gray-700 dark:text-gray-300">
+                            <?=$stats_note['nb']?> avis
+                        </span>
+                        <div class="flex items-center">
+                            <?php
+                            for($i = 1; $i <= $stats_note['average']; $i++) {
+                                echo '<i class="fa-solid fa-star text-yellow-400 text-xs"></i>';
+                            }
+                            $i--;
+                            if($stats_note['average'] >= ($i + 0.50)) {
+                                echo '<i class="fa-solid fa-star-half text-yellow-400 text-xs"></i>';
+                            }
+                            ?>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="flex items-center justify-between">
@@ -376,7 +250,120 @@ if($data_outil['tags']) {
                 </div>
             </div>
         </div>
+        
+        <!-- Notation -->
+        <div class="bg-white rounded-xl shadow mb-4 p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+            <h3 class="text-sm font-bold mb-3 uppercase tracking-wider">
+                <i class="fa-regular fa-star mr-2"></i> Attribuez une note
+            </h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                Votre avis compte ! Aidez les utilisateurs en notant cet outil.
+            </p>
+            <div class="flex flex-col items-center">
+                <?php
+                if(!$check_note) {
+                    ?>
+                <div class="flex items-center space-x-1" id="ratingForm">
+                <input type="hidden" name="rating" id="ratingInput" value="0">
+                <input type="hidden" name="tool_id" id="toolIdInput" value="<?=$data_outil['id']?>"> <!-- ID de la fiche outil -->
 
+                <div class="flex" id="starContainer">
+                    <button type="button" data-value="1" class="star text-2xl text-gray-300 hover:text-yellow-400 transition-colors duration-200">
+                    <i class="fa-solid fa-star"></i>
+                    </button>
+                    <button type="button" data-value="2" class="star text-2xl text-gray-300 hover:text-yellow-400 transition-colors duration-200">
+                    <i class="fa-solid fa-star"></i>
+                    </button>
+                    <button type="button" data-value="3" class="star text-2xl text-gray-300 hover:text-yellow-400 transition-colors duration-200">
+                    <i class="fa-solid fa-star"></i>
+                    </button>
+                    <button type="button" data-value="4" class="star text-2xl text-gray-300 hover:text-yellow-400 transition-colors duration-200">
+                    <i class="fa-solid fa-star"></i>
+                    </button>
+                    <button type="button" data-value="5" class="star text-2xl text-gray-300 hover:text-yellow-400 transition-colors duration-200">
+                    <i class="fa-solid fa-star"></i>
+                    </button>
+                </div>
+                <span class="ml-2 text-sm text-gray-600" id="ratingLabel">0 / 5</span>
+                </div>
+                <!-- Message de confirmation -->
+                <p id="ratingMessage" class="mx-auto text-center p-2 bg-green-300 text-green-800 rounded text-sm mt-2 hidden">Merci pour votre note !</p>
+                <script>
+                const stars = document.querySelectorAll('.star');
+                const ratingInput = document.getElementById('ratingInput');
+                const toolIdInput = document.getElementById('toolIdInput');
+                const ratingLabel = document.getElementById('ratingLabel');
+                const ratingMessage = document.getElementById('ratingMessage');
+                let currentRating = 4;
+
+                stars.forEach((star, index) => {
+                    const value = index + 1;
+
+                    star.addEventListener('mouseover', () => {
+                    highlightStars(value);
+                    });
+
+                    star.addEventListener('mouseout', () => {
+                    highlightStars(currentRating);
+                    });
+
+                    star.addEventListener('click', async () => {
+                    currentRating = value;
+                    ratingInput.value = currentRating;
+                    ratingLabel.textContent = `${currentRating} / 5`;
+                    highlightStars(currentRating);
+
+                    // Données à envoyer
+                    const payload = {
+                        rating: currentRating,
+                        tool_id: toolIdInput.value
+                    };
+
+                    try {
+                        const response = await fetch('includes/push_note.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                        });
+
+                        if (response.ok) {
+                        ratingMessage.classList.remove('hidden');
+                        ratingMessage.textContent = 'Merci pour votre note !';
+                        } else {
+                        throw new Error('Erreur serveur');
+                        }
+                    } catch (error) {
+                        ratingMessage.classList.remove('hidden');
+                        ratingMessage.classList.replace('bg-green-300', 'bg-red-300');
+                        ratingMessage.classList.replace('text-green-800', 'text-red-800');
+                        ratingMessage.textContent = 'Erreur lors de l’envoi. Veuillez réessayer.';
+                    }
+                    });
+                });
+
+                function highlightStars(value) {
+                    stars.forEach((star, index) => {
+                    if (index < value) {
+                        star.classList.add('text-yellow-400');
+                        star.classList.remove('text-gray-300');
+                    } else {
+                        star.classList.remove('text-yellow-400');
+                        star.classList.add('text-gray-300');
+                    }
+                    });
+                }
+                </script>
+
+                    <?php
+                }
+                else {
+                    echo '<p class="mx-auto text-center p-2 bg-green-300 text-green-800 rounded text-sm">Merci d\'avoir voté !</p>';
+                }
+                ?>
+            </div>
+        </div>
         <!-- Partage Social -->
         <div class="bg-white rounded-xl shadow mb-4 p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
             <h3 class="text-sm font-bold mb-3 uppercase tracking-wider">
