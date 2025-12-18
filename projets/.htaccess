@@ -2,6 +2,10 @@ Options +FollowSymLinks -MultiViews
 RewriteEngine On
 #RewriteBase /
 
+# Forcer HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
+
 # Redirection du dossier racine vers index.php
 RewriteRule ^$ index.php [L]
 

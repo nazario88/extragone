@@ -1,12 +1,15 @@
 Options +FollowSymLinks -MultiViews
 RewriteEngine On
 
-# Forcer HTTPS et www en une seule redirection
-#RewriteBase /
-#RewriteCond %{HTTP_HOST} !^nomi\.extrag\.one$ [NC]
-#RewriteCond %{HTTPS} off [OR]
-#RewriteCond %{HTTP_HOST} !^www\. [NC]
-#RewriteRule ^(.*)$ https://www.extrag.one/$1 [L,R=301]
+
+RewriteBase /
+# Forcer HTTPS pour le domaine et tous les sous domaines
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
+
+# Rediriger uniquement extrag.one vers www.extrag.one
+RewriteCond %{HTTP_HOST} ^extrag\.one$ [NC]
+RewriteRule ^(.*)$ https://www.extrag.one/$1 [L,R=301]
 
 RewriteRule ^outils$ 					outils.php [L]
 RewriteRule ^outils/categorie/(.*)		outils.php?categorie=$1 [L]
