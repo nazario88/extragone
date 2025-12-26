@@ -129,7 +129,7 @@ function generateMosaicAndReturnPath(array $tools): string {
     $fontSemi = __DIR__ . '/../assets/font/montserrat/Montserrat-SemiBold.ttf';
 
     $mois   = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-    $titre  = strtoupper("Outils de " . $mois[date('n')-1] . " " . date('Y'));
+    $titre  = mb_strtoupper("Outils de " . $mois[date('n')-1] . " " . date('Y'), 'UTF-8');
     $count  = count($tools);
     $sous   = $count . " " . ($count > 1 ? "nouveaux outils" : "nouvel outil") . " découverts ce mois-ci";
 
@@ -227,7 +227,7 @@ foreach ($tools as $t) {
 </head>
 <body>
 
-<h2>Récapitulatif du mois de <?= htmlspecialchars($mois_actuel) ?> (<?= $total ?> nouvel<?= $total > 1 ? 's' : '' ?> outil<?= $total > 1 ? 's' : '' ?>)</h2>
+<h2>Outils découverts en <?= htmlspecialchars($mois_actuel) ?> (<?= $total ?> nouvel<?= $total > 1 ? 's' : '' ?> outil<?= $total > 1 ? 's' : '' ?>)</h2>
 <p>
     <img src="<?= htmlspecialchars($cover_url) ?>" alt="Mosaïque des nouveaux outils de <?= htmlspecialchars($mois_actuel) ?>" style="max-width:50%; height:auto; border:1px solid #ddd; border-radius:8px;">
 </p>
@@ -250,7 +250,7 @@ foreach ($tools as $t) {
     &lt;th&gt;Outil&lt;/th&gt;
     &lt;th&gt;Description&lt;/th&gt;
     &lt;th width="100"&gt;Prix&lt;/th&gt;
-    &lt;th width="60"&gt;FR&lt;/th&gt;
+    &lt;th width="60"&gt;Français&lt;/th&gt;
     &lt;th width="120"&gt;&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
