@@ -5,7 +5,7 @@ include 'includes/config.php';
 ——————————————————————————————————————————————————*/
 $slug = isset($_GET['slug']) ? $_GET['slug'] : null;
 
-$sql = $pdo->prepare('SELECT id, title, slug, content_html, image, description, DATE_FORMAT(created_at, "%d/%m/%Y à %Hh%i") as date_publi FROM extra_articles WHERE slug=?');
+$sql = $pdo->prepare('SELECT id, title, slug, content_html, image, description, created_at, DATE_FORMAT(created_at, "%d/%m/%Y à %Hh%i") as date_publi FROM extra_articles WHERE slug=?');
 $sql->execute(array($slug));
 $data_article = $sql->fetch();
 if(!$data_article) errorPage("Les informations de l'article n'ont pas pu être récupérées ☹️");
@@ -34,28 +34,87 @@ $url_canon = 'https://www.extrag.one/article/'.$data_article['slug'];
 include 'includes/header.php';
 ?>
 
+<!-- Schema.org Article en JSON-LD -->
+<script type="application/ld+json">
+<?php
+$schema = [
+    "@context" => "https://schema.org",
+    "@type" => "Article",
+    "headline" => $data_article['title'],
+    "description" => $data_article['description'],
+    "author" => [
+        "@type" => "Person",
+        "name" => "InnoSpira"
+    ],
+    "publisher" => [
+        "@type" => "Organization",
+        "name" => "eXtragone",
+        "logo" => [
+            "@type" => "ImageObject",
+            "url" => "https://www.extrag.one/assets/img/logo.webp"
+        ]
+    ],
+    "datePublished" => date('c', strtotime($data_article['created_at'])),
+    "dateModified" => date('c', strtotime($data_article['created_at'] ?? $data_article['created_at'])),
+    "mainEntityOfPage" => [
+        "@type" => "WebPage",
+        "@id" => $url_canon
+    ],
+    "image" => [
+        "https://www.extrag.one/" . ltrim($data_article['image'], '/')
+    ],
+    "keywords" => "outils numériques, outils IA, alternatives françaises, projets, outils web, saas, outils gratuits"
+];
+
+echo json_encode(
+    $schema,
+    JSON_UNESCAPED_SLASHES      // Garde les / dans les URLs
+    | JSON_UNESCAPED_UNICODE    // Garde les accents (é, è, ç, etc.)
+    | JSON_PRETTY_PRINT         // Format lisible (tu peux retirer en prod pour minifier)
+);
+?>
+</script>
+
 <div class="w-full px-5 py-5">
     <p class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">&rarr; article</p>
-    <div class="grid grid-cols-2">
-        <div class="col-span-2 md:col-span-1">
+    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+        <div class="flex-1">
             <h1 class="mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
                 <?=$data_article['title']?>
             </h1>
         </div>
-        <div class="col-span-2 mt-2 py-2 md:py-1 md:col-span-1 md:text-right">
-            <!-- AddToAny BEGIN -->
-            <span class="pr-3 text-sm">Partager la page</span>
-            <div class="a2a_kit a2a_kit_size_24 a2a_default_style float-right">
-                <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
-                <a class="a2a_button_linkedin"></a>
-                <a class="a2a_button_whatsapp"></a>
-                <a class="a2a_button_facebook"></a>
-                <a class="a2a_button_facebook_messenger"></a>
-                <a class="a2a_button_copy_link"></a>
-                <a class="a2a_button_email"></a>
+        <div class="flex-shrink-0">
+            <!-- Bloc de partage compact et moderne -->
+            <div class="inline-flex items-center gap-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl px-4 py-2 border border-slate-200 dark:border-slate-700 shadow-sm">
+                <span class="text-xs font-medium text-gray-600 dark:text-gray-400 mr-1">Partager</span>
+                
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?=urlencode($url_canon)?>" 
+                   target="_blank"
+                   class="w-9 h-9 flex items-center justify-center rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition-all hover:scale-110"
+                   title="Partager sur LinkedIn">
+                    <i class="fa-brands fa-linkedin text-sm"></i>
+                </a>
+                
+                <a href="https://twitter.com/intent/tweet?url=<?=urlencode($url_canon)?>&text=<?=urlencode($data_article['title'])?>" 
+                   target="_blank"
+                   class="w-9 h-9 flex items-center justify-center rounded-xl bg-black hover:bg-gray-800 text-white transition-all hover:scale-110"
+                   title="Partager sur Twitter">
+                    <i class="fa-brands fa-x-twitter text-sm"></i>
+                </a>
+                
+                <a href="https://www.facebook.com/sharer/sharer.php?u=<?=urlencode($url_canon)?>" 
+                   target="_blank"
+                   class="w-9 h-9 flex items-center justify-center rounded-xl bg-blue-500 hover:bg-blue-600 text-white transition-all hover:scale-110"
+                   title="Partager sur Facebook">
+                    <i class="fa-brands fa-facebook text-sm"></i>
+                </a>
+                
+                <button onclick="navigator.clipboard.writeText('<?=$url_canon?>'); this.innerHTML='<i class=\'fa-solid fa-check text-sm\'></i>'; setTimeout(() => this.innerHTML='<i class=\'fa-solid fa-link text-sm\'></i>', 2000)" 
+                        class="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-600 hover:bg-gray-700 text-white transition-all hover:scale-110"
+                        title="Copier le lien">
+                    <i class="fa-solid fa-link text-sm"></i>
+                </button>
             </div>
-            <script defer src="https://static.addtoany.com/menu/page.js"></script>
-            <!-- AddToAny END -->
         </div>
     </div>
 </div>
