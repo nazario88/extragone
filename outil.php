@@ -151,7 +151,7 @@ if($data_outil['tags']) {
                     <i class="fa-solid fa-image"></i> Capture d\'écran
                 </h3>
                 <div class="screenshot-container">
-                    <img class="mx-auto h-auto my-3 rounded-md transition-transform duration-300 ease-in-out hover:scale-105 cursor-pointer" 
+                    <img class="mx-auto h-auto my-3 rounded-md transition-transform duration-300 ease-in-out hover:scale-105 cursor-pointer rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm" 
                         style="max-height: 200px" 
                         src="'.$data_outil['screenshot'].'" 
                         alt="Screenshot de '.$data_outil['nom'].'"
