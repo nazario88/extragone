@@ -41,6 +41,9 @@ $current_user = getCurrentUser();
     <link rel="canonical" href="<?=$url_canon?>" />
     <link rel="icon" href="assets/images/favicon.ico">
     
+    <!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="https://www.extrag.one/assets/fontawesome/css/all.min.css">
+
     <!-- Base -->
     <base href="<?=$base?>">
 
@@ -84,9 +87,6 @@ $current_user = getCurrentUser();
 
     <!-- Statistiques -->
     <script src="https://www.extrag.one/assets/js/analytics.js" defer></script>
-
-    <!-- FontAwesome CSS -->
-    <link rel="stylesheet" href="https://www.extrag.one/assets/fontawesome/css/all.min.css">
     
     <style>
         @keyframes fadeIn {
@@ -146,7 +146,7 @@ $current_user = getCurrentUser();
                     <!-- Dropdown user avec click -->
                     <div class="relative" id="userDropdownMenu">
                         <button type="button" id="userDropdownButton" class="flex items-center gap-2 hover:text-blue-500 transition-colors">
-                            <img src="<?= $current_user['avatar'] ?: $base.'/uploads/avatars/'.$current_user['display_name'] ?>" 
+                            <img src="https://www.extrag.one<?= $current_user['avatar'] ?: '/uploads/avatars/'.$current_user['display_name'] ?>" 
                                  class="w-8 h-8 object-cover rounded-full ring-1 ring-slate-300/70 dark:ring-white/10" 
                                  alt="Avatar">
                             <span class="hidden lg:inline"><?= htmlspecialchars($current_user['display_name'], ENT_QUOTES, 'UTF-8') ?></span>
@@ -154,10 +154,10 @@ $current_user = getCurrentUser();
                         </button>
                         
                         <div id="userDropdownContent" class="hidden absolute right-0 top-full mt-2 min-w-[200px] bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 py-2 z-50">
-                            <a href="membre/<?= $current_user['username'] ?>" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                            <a href="https://www.extrag.one/membre/<?= $current_user['username'] ?>" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                                 <i class="fa-solid fa-user mr-2"></i>Mon profil
                             </a>
-                            <a href="reglages" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+                            <a href="https://www.extrag.one/reglages" class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                                 <i class="fa-solid fa-gear mr-2"></i>Réglages
                             </a>
                             <?php if (!isReviewer()): ?>
@@ -229,16 +229,16 @@ $current_user = getCurrentUser();
                     <hr class="border-slate-200 dark:border-slate-700">
                     
                     <div class="px-4 py-2 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                        <img src="<?= $current_user['avatar'] ?: $base.'/uploads/avatars/'.$current_user['display_name'] ?>" 
+                        <img src="https://www.extrag.one<?= $current_user['avatar'] ?: '/uploads/avatars/'.$current_user['display_name'] ?>" 
                              class="w-8 h-8 object-cover rounded-full ring-1 ring-slate-300/70 dark:ring-white/10" 
                              alt="Avatar">
                         <span><?= htmlspecialchars($current_user['display_name'], ENT_QUOTES, 'UTF-8') ?></span>
                     </div>
                     
-                    <a href="membre/<?= $current_user['username'] ?>" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                    <a href="https://www.extrag.onemembre/<?= $current_user['username'] ?>" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
                         <i class="fa-solid fa-user mr-2"></i>Mon profil
                     </a>
-                    <a href="reglages" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                    <a href="https://www.extrag.one/reglages" class="px-4 py-2 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-lg transition-colors">
                         <i class="fa-solid fa-gear mr-2"></i>Réglages
                     </a>
                     <?php if (!isReviewer()): ?>

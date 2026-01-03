@@ -51,7 +51,7 @@ include 'includes/header.php';
                         Photo de profil
                     </label>
                     <div class="flex items-center gap-6">
-                        <img src="<?= $user['avatar'] ?: $base.'/uploads/avatars/'.$current_user['display_name'] ?>" 
+                        <img src="https://www.extrag.one<?= $user['avatar'] ?: '/uploads/avatars/'.$current_user['display_name'] ?>" 
                              id="avatar-preview"
                              alt="Avatar"
                              class="w-24 h-24 rounded-full object-cover ring-1 ring-slate-300/70 dark:ring-white/10">

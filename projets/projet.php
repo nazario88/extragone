@@ -61,8 +61,8 @@ $parsedown = new Parsedown();
         
         <!-- Métadonnées -->
         <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
-            <a href="membre/<?= htmlspecialchars($project['username']) ?>" class="flex items-center gap-2 hover:text-blue-500 transition-colors">
-                <img src="<?= $project['avatar'] ?: $base.'/uploads/avatars/'.$project['display_name'] ?>" 
+            <a href="https://www.extrag.one/membre/<?= htmlspecialchars($project['username']) ?>" class="flex items-center gap-2 hover:text-blue-500 transition-colors">
+                <img src="https://www.extrag.one<?= $project['avatar'] ?: '/uploads/avatars/'.$project['display_name'] ?>" 
                      class="w-8 h-8 object-cover rounded-full"
                      alt="<?= htmlspecialchars($project['display_name']) ?>">
                 <span class="font-medium"><?= htmlspecialchars($project['display_name']) ?></span>
@@ -205,13 +205,13 @@ $parsedown = new Parsedown();
                         <?php foreach ($comments as $comment): ?>
                         <div class="border-l-4 border-blue-500 pl-4 py-2" id="comment-<?= $comment['id'] ?>">
                             <div class="flex items-start gap-3">
-                                <img src="<?= $comment['avatar'] ?: $base.'/uploads/avatars/'.$comment['display_name'] ?>" 
+                                <img src="https://www.extrag.one<?= $comment['avatar'] ?: '/uploads/avatars/'.$comment['display_name'] ?>" 
                                      class="w-10 h-10 object-cover rounded-full"
                                      alt="<?= htmlspecialchars($comment['display_name']) ?>">
                                 
                                 <div class="flex-1">
                                     <div class="flex items-center gap-2 mb-1">
-                                        <a href="membre/<?= htmlspecialchars($comment['username']) ?>" class="font-medium hover:text-blue-500 transition-colors">
+                                        <a href="https://www.extrag.one/membre/<?= htmlspecialchars($comment['username']) ?>" class="font-medium hover:text-blue-500 transition-colors">
                                             <?= htmlspecialchars($comment['display_name']) ?>
                                         </a>
                                         <span class="text-xs text-gray-500">

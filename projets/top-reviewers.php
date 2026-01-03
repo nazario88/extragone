@@ -69,12 +69,12 @@ include 'includes/header.php';
                 </div>
                 
                 <div class="relative inline-block mb-4 mt-2">
-                    <img src="<?= $top_reviewers[1]['avatar'] ?: $base.'/uploads/avatars/'.$top_reviewers[1]['display_name'] ?>" 
+                    <img src="https://www.extrag.one<?= $top_reviewers[1]['avatar'] ?: '/uploads/avatars/'.$top_reviewers[1]['display_name'] ?>" 
                          alt="<?= htmlspecialchars($top_reviewers[1]['display_name']) ?>"
                          class="w-20 h-20 object-cover rounded-full border-4 border-white dark:border-slate-600 shadow-lg">
                 </div>
-                
-                <a href="membre/<?= htmlspecialchars($top_reviewers[1]['username']) ?>" 
+
+                <a href="https://www.extrag.one/membre/<?= htmlspecialchars($top_reviewers[1]['username']) ?>" 
                    class="font-bold text-lg hover:text-blue-500 transition-colors block mb-1">
                     <?= htmlspecialchars($top_reviewers[1]['display_name']) ?>
                 </a>
@@ -100,12 +100,12 @@ include 'includes/header.php';
                 </div>
                 
                 <div class="relative inline-block mb-4 mt-2">
-                    <img src="<?= $top_reviewers[0]['avatar'] ?: $base.'/uploads/avatars/'.$top_reviewers[0]['display_name'] ?>" 
+                    <img src="https://www.extrag.one<?= $top_reviewers[0]['avatar'] ?: '/uploads/avatars/'.$top_reviewers[0]['display_name'] ?>" 
                          alt="<?= htmlspecialchars($top_reviewers[0]['display_name']) ?>"
                          class="w-28 h-28 object-cover rounded-full border-4 border-purple-500 shadow-2xl ring-4 ring-purple-200 dark:ring-purple-800">
                 </div>
-                
-                <a href="membre/<?= htmlspecialchars($top_reviewers[0]['username']) ?>" 
+
+                <a href="https://www.extrag.one/membre/<?= htmlspecialchars($top_reviewers[0]['username']) ?>" 
                    class="font-bold text-xl text-purple-900 dark:text-purple-100 hover:text-purple-600 dark:hover:text-purple-300 transition-colors block mb-1">
                     <?= htmlspecialchars($top_reviewers[0]['display_name']) ?>
                 </a>
@@ -131,12 +131,12 @@ include 'includes/header.php';
                 </div>
                 
                 <div class="relative inline-block mb-4 mt-2">
-                    <img src="<?= $top_reviewers[2]['avatar'] ?: $base.'/uploads/avatars/'.$top_reviewers[2]['display_name'] ?>" 
+                    <img src="https://www.extrag.one<?= $top_reviewers[2]['avatar'] ?: '/uploads/avatars/'.$top_reviewers[2]['display_name'] ?>" 
                          alt="<?= htmlspecialchars($top_reviewers[2]['display_name']) ?>"
                          class="w-20 h-20 object-cover rounded-full border-4 border-white dark:border-slate-600 shadow-lg">
                 </div>
-                
-                <a href="membre/<?= htmlspecialchars($top_reviewers[2]['username']) ?>" 
+
+                <a href="https://www.extrag.one/membre/<?= htmlspecialchars($top_reviewers[2]['username']) ?>" 
                    class="font-bold text-lg hover:text-blue-500 transition-colors block mb-1">
                     <?= htmlspecialchars($top_reviewers[2]['display_name']) ?>
                 </a>
@@ -184,12 +184,12 @@ include 'includes/header.php';
                     </div>
                     
                     <!-- Avatar & Info -->
-                    <img src="<?= $reviewer['avatar'] ?: $base.'/uploads/avatars/'.$reviewer['display_name'] ?>" 
+                    <img src="https://www.extrag.one<?= $reviewer['avatar'] ?: '/uploads/avatars/'.$reviewer['display_name'] ?>" 
                          alt="<?= htmlspecialchars($reviewer['display_name']) ?>"
                          class="w-12 h-12 object-cover rounded-full">
                     
                     <div class="flex-1">
-                        <a href="membre/<?= htmlspecialchars($reviewer['username']) ?>" 
+                        <a href="https://www.extrag.one/membre/<?= htmlspecialchars($reviewer['username']) ?>" 
                            class="font-bold hover:text-blue-500 transition-colors">
                             <?= htmlspecialchars($reviewer['display_name']) ?>
                         </a>

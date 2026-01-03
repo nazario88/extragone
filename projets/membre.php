@@ -42,9 +42,9 @@ if (in_array($user['role'], ['reviewer', 'admin'])) {
 }
 
 $title = htmlspecialchars($user['display_name']) . " — Profil";
-$description = "Profil de " . htmlspecialchars($user['display_name']) . " sur Projets eXtragone.";
-$url_canon = 'https://projets.extrag.one/membre/' . htmlspecialchars($username);
-$image_seo = $user['avatar'] ?: $base.'/uploads/avatars/'.$user['display_name'];
+$description = "Profil de " . htmlspecialchars($user['display_name']) . " sur eXtragone.";
+$url_canon = 'https://www.extrag.one/membre/' . htmlspecialchars($username);
+$image_seo = 'https://www.extrag.one' . $user['avatar'] ?: '/uploads/avatars/'.$user['display_name'];
 
 include 'includes/header.php';
 ?>
@@ -56,7 +56,7 @@ include 'includes/header.php';
         <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
             
             <!-- Avatar -->
-            <img src="<?= $user['avatar'] ?: $base.'/uploads/avatars/'.$user['display_name'] ?>" 
+            <img src="https://www.extrag.one<?= $user['avatar'] ?: '/uploads/avatars/'.$user['display_name'] ?>" 
                  alt="<?= htmlspecialchars($user['display_name']) ?>"
                  class="w-32 h-32 object-cover rounded-full ring-1 ring-slate-300/70 dark:ring-white/10">
             

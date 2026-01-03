@@ -167,10 +167,10 @@ $current_user = getCurrentUser();
           <div class="hidden lg:flex items-center gap-3">
             <!-- Profil / Connexion -->
             <?php if ($current_user): ?>
-              <a href="https://projets.extrag.one/membre/<?= $current_user['username'] ?>" 
+              <a href="https://www.extrag.one/membre/<?= $current_user['username'] ?>" 
                  class="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors"
                  title="Mon profil">
-                <img src="<?= $current_user['avatar'] ?: 'https://projets.extrag.one/uploads/avatars/' . urlencode($current_user['display_name']) ?>" 
+                <img src="https://www.extrag.one<?= $current_user['avatar'] ?: '/uploads/avatars/' . urlencode($current_user['display_name']) ?>" 
                      class="w-7 h-7 rounded-full object-cover ring-2 ring-slate-300 dark:ring-slate-600" 
                      alt="Avatar">
                 <span class="hidden xl:inline text-sm font-medium"><?= htmlspecialchars($current_user['display_name']) ?></span>
@@ -329,7 +329,7 @@ $current_user = getCurrentUser();
           <!-- Info profil -->
           <div class="px-4 py-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
             <div class="flex items-center gap-3 mb-3">
-              <img src="<?= $current_user['avatar'] ?: 'https://projets.extrag.one/uploads/avatars/' . urlencode($current_user['display_name']) ?>" 
+              <img src="https://www.extrag.one<?= $current_user['avatar'] ?: '/uploads/avatars/' . urlencode($current_user['display_name']) ?>" 
                    class="w-12 h-12 rounded-full object-cover ring-2 ring-slate-300 dark:ring-slate-600" 
                    alt="Avatar">
               <div class="flex-1 min-w-0">
