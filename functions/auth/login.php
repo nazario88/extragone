@@ -1,56 +1,55 @@
 <?php
-include '../../includes/config.php';
-include '../../includes/auth.php';
+/**
+ * Traitement de la connexion utilisateur
+ * Utilise le système d'authentification centralisé
+ */
+
+// Charger la config et l'authentification centralisées
+require_once $_SERVER['DOCUMENT_ROOT'] . '/includes/config.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/includes/auth.php';
 
 // Vérifier que c'est une requête POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: https://www.extrag.one/connexion');
+    header('Location: https://projets.extrag.one/connexion');
     exit;
 }
 
 // Vérifier le token CSRF
 if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
     $_SESSION['error'] = 'Token de sécurité invalide.';
-    header('Location: https://www.extrag.one/connexion');
+    header('Location: https://projets.extrag.one/connexion');
     exit;
 }
 
-// Récupération des données
+// Récupérer les données
 $email = sanitizeInput($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
-$redirect = $_POST['redirect'] ?? '';
 
 // Validation basique
 if (empty($email) || empty($password)) {
     $_SESSION['error'] = 'Tous les champs sont requis.';
-    header('Location: https://www.extrag.one/connexion' . ($redirect ? '?redirect=' . urlencode($redirect) : ''));
+    header('Location: https://projets.extrag.one/connexion');
     exit;
 }
 
-// Authentification
+// Authentification via la fonction centralisée
 $result = authenticateUser($email, $password);
 
 if (!$result['success']) {
     $_SESSION['error'] = $result['error'];
-    header('Location: https://www.extrag.one/connexion' . ($redirect ? '?redirect=' . urlencode($redirect) : ''));
+    header('Location: https://projets.extrag.one/connexion');
     exit;
 }
 
-// Connexion réussie
+// ✅ CONNEXION RÉUSSIE
+// Appeler loginUser() pour créer la session ET le cookie
 loginUser($result['user']['id']);
 
 $_SESSION['success'] = 'Bienvenue ' . htmlspecialchars($result['user']['display_name']) . ' !';
 
-// Gestion de la redirection
-if ($redirect) {
-    // Redirections vers les différents domaines
-    if (str_starts_with($redirect, 'projets/')) {
-        header('Location: https://projets.extrag.one/' . substr($redirect, 8));
-    } else {
-        header('Location: https://www.extrag.one/' . $redirect);
-    }
-} else {
-    // Redirection par défaut
-    header('Location: https://www.extrag.one');
-}
+// Redirection
+$redirect = $_SESSION['redirect_after_login'] ?? '';
+unset($_SESSION['redirect_after_login']);
+
+header('Location: https://projets.extrag.one/' . $redirect);
 exit;

@@ -10,6 +10,43 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// ========================================
+// RESTAURATION AUTOMATIQUE DE LA SESSION
+// ========================================
+// Si l'utilisateur n'est pas en session mais a un cookie valide,
+// restaurer automatiquement la session
+if (!isset($_SESSION['user_id']) && isset($_COOKIE['session_token'])) {
+    $session_token = $_COOKIE['session_token'];
+    
+    try {
+        // Vérifier si le token est valide
+        $stmt = $pdo->prepare('
+            SELECT s.user_id, u.* 
+            FROM extra_proj_sessions s
+            JOIN extra_proj_users u ON s.user_id = u.id
+            WHERE s.session_token = ? 
+            AND s.expires_at > NOW()
+            AND u.is_active = 1
+        ');
+        $stmt->execute([$session_token]);
+        $session_data = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($session_data) {
+            // Restaurer la session
+            $_SESSION['user_id'] = $session_data['user_id'];
+            
+            // Mettre à jour last_activity
+            $stmt = $pdo->prepare('UPDATE extra_proj_sessions SET last_activity = NOW() WHERE session_token = ?');
+            $stmt->execute([$session_token]);
+        } else {
+            // Token invalide ou expiré, supprimer le cookie
+            setcookie('session_token', '', time() - 3600, '/', '.extrag.one', true, true);
+        }
+    } catch (Exception $e) {
+        error_log('Session restoration error: ' . $e->getMessage());
+    }
+}
+
 /**
  * Vérifie si un utilisateur est connecté
  */
@@ -86,7 +123,22 @@ function loginUser($user_id) {
         $stmt->execute([$user_id, $session_token, $ip, $user_agent]);
         
         // Stocker le token dans un cookie partagé
-        setcookie('session_token', $session_token, time() + (30 * 24 * 60 * 60), '/', '.extrag.one', true, true);
+        $cookie_created = setcookie(
+            'session_token',                    // nom
+            $session_token,                      // valeur
+            time() + (30 * 24 * 60 * 60),      // expire dans 30 jours
+            '/',                                 // path
+            '.extrag.one',                       // domain (avec le point)
+            true,                                // secure (HTTPS uniquement)
+            true                                 // httponly (pas accessible en JS)
+        );
+        
+        // Log pour debug
+        if ($cookie_created) {
+            error_log("✅ LOGIN: Cookie session_token créé pour user_id=$user_id, domain=.extrag.one");
+        } else {
+            error_log("❌ LOGIN: Échec création cookie pour user_id=$user_id (headers déjà envoyés ?)");
+        }
         
     } catch (Exception $e) {
         error_log('Create session error: ' . $e->getMessage());
@@ -237,14 +289,6 @@ function verifyCSRFToken($token) {
     return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
 
-/**
- * Nettoie une entrée utilisateur
- */
-/*
-function sanitizeInput($input) {
-    return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8');
-}
-*/
 /**
  * Log une action utilisateur
  */

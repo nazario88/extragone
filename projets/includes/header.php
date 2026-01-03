@@ -7,11 +7,11 @@ if($base == "https://www.extrag.one") {
     if(!isset($image_seo)) $image_seo = "https://projets.extrag.one/assets/images/og-image.png";
 }
 
-
 if(!isset($noindex)) $noindex = FALSE;
 
 // Récupérer l'utilisateur connecté
 $current_user = getCurrentUser();
+
 ?>
 <!DOCTYPE html>
 <html lang="fr" class="dark">
@@ -287,67 +287,3 @@ $current_user = getCurrentUser();
         unset($_SESSION['error']);
     endif;
     ?>
-    
-    <script>
-    // Toggle menu mobile
-    /*
-    const menuToggle = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const menuIconOpen = document.getElementById('menu-icon-open');
-    const menuIconClose = document.getElementById('menu-icon-close');
-    
-    if (menuToggle) {
-        menuToggle.addEventListener('click', function() {
-            mobileMenu.classList.toggle('hidden');
-            menuIconOpen.classList.toggle('hidden');
-            menuIconClose.classList.toggle('hidden');
-        });
-    }*/
-    
-    // Dropdown user - Système au click qui reste ouvert
-    const dropdownButton = document.getElementById('userDropdownButton');
-    const dropdownContent = document.getElementById('userDropdownContent');
-    const dropdownMenu = document.getElementById('userDropdownMenu');
-    
-    if (dropdownButton && dropdownContent) {
-        // Toggle au clic
-        dropdownButton.addEventListener('click', function(e) {
-            e.stopPropagation();
-            dropdownContent.classList.toggle('hidden');
-        });
-        
-        // Fermer si on clique en dehors
-        document.addEventListener('click', function(e) {
-            if (dropdownMenu && !dropdownMenu.contains(e.target)) {
-                dropdownContent.classList.add('hidden');
-            }
-        });
-        
-        // Ne pas fermer si on clique à l'intérieur du menu
-        dropdownContent.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-    }
-    
-    // Toggle thème
-    /*
-    function toggleTheme() {
-        const html = document.documentElement;
-        const isDark = html.classList.contains('dark');
-        
-        if (isDark) {
-            html.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-            document.cookie = 'theme=light; path=/; max-age=31536000';
-        } else {
-            html.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-            document.cookie = 'theme=dark; path=/; max-age=31536000';
-        }
-    }
-    
-    //document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
-    document.getElementById('themeToggleMobile')?.addEventListener('click', toggleTheme);
-    */
-    
-    </script>
