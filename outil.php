@@ -1,8 +1,5 @@
 <?php
-/*
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-*/
+
 include 'includes/config.php';
 
 /* Récupération des informations de l'outil
@@ -68,9 +65,6 @@ if($data_outil['id']) {
 $title = $data_outil['nom'].' — eXtragone';
 $description = mb_strimwidth(strip_tags($data_outil['description']) . ' ' . strip_tags($data_outil['description_longue']), 0, 150) . '...'; 
 $image_seo = 'cache/tool-images/tool_'.$data_outil['id'].'.jpg';
-
-
-require_once 'admin/includes/auth.php';
 
 $url_canon = 'https://www.extrag.one/outil/'.$data_outil['slug'];
 
@@ -170,7 +164,7 @@ if($data_outil['tags']) {
             <a class="w-full md:w-auto px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 transition" href="<?=$url?>" target="_blank" title="Voir l'outil">
                 <i class="fa-solid fa-up-right-from-square mr-2"> </i> Voir le site
             </a>
-            <?php if(is_admin_logged_in()) echo '<a class="w-full md:w-auto px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 transition" href="admin/edit-tool.php?id='.$data_outil['id'].'" title="Modifier"><i class="fa-solid fa-pen-to-square mr-2"></i> Modifier</a>'; ?>
+            <?php if(isAdmin()) echo '<a class="w-full md:w-auto px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 transition" href="admin/edit-tool.php?id='.$data_outil['id'].'" title="Modifier"><i class="fa-solid fa-pen-to-square mr-2"></i> Modifier</a>'; ?>
         </div>
 
         <!-- Description longue -->

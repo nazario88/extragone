@@ -14,8 +14,6 @@ $stmt = $pdo->query('
     GROUP BY a.id ORDER BY a.nom ASC');
 $categories = $stmt->fetchAll();
 
-require_once 'admin/includes/auth.php';
-
 $url_canon = 'https://www.extrag.one/categories';
 
 include 'includes/header.php';

@@ -1,16 +1,15 @@
 <?php
+
 include 'includes/config.php';
+require_once 'includes/auth.php'; // besoin de le charge avant l'header.php
 
-// Vérifier que l'utilisateur est connecté
-require_once 'admin/includes/auth.php';
-
-if (!is_user_logged_in()) {
+if (!isLoggedIn()) {
     $_SESSION['redirect_after_login'] = 'reglages';
     header('Location: https://www.extrag.one/connexion');
     exit;
 }
 
-$user = get_current_user();
+$user = getCurrentUser();
 
 // Inclure les fonctions profil
 include 'includes/profil/functions.php';

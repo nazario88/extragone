@@ -38,7 +38,7 @@ $ecosystem_projects = [
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <?php foreach ($ecosystem_projects as $project): ?>
-        <div class="group bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 hover:shadow-2xl hover:border-<?= $project['color'] ?>-500 dark:hover:border-<?= $project['color'] ?>-400 transition-all duration-300 hover:-translate-y-1 flex flex-col">
+        <div class="group bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col">
             
             <!-- Contenu principal -->
             <div class="flex flex-col items-center text-center flex-grow">

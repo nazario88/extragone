@@ -23,7 +23,7 @@ RewriteRule ^contact$					contact.php [L]
 # Connexion centralisée
 RewriteRule ^connexion$ connexion.php [L]
 RewriteRule ^deconnexion$ deconnexion.php [L]
-RewriteRule ^profil/(.*)$    profil.php?username=$1 [L]
+RewriteRule ^membre/(.*)$    profile.php?username=$1 [L]
 RewriteRule ^reglages$       reglages.php [L]
 
 RewriteRule ^article/(.*)$				article.php?slug=$1 [L]

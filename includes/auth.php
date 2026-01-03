@@ -255,7 +255,7 @@ function requireLogin() {
 /**
  * Redirige vers la page de connexion si pas le bon rôle
  */
-function requireRole($role) {
+function requireRole($role, $url = 'https://projets.extrag.one') {
     requireLogin();
     $user = getCurrentUser();
     

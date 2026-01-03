@@ -85,7 +85,7 @@ $current_user = getCurrentUser();
       })();
     </script>
 
-    <?php if(!is_admin_logged_in() && basename($_SERVER['PHP_SELF']) !== 'login.php'): ?>
+    <?php if(!isAdmin()): ?>
     <!-- Statistiques -->
     <script src="https://www.extrag.one/assets/js/analytics.js" defer></script>
     <?php endif; ?>
@@ -255,7 +255,15 @@ $current_user = getCurrentUser();
 
       <!-- Contenu Sidebar -->
       <div class="p-6 space-y-6">
-        
+        <!-- Toggle thème -->
+        <button 
+          id="themeToggleSidebar"
+          class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors w-full text-left">
+          <i class="fa-solid fa-moon w-5 text-slate-600 dark:text-slate-400 dark:hidden"></i>
+          <i class="fa-solid fa-sun w-5 text-yellow-500 hidden dark:inline"></i>
+          <span>Thème : <span id="themeLabel" class="font-medium">Clair</span></span>
+        </button>
+
         <!-- Navigation mobile (Outils/Catégories) -->
         <div class="lg:hidden space-y-2">
           <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">
@@ -276,6 +284,59 @@ $current_user = getCurrentUser();
         </div>
 
         <hr class="lg:hidden border-slate-200 dark:border-slate-700">
+
+        <!-- Profil utilisateur -->
+        <?php if ($current_user): ?>
+        <div class="space-y-2">
+          <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">
+            Mon compte
+          </h3>
+          
+          <!-- Info profil -->
+          <div class="px-4 py-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
+            <div class="flex items-center gap-3">
+              <img src="https://www.extrag.one<?= $current_user['avatar'] ?: '/uploads/avatars/' . urlencode($current_user['display_name']) ?>" 
+                   class="w-12 h-12 rounded-full object-cover ring-2 ring-slate-300 dark:ring-slate-600" 
+                   alt="Avatar">
+              <div class="flex-1 min-w-0">
+                <div class="font-medium truncate"><?= htmlspecialchars($current_user['display_name']) ?></div>
+                <div class="text-xs text-slate-500">@<?= htmlspecialchars($current_user['username']) ?></div>
+              </div>
+            </div>
+          </div>
+
+          <a href="https://www.extrag.one/membre/<?= $current_user['username'] ?>" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            <i class="fa-solid fa-user w-5 text-slate-600 dark:text-slate-400"></i>
+            <span>Mon profil</span>
+          </a>
+
+          <a href="https://www.extrag.one/reglages" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            <i class="fa-solid fa-gear w-5 text-slate-600 dark:text-slate-400"></i>
+            <span>Réglages</span>
+          </a>
+
+          <a href="https://projets.extrag.one" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            <i class="fa-solid fa-folder-open w-5 text-slate-600 dark:text-slate-400"></i>
+            <span>Mes projets</span>
+          </a>
+
+          <?php if (isReviewer()): ?>
+          <a href="https://projets.extrag.one/reviewer/dashboard" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            <i class="fa-solid fa-star w-5 text-purple-500"></i>
+            <span>Dashboard reviewer</span>
+          </a>
+          <?php endif; ?>
+
+          <?php if (isAdmin()): ?>
+          <a href="admin" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            <i class="fa-solid fa-shield w-5 text-red-500"></i>
+            <span>Administration</span>
+          </a>
+          <?php endif; ?>
+        </div>
+
+        <hr class="border-slate-200 dark:border-slate-700">
+        <?php endif; ?>
 
         <!-- Écosystème eXtragone -->
         <div class="space-y-2">
@@ -319,59 +380,6 @@ $current_user = getCurrentUser();
 
         <hr class="border-slate-200 dark:border-slate-700">
 
-        <!-- Profil utilisateur -->
-        <?php if ($current_user): ?>
-        <div class="space-y-2">
-          <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">
-            Mon compte
-          </h3>
-          
-          <!-- Info profil -->
-          <div class="px-4 py-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
-            <div class="flex items-center gap-3 mb-3">
-              <img src="https://www.extrag.one<?= $current_user['avatar'] ?: '/uploads/avatars/' . urlencode($current_user['display_name']) ?>" 
-                   class="w-12 h-12 rounded-full object-cover ring-2 ring-slate-300 dark:ring-slate-600" 
-                   alt="Avatar">
-              <div class="flex-1 min-w-0">
-                <div class="font-medium truncate"><?= htmlspecialchars($current_user['display_name']) ?></div>
-                <div class="text-xs text-slate-500">@<?= htmlspecialchars($current_user['username']) ?></div>
-              </div>
-            </div>
-          </div>
-
-          <a href="https://projets.extrag.one/membre/<?= $current_user['username'] ?>" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            <i class="fa-solid fa-user w-5 text-slate-600 dark:text-slate-400"></i>
-            <span>Mon profil</span>
-          </a>
-
-          <a href="https://projets.extrag.one/reglages" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            <i class="fa-solid fa-gear w-5 text-slate-600 dark:text-slate-400"></i>
-            <span>Réglages</span>
-          </a>
-
-          <a href="https://projets.extrag.one" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            <i class="fa-solid fa-folder-open w-5 text-slate-600 dark:text-slate-400"></i>
-            <span>Mes projets</span>
-          </a>
-
-          <?php if (isReviewer()): ?>
-          <a href="https://projets.extrag.one/reviewer/dashboard" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            <i class="fa-solid fa-star w-5 text-purple-500"></i>
-            <span>Dashboard reviewer</span>
-          </a>
-          <?php endif; ?>
-
-          <?php if (is_admin_logged_in()): ?>
-          <a href="admin" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            <i class="fa-solid fa-shield w-5 text-red-500"></i>
-            <span>Administration</span>
-          </a>
-          <?php endif; ?>
-        </div>
-
-        <hr class="border-slate-200 dark:border-slate-700">
-        <?php endif; ?>
-
         <!-- Autres liens -->
         <div class="space-y-2">
           <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">
@@ -389,14 +397,6 @@ $current_user = getCurrentUser();
             <i class="fa-solid fa-external-link text-xs text-slate-400 ml-auto"></i>
           </a>
 
-          <!-- Toggle thème -->
-          <button 
-            id="themeToggleSidebar"
-            class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors w-full text-left">
-            <i class="fa-solid fa-moon w-5 text-slate-600 dark:text-slate-400 dark:hidden"></i>
-            <i class="fa-solid fa-sun w-5 text-yellow-500 hidden dark:inline"></i>
-            <span>Thème : <span id="themeLabel" class="font-medium">Clair</span></span>
-          </button>
         </div>
 
         <?php if ($current_user): ?>

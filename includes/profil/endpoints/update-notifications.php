@@ -7,11 +7,11 @@
 session_start();
 
 include '../../config.php';
-include '../../../admin/includes/auth.php'; // Fonctions auth existantes
+include '../../auth.php'; // Fonctions auth existantes
 include '../functions.php';
 
 // Vérifier que l'utilisateur est connecté
-if (!is_user_logged_in()) {
+if (!isLoggedIn()) {
     $_SESSION['error'] = 'Vous devez être connecté pour effectuer cette action.';
     header('Location: https://www.extrag.one/connexion');
     exit;
@@ -30,7 +30,7 @@ if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_to
     exit;
 }
 
-$user = get_current_user();
+$user = getCurrentUser();
 
 // Récupération des préférences (checkboxes)
 $prefs = [

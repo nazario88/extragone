@@ -1,5 +1,11 @@
 <?php
+/**
+ * Page de profil utilisateur
+ * URL : www.extrag.one/profil/username
+ */
+
 include 'includes/config.php';
+require_once 'includes/auth.php'; // besoin de le charge avant l'header.php
 
 // Récupérer le username depuis l'URL
 $username = $_GET['username'] ?? '';
@@ -25,7 +31,7 @@ include 'includes/profil/functions.php';
 $stats = getUserStats($user['id']);
 
 // Récupérer les projets
-$current_user = get_current_user();
+$current_user = getCurrentUser();
 $include_drafts = ($current_user && $current_user['id'] == $user['id']);
 $user_projects = getUserProjects($user['id'], $include_drafts);
 
@@ -35,8 +41,6 @@ $title = htmlspecialchars($user['display_name']) . " — Profil eXtragone";
 $description = "Profil de " . htmlspecialchars($user['display_name']) . " sur eXtragone.";
 $url_canon = 'https://www.extrag.one/profil/' . htmlspecialchars($username);
 $image_seo = $user['avatar'] ?: 'https://www.extrag.one/uploads/avatars/' . urlencode($user['display_name']);
-
-require_once 'admin/includes/auth.php';
 
 include 'includes/header.php';
 ?>

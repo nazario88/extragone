@@ -27,8 +27,6 @@ $title = $data_article['title'];
 $description = $data_article['description'];
 $image_seo = $data_article['image'];
 
-require_once 'admin/includes/auth.php';
-
 $url_canon = 'https://www.extrag.one/article/'.$data_article['slug'];
 
 include 'includes/header.php';
@@ -134,7 +132,7 @@ echo json_encode(
 
         echo addCssClasses($data_article['content_html']);
         
-        if(is_admin_logged_in()) {
+        if(isAdmin()) {
             echo '
             <div class="w-full mt-5 flex items-center justify-center gap-3">
                 <a class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 transition" href="admin/edit-article.php?id='.$data_article['id'].'" title="Modifier"><i class="fa-solid fa-pen-to-square"></i> Modifier</a>
