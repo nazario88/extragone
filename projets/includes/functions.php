@@ -407,38 +407,6 @@ function processAndOptimizeImage(string $sourcePath, string $destPath, int $maxW
     imagedestroy($dstImage);
     return $success;
 }
-/**
- * Supprime une image de projet
- */
-function deleteProjectImage($image_id, $user_id) {
-    global $pdo;
-    
-    // Vérifier que l'image appartient à un projet de l'utilisateur
-    $stmt = $pdo->prepare('
-        SELECT i.*, p.user_id 
-        FROM extra_proj_images i
-        JOIN extra_proj_projects p ON i.project_id = p.id
-        WHERE i.id = ?
-    ');
-    $stmt->execute([$image_id]);
-    $image = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    if (!$image || $image['user_id'] != $user_id) {
-        return ['success' => false, 'error' => 'Image non trouvée'];
-    }
-    
-    // Supprimer le fichier physique
-    $filepath = __DIR__ . '/..' . $image['filepath'];
-    if (file_exists($filepath)) {
-        unlink($filepath);
-    }
-    
-    // Supprimer en base
-    $stmt = $pdo->prepare('DELETE FROM extra_proj_images WHERE id = ?');
-    $stmt->execute([$image_id]);
-    
-    return ['success' => true];
-}
 
 /**
  * Récupère le nombre de projets en attente de review
