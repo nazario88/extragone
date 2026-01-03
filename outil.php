@@ -1,6 +1,11 @@
 <?php
-
+//ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
 include 'includes/config.php';
+include 'includes/auth.php';
+
+// Inclure les systèmes de notes et commentaires
+require_once 'includes/notes/functions.php';
+require_once 'includes/comments/functions.php';
 
 /* Récupération des informations de l'outil
 ——————————————————————————————————————————————————*/
@@ -42,14 +47,18 @@ if($data_outil['id']) {
 
     /* Note
     ——————————————————————————————————————————————————*/
-    $sql = $pdo->prepare('SELECT  ROUND(AVG(note),2) as average, count(note) as nb FROM extra_tools_notes WHERE id_tool=?');
-    $sql->execute(array($data_outil['id']));
-    $stats_note = $sql->fetch();
-
+    $stats_note = getToolRatingStats($data_outil['id']);
     $myip = getIP();
-    $sql = $pdo->prepare('SELECT id FROM extra_tools_notes WHERE id_tool=? and ip=?');
-    $sql->execute(array($data_outil['id'], $myip));
-    $check_note = $sql->fetch();
+    $check_note = hasUserRatedTool($data_outil['id'], $myip);
+    $comments_count = countToolComments($data_outil['id']);
+    $tool_comments = getToolComments($data_outil['id']);
+
+    // Vérifier si l'utilisateur connecté a déjà commenté
+    $user_comment = null;
+    if (isLoggedIn()) {
+        $current_user = getCurrentUser();
+        $user_comment = getUserToolComment($data_outil['id'], $current_user['id']);
+    }
 
     /* +1 pour les stats
     ——————————————————————————————————————————————————*/
@@ -212,6 +221,7 @@ if($data_outil['tags']) {
                     </span>
                 </div>
                 
+                <!-- Notes -->
                 <div class="flex items-center justify-between">
                     <span class="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
                         <i class="fa-solid fa-star w-4"></i>Notes
@@ -232,6 +242,15 @@ if($data_outil['tags']) {
                             ?>
                         </div>
                     </div>
+                </div>
+                <!-- Avis -->
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                        <i class="fa-solid fa-comment w-4"></i>Avis
+                    </span>
+                    <span class="font-semibold text-gray-700 dark:text-gray-300">
+                        <?= $comments_count ?> avis
+                    </span>
                 </div>
                 
                 <div class="flex items-center justify-between">
@@ -288,67 +307,75 @@ if($data_outil['tags']) {
                 const toolIdInput = document.getElementById('toolIdInput');
                 const ratingLabel = document.getElementById('ratingLabel');
                 const ratingMessage = document.getElementById('ratingMessage');
-                let currentRating = 4;
+                let currentRating = 0;
 
                 stars.forEach((star, index) => {
                     const value = index + 1;
 
                     star.addEventListener('mouseover', () => {
-                    highlightStars(value);
+                        highlightStars(value);
                     });
 
                     star.addEventListener('mouseout', () => {
-                    highlightStars(currentRating);
+                        highlightStars(currentRating);
                     });
 
                     star.addEventListener('click', async () => {
-                    currentRating = value;
-                    ratingInput.value = currentRating;
-                    ratingLabel.textContent = `${currentRating} / 5`;
-                    highlightStars(currentRating);
+                        currentRating = value;
+                        ratingInput.value = currentRating;
+                        ratingLabel.textContent = `${currentRating} / 5`;
+                        highlightStars(currentRating);
 
-                    // Données à envoyer
-                    const payload = {
-                        rating: currentRating,
-                        tool_id: toolIdInput.value
-                    };
+                        // Données à envoyer
+                        const payload = {
+                            rating: currentRating,
+                            tool_id: toolIdInput.value
+                        };
 
-                    try {
-                        const response = await fetch('includes/push_note.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(payload)
-                        });
+                        try {
+                            const response = await fetch('includes/notes/add-note.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(payload)
+                            });
 
-                        if (response.ok) {
-                        ratingMessage.classList.remove('hidden');
-                        ratingMessage.textContent = 'Merci pour votre note !';
-                        } else {
-                        throw new Error('Erreur serveur');
+                            const data = await response.json();
+
+                            if (response.ok && data.success) {
+                                ratingMessage.classList.remove('hidden');
+                                ratingMessage.textContent = 'Merci pour votre note !';
+                                
+                                // Ouvrir la modal après 1 seconde
+                                setTimeout(() => {
+                                    openRatingModal(currentRating);
+                                }, 1000);
+                            } else {
+                                throw new Error(data.error || 'Erreur serveur');
+                            }
+                        } catch (error) {
+                            ratingMessage.classList.remove('hidden');
+                            ratingMessage.classList.replace('bg-green-300', 'bg-red-300');
+                            ratingMessage.classList.replace('text-green-800', 'text-red-800');
+                            ratingMessage.textContent = error.message || 'Erreur lors de l\'envoi. Veuillez réessayer.';
                         }
-                    } catch (error) {
-                        ratingMessage.classList.remove('hidden');
-                        ratingMessage.classList.replace('bg-green-300', 'bg-red-300');
-                        ratingMessage.classList.replace('text-green-800', 'text-red-800');
-                        ratingMessage.textContent = 'Erreur lors de l’envoi. Veuillez réessayer.';
-                    }
                     });
                 });
 
                 function highlightStars(value) {
                     stars.forEach((star, index) => {
-                    if (index < value) {
-                        star.classList.add('text-yellow-400');
-                        star.classList.remove('text-gray-300');
-                    } else {
-                        star.classList.remove('text-yellow-400');
-                        star.classList.add('text-gray-300');
-                    }
+                        if (index < value) {
+                            star.classList.add('text-yellow-400');
+                            star.classList.remove('text-gray-300');
+                        } else {
+                            star.classList.remove('text-yellow-400');
+                            star.classList.add('text-gray-300');
+                        }
                     });
                 }
                 </script>
+                <?php include 'includes/notes/rating-modal.php'; ?>
 
                     <?php
                 }
@@ -503,6 +530,11 @@ if($data_outil['tags']) {
                 </div>
             <?php endif; ?>
         </div>
+    </div>
+
+    <!-- Section Avis & Commentaires -->
+    <div class="col-span-4 mb-8">
+        <?php include 'includes/comments/display-comments.php'; ?>
     </div>
 
     <!-- CTA Section -->
