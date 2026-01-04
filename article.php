@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
 include 'includes/config.php';
 
 /* Récupération des informations de l'article
@@ -10,23 +11,27 @@ $sql->execute(array($slug));
 $data_article = $sql->fetch();
 if(!$data_article) errorPage("Les informations de l'article n'ont pas pu être récupérées ☹️");
 
-/* Récupération d'autres outils 
+/* +1 pour les stats
 ——————————————————————————————————————————————————*/
 if($data_article['id']) {
-
-    /* +1 pour les stats
-    ——————————————————————————————————————————————————*/
     $sql = $pdo->prepare('UPDATE extra_articles SET hits=hits+1 WHERE id=?');
     $sql->execute(array($data_article['id']));
-
 }
+
+/* Charger les fonctions articles
+——————————————————————————————————————————————————*/
+require_once 'includes/article/functions.php';
+
+/* Préparer la table des matières et injecter les ancres
+——————————————————————————————————————————————————*/
+$toc = extractTableOfContents($data_article['content_html']);
+$data_article['content_html'] = injectAnchorsInContent($data_article['content_html'], $toc);
 
 /* SEO
 ——————————————————————————————————————————————————*/
 $title = $data_article['title'];
 $description = $data_article['description'];
 $image_seo = $data_article['image'];
-
 $url_canon = 'https://www.extrag.one/article/'.$data_article['slug'];
 
 include 'includes/header.php';
@@ -66,91 +71,106 @@ $schema = [
 
 echo json_encode(
     $schema,
-    JSON_UNESCAPED_SLASHES      // Garde les / dans les URLs
-    | JSON_UNESCAPED_UNICODE    // Garde les accents (é, è, ç, etc.)
-    | JSON_PRETTY_PRINT         // Format lisible (tu peux retirer en prod pour minifier)
+    JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
 );
 ?>
 </script>
 
-<div class="w-full px-5 py-5">
-    <p class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">&rarr; article</p>
-    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-        <div class="flex-1">
-            <h1 class="mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
-                <?=$data_article['title']?>
-            </h1>
-        </div>
-        <div class="flex-shrink-0">
-            <!-- Bloc de partage compact et moderne -->
-            <div class="inline-flex items-center gap-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl px-4 py-2 border border-slate-200 dark:border-slate-700 shadow-sm">
-                <span class="text-xs font-medium text-gray-600 dark:text-gray-400 mr-1">Partager</span>
-                
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?=urlencode($url_canon)?>" 
-                   target="_blank"
-                   class="w-9 h-9 flex items-center justify-center rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition-all hover:scale-110"
-                   title="Partager sur LinkedIn">
-                    <i class="fa-brands fa-linkedin text-sm"></i>
-                </a>
-                
-                <a href="https://twitter.com/intent/tweet?url=<?=urlencode($url_canon)?>&text=<?=urlencode($data_article['title'])?>" 
-                   target="_blank"
-                   class="w-9 h-9 flex items-center justify-center rounded-xl bg-black hover:bg-gray-800 text-white transition-all hover:scale-110"
-                   title="Partager sur Twitter">
-                    <i class="fa-brands fa-x-twitter text-sm"></i>
-                </a>
-                
-                <a href="https://www.facebook.com/sharer/sharer.php?u=<?=urlencode($url_canon)?>" 
-                   target="_blank"
-                   class="w-9 h-9 flex items-center justify-center rounded-xl bg-blue-500 hover:bg-blue-600 text-white transition-all hover:scale-110"
-                   title="Partager sur Facebook">
-                    <i class="fa-brands fa-facebook text-sm"></i>
-                </a>
-                
-                <button onclick="navigator.clipboard.writeText('<?=$url_canon?>'); this.innerHTML='<i class=\'fa-solid fa-check text-sm\'></i>'; setTimeout(() => this.innerHTML='<i class=\'fa-solid fa-link text-sm\'></i>', 2000)" 
-                        class="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-600 hover:bg-gray-700 text-white transition-all hover:scale-110"
-                        title="Copier le lien">
-                    <i class="fa-solid fa-link text-sm"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- CSS pour smooth scroll -->
+<style>
+html {
+    scroll-behavior: smooth;
+}
 
-<!-- Container -->
+/* Offset pour les ancres (à cause du header sticky) */
+h2[id], h3[id] {
+    scroll-margin-top: 100px;
+}
+</style>
+
 <div class="w-full px-2 md:px-4">
 
-    <!-- Détail de l'article -->
-    <div class="bg-white rounded-xl shadow p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
+    <!-- En-tête de l'article -->
+    <div class="max-w-7xl mx-auto">
 
-        <!-- Date -->
-        <p class="flex mb-2 items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">
-            publié le <?=$data_article['date_publi']?>
-        </p>
-        <!-- Content -->
-        <?php
-
-        echo addCssClasses($data_article['content_html']);
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400 mt-4">
+        <a href="<?= $base ?>" class="hover:text-blue-500 transition-colors">
+            <span class="ml-1">Accueil</span>
+        </a>
         
-        if(isAdmin()) {
-            echo '
-            <div class="w-full mt-5 flex items-center justify-center gap-3">
-                <a class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 transition" href="admin/edit-article.php?id='.$data_article['id'].'" title="Modifier"><i class="fa-solid fa-pen-to-square"></i> Modifier</a>
-            </div>
-           ';
-        }
-        ?>
+        &rarr;
+        
+        <a href="articles" class="hover:text-blue-500 transition-colors">
+            Articles
+        </a>
+        
+        &rarr;
+        
+        <span class="text-gray-900 dark:text-gray-200 font-medium truncate">
+            <?= htmlspecialchars($data_article['title']) ?>
+        </span>
+    </nav> 
+
+        <h1 class="text-3xl md:text-4xl font-bold my-2">
+            <?= htmlspecialchars($data_article['title']) ?>
+        </h1>
+        
+        <!-- Date de publication -->
+        <p class="flex mb-4 items-start gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">
+            Publié le <?= $data_article['date_publi'] ?>
+        </p>
     </div>
 
-    <!-- Bouton voir tous les articles -->
-    <div class="text-center my-4 pt-6">
-        <a href="articles" class="w-full md:w-auto px-6 py-3 bg-blue-500 border-blue-600 dark:bg-slate-900 dark:border-slate-950 text-white fill-white active:scale-95 duration-100 border will-change-transform overflow-hidden relative rounded-xl transition-all hover:border-blue-400 dark:hover:border-blue-950 transition-all duration-200 group">
-            <span>Voir tous les articles</span>
-            <i class="fa-solid fa-arrow-right ml-2 transition-transform duration-200 group-hover:translate-x-1"></i>
+    <!-- Grille : Contenu principal + Sidebar -->
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Colonne principale (contenu de l'article) -->
+        <div class="lg:col-span-2">
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow p-6 md:p-8 border border-slate-200 dark:border-slate-700">
+                
+                <!-- Image principale (si présente) -->
+                <?php if ($data_article['image']): ?>
+                <img src="<?= htmlspecialchars($data_article['image']) ?>" 
+                     alt="<?= htmlspecialchars($data_article['title']) ?>"
+                     class="w-full h-auto rounded-xl mb-6 shadow-lg">
+                <?php endif; ?>
+                
+                <!-- Contenu de l'article -->
+                <div class="prose prose-lg dark:prose-invert max-w-none">
+                    <?= addCssClasses($data_article['content_html']) ?>
+                </div>
+                
+                <!-- Bouton admin (si connecté en admin) -->
+                <?php if(isAdmin()): ?>
+                <div class="w-full mt-8 pt-6 border-t border-slate-200 dark:border-slate-700 flex items-center justify-center gap-3">
+                    <a class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700 transition" 
+                       href="admin/edit-article.php?id=<?= $data_article['id'] ?>" 
+                       title="Modifier">
+                        <i class="fa-solid fa-pen-to-square mr-2"></i>Modifier
+                    </a>
+                </div>
+                <?php endif; ?>
+            </div>
+            
+            <!-- Navigation Article Précédent / Suivant -->
+            <?php include 'includes/article/navigation.php'; ?>
+        </div>
+
+        <!-- Sidebar sticky -->
+        <div class="lg:col-span-1">
+            <?php include 'includes/article/sidebar.php'; ?>
+        </div>
+    </div>
+
+    <!-- Bouton retour vers tous les articles (mobile-friendly) -->
+    <div class="text-center my-8 pt-6">
+        <a href="articles" 
+           class="inline-block px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all">
+            <i class="fa-solid fa-arrow-left mr-2"></i>
+            Voir tous les articles
         </a>
     </div>
 </div>
-<?php
 
-include 'includes/footer.php';
-?>
+<?php include 'includes/footer.php'; ?>
