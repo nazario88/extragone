@@ -1,0 +1,65 @@
+# eXtragone
+
+Plateforme communautaire de référencement d'outils web avec focus sur les alternatives françaises.
+
+## À propos
+
+eXtragone recense les meilleurs outils numériques, les classe par catégorie et met en avant leurs alternatives françaises. L'écosystème comprend également des projets satellites comme une plateforme communautaire de projets reviewés et un générateur de noms par IA.
+
+## Sites de l'écosystème
+
+- **Site principal** : https://www.extrag.one - Catalogue d'outils et alternatives
+- **Projets** : https://projets.extrag.one - Projets communautaires avec reviews
+- **Nomi** : https://nomi.extrag.one - Générateur de noms par IA
+
+## Pages principales (www.extrag.one)
+
+### Navigation utilisateur
+- `https://www.extrag.one/` - Accueil avec recherche et derniers articles
+- `https://www.extrag.one/outils` - Liste complète des outils (120/page, pagination, filtres)
+- `https://www.extrag.one/outils/categorie/{slug}` - Outils par catégorie
+- `https://www.extrag.one/outil/{slug}` - Fiche détaillée d'un outil (description, alternatives, notes, stats)
+- `https://www.extrag.one/categories` - Liste des catégories d'outils
+- `https://www.extrag.one/articles` - Liste des articles de blog
+- `https://www.extrag.one/article/{slug}` - Article individuel
+- `https://www.extrag.one/ajouter` - Proposer un nouvel outil
+- `https://www.extrag.one/contact` - Formulaire de contact
+
+## Fonctionnalités
+
+### Recherche d'outils
+- Barre de recherche temps réel sur l'accueil
+- Filtrage par catégorie, français uniquement, texte libre
+- Pagination avancée (120 outils/page)
+- Recherche via `/outils?q=chatgpt&categorie=ia&page=2`
+
+### Système de notation
+- 1 note par outil (1 à 5 étoiles)
+- Calcul moyenne et nombre d'avis automatique
+- Affichage stats sur fiche outil
+
+### Alternatives françaises
+- Détection automatique alternatives pour chaque outil
+- Mise en avant alternatives françaises avec drapeau 🇫🇷
+- Extension Chrome qui suggère alternatives pendant navigation
+
+### Projets communautaires
+- Soumission de projets par les utilisateurs
+- Workflow de review : draft → in_review → published
+- Reviewers rédigent analyses détaillées en Markdown
+- Système de commentaires sur projets
+- Galerie d'images avec lightbox
+- Intégration vidéos YouTube
+
+### Sitemap
+- `https://www.extrag.one/sitemap.xml` - Liste tous les outils publiés
+
+## Contact
+
+- Formulaire : https://www.extrag.one/contact
+- Email : via formulaire uniquement
+- Pas de tracker public ni contributions externes
+
+---
+
+*Dernière mise à jour : 05/01/2026*

@@ -12,17 +12,33 @@ function getToolRatingStats($tool_id) {
     global $pdo;
     
     try {
+        // Notes rapides (anonymes)
         $stmt = $pdo->prepare('
-            SELECT ROUND(AVG(note), 2) as average, COUNT(note) as nb 
+            SELECT SUM(note) as sum_notes, COUNT(note) as count_notes 
             FROM extra_tools_notes 
             WHERE id_tool = ?
         ');
         $stmt->execute([$tool_id]);
-        $stats = $stmt->fetch(PDO::FETCH_ASSOC);
+        $quick_ratings = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Notes détaillées (commentaires)
+        $stmt = $pdo->prepare('
+            SELECT SUM(rating) as sum_ratings, COUNT(rating) as count_ratings 
+            FROM extra_tools_comments 
+            WHERE tool_id = ?
+        ');
+        $stmt->execute([$tool_id]);
+        $comment_ratings = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Combiner les deux
+        $total_sum = ($quick_ratings['sum_notes'] ?? 0) + ($comment_ratings['sum_ratings'] ?? 0);
+        $total_count = ($quick_ratings['count_notes'] ?? 0) + ($comment_ratings['count_ratings'] ?? 0);
+        
+        $average = $total_count > 0 ? round($total_sum / $total_count, 2) : 0;
         
         return [
-            'average' => (float)($stats['average'] ?? 0),
-            'nb' => (int)($stats['nb'] ?? 0)
+            'average' => (float)$average,
+            'nb' => (int)$total_count
         ];
     } catch (Exception $e) {
         error_log('Get tool rating stats error: ' . $e->getMessage());

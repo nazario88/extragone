@@ -227,10 +227,7 @@ if($data_outil['tags']) {
                         <i class="fa-solid fa-star w-4"></i>Notes
                     </span>
                     <div class="flex items-center gap-2">
-                        <span class="font-semibold text-gray-700 dark:text-gray-300">
-                            <?=$stats_note['nb']?> avis
-                        </span>
-                        <div class="flex items-center">
+                        <div class="flex items-center" title="<?=$stats_note['nb']?>/5 étoiles">
                             <?php
                             for($i = 1; $i <= $stats_note['average']; $i++) {
                                 echo '<i class="fa-solid fa-star text-yellow-400 text-xs"></i>';
@@ -241,17 +238,23 @@ if($data_outil['tags']) {
                             }
                             ?>
                         </div>
+                        <span class="font-semibold text-gray-700 dark:text-gray-300">
+                            (<?=$stats_note['nb']?>)
+                        </span>
                     </div>
                 </div>
                 <!-- Avis -->
-                <div class="flex items-center justify-between">
+                <a href="<?=$url_canon?>#avis-section" class="flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg px-2 py-1 -mx-2 transition-colors">
                     <span class="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
                         <i class="fa-solid fa-comment w-4"></i>Avis
                     </span>
-                    <span class="font-semibold text-gray-700 dark:text-gray-300">
-                        <?= $comments_count ?> avis
-                    </span>
-                </div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-semibold text-gray-700 dark:text-gray-300">
+                            <?= $comments_count ?> avis
+                        </span>
+                        <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                    </div>
+                </a>
                 
                 <div class="flex items-center justify-between">
                     <span class="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
@@ -533,7 +536,7 @@ if($data_outil['tags']) {
     </div>
 
     <!-- Section Avis & Commentaires -->
-    <div class="col-span-4 mb-8">
+    <div class="col-span-4 mb-8" id="avis-section">
         <?php include 'includes/comments/display-comments.php'; ?>
     </div>
 
