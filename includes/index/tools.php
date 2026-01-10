@@ -1,6 +1,6 @@
 <?php
 // ==========================================
-// Configuration des projets de l'écosystème
+// Configuration des projets de l'écosystème pour l'index.php
 // ==========================================
 $ecosystem_projects = [
     [

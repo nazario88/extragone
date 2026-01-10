@@ -1,84 +1,94 @@
 <?php
+/**
+ * Page de recherche et listing des outils
+ * Optimisée pour le SEO et l'expérience utilisateur
+ * Version refactorisée - Architecture modulaire
+ */
+
 include 'includes/config.php';
 
-// Récupérer toutes les catégories pour le filtre
+// ============================================
+// 1. RÉCUPÉRATION DES CATÉGORIES
+// ============================================
 $stmt = $pdo->query('
     SELECT a.*, count(b.categorie_id) as nb_tools
     FROM extra_tools_categories a
     LEFT JOIN extra_tools b ON b.categorie_id=a.id AND b.is_valid=1 
-    GROUP BY a.id ORDER BY a.nom ASC');
+    GROUP BY a.id ORDER BY a.nom ASC
+');
 $categories = $stmt->fetchAll();
 
-// Vérifier si une catégorie a été sélectionnée
-$categorie_slug = isset($_GET['categorie']) ? $_GET['categorie'] : null;
+// ============================================
+// 2. LOGIQUE DE RECHERCHE
+// ============================================
+include 'includes/outils/search-logic.php';
 
-// Vérifier si une recherche a été effectuée
-$recherche = isset($_GET['q']) ? $_GET['q'] : null;
-$recherche = trim($recherche ?? '');
-$clause_where = ($recherche) ? '(a.nom LIKE "%'.$recherche.'%" OR a.description LIKE "%'.$recherche.'%" OR a.description_longue LIKE "%'.$recherche.'%")' : '1=1';
-//$clause_where = ($recherche) ? '(MATCH(a.nom, a.description, a.description_longue) AGAINST ("'.$recherche.'" IN NATURAL LANGUAGE MODE))' : '1=1';
-
-// Alimentation avec le filtre sur les outils français
-$is_french = isset($_POST['is_frenchPost']) ? $_POST['is_frenchPost'] : null;
-$is_french_checked = '';
-if($is_french) { // voir plus tard pour activer le filtre par défaut + SESSION ?
-    $clause_where .= ' AND a.is_french=1';
-    $is_french_checked = 'checked';
-}
-
-/* Configuration pagination
-———————————————————————————————————————————————————————————————*/
+// ============================================
+// 3. PAGINATION
+// ============================================
 $itemsPerPage = 120;
 $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($currentPage - 1) * $itemsPerPage;
 
-// Récupérer le nombre total d'éléments pour calculer le nombre de pages
+// ============================================
+// 4. CONSTRUCTION DE LA REQUÊTE SQL
+// ============================================
+// Requête de comptage
 if (!empty($categorie_slug)) {
-    $countStmt = $pdo->prepare('
+    $countStmt = $pdo->prepare("
         SELECT COUNT(*) as total
         FROM extra_tools a
         LEFT JOIN extra_tools_categories b ON a.categorie_id = b.id 
-        WHERE a.is_valid=1 AND b.slug = ? AND '.$clause_where
-    );
-    $countStmt->execute([$categorie_slug]);
+        WHERE $clause_where
+    ");
 } else {
-    $countStmt = $pdo->query('
+    $countStmt = $pdo->prepare("
         SELECT COUNT(*) as total
         FROM extra_tools a
-        WHERE a.is_valid=1 AND '.$clause_where
-    );
+        WHERE $clause_where
+    ");
 }
-
+$countStmt->execute($params);
 $totalItems = $countStmt->fetch()['total'];
 $totalPages = ceil($totalItems / $itemsPerPage);
 
-// Construire la requête en fonction de la catégorie sélectionnée
+// Requête principale
 if (!empty($categorie_slug)) {
-    // Si une catégorie est sélectionnée, récupérer les outils associés à cette catégorie
-    $stmt = $pdo->prepare('
+    $stmt = $pdo->prepare("
         SELECT a.*, b.nom AS categorie_nom 
         FROM extra_tools a
         LEFT JOIN extra_tools_categories b ON a.categorie_id = b.id 
-        WHERE a.is_valid=1 AND b.slug = ? AND '.$clause_where.'
+        WHERE $clause_where
         ORDER BY a.date_creation DESC
         LIMIT ? OFFSET ?
-    ');
-    $stmt->execute([$categorie_slug, $itemsPerPage, $offset]);
+    ");
+    $stmt->execute(array_merge($params, [$itemsPerPage, $offset]));
 } else {
-    // Sinon, récupérer tous les outils associés à la recherche
-    $stmt = $pdo->prepare('
+    $stmt = $pdo->prepare("
         SELECT a.* 
         FROM extra_tools a
-        WHERE a.is_valid=1 AND '.$clause_where.'
+        WHERE $clause_where
         ORDER BY a.date_creation DESC
         LIMIT ? OFFSET ?
-    ');
-    $stmt->execute([$itemsPerPage, $offset]);
+    ");
+    $stmt->execute(array_merge($params, [$itemsPerPage, $offset]));
 }
 
 $outils = $stmt->fetchAll();
 $nombre_outils = count($outils);
 
+// ============================================
+// 5. LOG SI AUCUN RÉSULTAT
+// ============================================
+if ($nombre_outils === 0 && !empty($recherche)) {
+    $stmt_log = $pdo->prepare('INSERT INTO extra_logs (date, content) VALUES(NOW(), ?)');
+    $log = 'Outil non trouvé via recherche : ' . $recherche . ' (search_in: ' . $search_in . ')';
+    $stmt_log->execute([$log]);
+}
+
+// ============================================
+// 6. FONCTION PAGINATION
+// ============================================
 function buildPaginationUrl($page, $categorie_slug = null) {
     $params = ['page' => $page];
     
@@ -86,7 +96,7 @@ function buildPaginationUrl($page, $categorie_slug = null) {
         $params['categorie'] = $categorie_slug;
     }
     
-    // Conserver les autres paramètres GET existants (recherche, etc.)
+    // Conserver les autres paramètres GET existants
     $currentParams = $_GET;
     unset($currentParams['page']); // On retire page pour le remplacer
     $params = array_merge($currentParams, $params);
@@ -94,101 +104,89 @@ function buildPaginationUrl($page, $categorie_slug = null) {
     return 'outils?' . http_build_query($params);
 }
 
-// On enregistre la log si pas d'outil trouvé
-if(!$outils) {
-    $sql = $pdo->prepare('INSERT INTO extra_logs (date, content) VALUES(now(), ?)');
-    $log = 'Outil non trouvé via recherche : '.$recherche;
-    $sql->execute(array($log));
-}
-
+// ============================================
+// 7. SEO : META TAGS DYNAMIQUES
+// ============================================
 $title = "Liste des outils référencés";
 $description = "Accédez à la liste complète des outils référencés sur eXtragone pour trouver des alternatives fiables et simples aux services numériques populaires.";
+
+// Meta dynamiques selon la recherche
+if (!empty($recherche)) {
+    $title = "Recherche : " . htmlspecialchars($recherche) . " — eXtragone";
+    $description = "Résultats de recherche pour « " . htmlspecialchars($recherche) . " » : découvrez " . $totalItems . " outil" . ($totalItems > 1 ? 's' : '') . " et leurs alternatives françaises.";
+}
+
+if (!empty($categorie_slug)) {
+    $stmt_cat = $pdo->prepare('SELECT nom, description FROM extra_tools_categories WHERE slug = ?');
+    $stmt_cat->execute([$categorie_slug]);
+    $cat_data = $stmt_cat->fetch();
+    
+    if ($cat_data) {
+        $title = "Catégorie " . htmlspecialchars($cat_data['nom']) . " — eXtragone";
+        $description = htmlspecialchars($cat_data['description']) . " | Trouvez les meilleurs outils et alternatives françaises.";
+    }
+}
+
 $url_canon = 'https://www.extrag.one/outils';
+if (!empty($_GET)) {
+    $url_canon .= '?' . http_build_query($_GET);
+}
 
+// ============================================
+// 8. HEADER
+// ============================================
 include 'includes/header.php';
+?>
 
-        if($recherche) {
-            echo '
-        <div class="w-full px-5 py-5">
-            <p class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">&rarr; Recherche</p>
-            <h1 class="mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
-                Résultats de la recherche <span class="border-gray-300 border text-gray-500 dark:border-gray-600 text-sm rounded px-2 mt-2">'.$nombre_outils.'</span>
-            </h1>
-            <a href="index.php" class="border-b-2 border-blue-500 hover:border-dotted">&rarr; Réinitialiser</a>
-        </div>
-            ';
-        }
-        else {
-            ?>
-        <div class="w-full px-5 py-5">
-            <p class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">&rarr; Outils</p>
-            <div class="grid grid-cols-2">
-                <div class="col-span-2 md:col-span-1">
-                    <h1 class="mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
-                        Liste des outils
-                    </h1>
-                </div>
-                <div class="col-span-2 py-2 md:py-1 md:col-span-1 md:text-right">
-                    <!-- Filtre par catégorie -->
-                    <form method="post">
-                        <div class="gap-2">
-                            <!-- Case -->
-                            <label for="is_frenchPost" class="inline-flex items-center gap-2 p-2">
-                                <input id="is_frenchPost" name="is_frenchPost" type="checkbox" onchange="this.form.submit()" class="w-4 h-4" <?=$is_french_checked?>/>
-                                <span>Français uniquement</span>
-                            </label>
+<!-- ============================================
+     CONTENU PRINCIPAL
+     ============================================ -->
 
-                            <!-- Select -->
-                            <select class="p-2 min-w-[100%] lg:min-w-[300px] rounded bg-slate-200 text-slate-900 dark:bg-gray-800 dark:text-white" name="categorie" id="categorie" onchange="location.href='outils/categorie/'+this.value;">
-                                <option value="">Toutes les catégories</option>
-                                <?php foreach ($categories as $categorie): ?>
-                                    <option value="<?php echo $categorie['slug']; ?>" <?php echo ($categorie_slug == $categorie['slug']) ? 'selected' : ''; ?>>
-                                        <?php echo htmlspecialchars($categorie['nom']).' ('.$categorie['nb_tools'].')'; ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-            <?php
-        }
-        ?>
-
-        <!-- Separateur -->
-        <hr class="h-[1px] border-0 bg-gradient-to-r from-primary via-white to-secondary">
-
-        <!-- Affichages des cartes -->
-        <?php if ($outils): ?>
-            <div class="px-5 py-5 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 gap-6">
-            <?php foreach ($outils as $outil): ?>
-                <?php
-                if(empty($outil['logo'])) $outil['logo'] = 'assets/link.jpg';
-                $drapeau = ($outil['is_french']) ? $flag_FR : '';
-                ?>
-                <div class="bg-slate-100 hover:bg-white rounded-xl shadow p-4 flex flex-col items-center text-center border border-slate-200 dark:bg-slate-800 dark:border-slate-700 hover:dark:bg-slate-700 transition-colors duration-300">
-                    <a href="outil/<?php echo $outil['slug']; ?>" title="En savoir +">
-                        <h2 class="text-xl font-bold mb-2 flex gap-2"><?php echo htmlspecialchars($outil['nom']).$drapeau ?></h2>
-                    </a>
-                        <div class="h-[100px] flex items-center justify-center">
-                            <a href="outil/<?php echo $outil['slug']; ?>" title="En savoir +">
-                                <img class="mx-auto w-full h-auto mb-2 rounded transition-transform duration-300 ease-in-out max-h-[100px]" src="<?php echo htmlspecialchars($outil['logo']); ?>" alt="Logo de <?php echo htmlspecialchars($outil['nom']); ?>">
-                            </a>
-                        </div>
-                        <p class="text-sm"><?php echo htmlspecialchars($outil['description']); ?></p>
-                    </a>
-                </div>
-            <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-        <p class="text-center m-5">
-            Aucun outil trouvé ☹️.
+<div class="w-full px-5 py-5">
+    
+    <?php if (!empty($recherche)): ?>
+        <!-- Mode recherche -->
+        <p class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">
+            &rarr; Résultats de recherche
         </p>
-        <?php endif; ?>
- 
-        <!-- Pagination -->
-<?php if ($totalPages > 1): ?>
+        <h1 class="mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
+            Recherche : "<?= htmlspecialchars($recherche) ?>"
+            <span class="ml-3 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-base rounded-lg border border-blue-200 dark:border-blue-800">
+                <?= $totalItems ?> résultat<?= $totalItems > 1 ? 's' : '' ?>
+            </span>
+        </h1>
+        
+    <?php else: ?>
+        <!-- Mode liste -->
+        <p class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">
+            &rarr; Outils
+        </p>
+        <h1 class="mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
+            Liste des outils
+        </h1>
+    <?php endif; ?>
+</div>
+
+<!-- Séparateur -->
+<hr class="h-[1px] border-0 bg-gradient-to-r from-primary via-white to-secondary">
+
+<!-- Filtres actifs -->
+<div class="px-5 py-5">
+    <?php include 'includes/outils/filters-active.php'; ?>
+</div>
+
+<!-- Formulaire de recherche avancée -->
+<div class="px-5">
+    <?php include 'includes/outils/search-form.php'; ?>
+</div>
+
+<!-- Résultats -->
+<?php include 'includes/outils/results-grid.php'; ?>
+
+<!-- ============================================
+     PAGINATION
+     ============================================ -->
+<?php if ($totalPages > 1 && $nombre_outils > 0): ?>
 <nav aria-label="Navigation par pages" class="flex flex-col sm:flex-row justify-center items-center gap-3 mt-8 mb-6">
     <!-- Navigation mobile simplifiée -->
     <div class="flex items-center gap-2 sm:hidden">
@@ -288,9 +286,19 @@ include 'includes/header.php';
     </div>
 </nav>
 <?php endif; ?>
-    <!-- Fin de pagination -->
 
-    <!-- Footer -->
-<?php
-include 'includes/footer.php';
-?>
+<!-- Schema.org pour SEO -->
+<?php if (!empty($recherche) && $totalItems > 0): ?>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SearchResultsPage",
+  "name": "Résultats de recherche pour <?= htmlspecialchars($recherche, ENT_QUOTES) ?>",
+  "description": "<?= htmlspecialchars($description, ENT_QUOTES) ?>",
+  "url": "<?= htmlspecialchars($url_canon, ENT_QUOTES) ?>",
+  "numberOfItems": <?= $totalItems ?>
+}
+</script>
+<?php endif; ?>
+
+<?php include 'includes/footer.php'; ?>
