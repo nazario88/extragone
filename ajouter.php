@@ -14,6 +14,10 @@ if(isset($_GET['site'])) {
     $add_description = 'Alternative du site '.$domain;
 }
 
+if(isset($_GET['nom'])) {
+    $add_nom = trim($_GET['nom']);
+}
+
 /* Proposition
 —————————————————————————————————————————————*/
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
