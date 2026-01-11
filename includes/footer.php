@@ -153,7 +153,7 @@
             <div class="border-t border-slate-300 dark:border-slate-700 pt-4 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
                 <div class="mb-2 md:mb-0">
                     © <?= date('Y') ?> eXtragone - 
-                    <!-- <a href="mentions-legales" class="hover:text-blue-500 transition">Mentions légales</a> / A propos ? -->
+                    <a href="a-propos" class="hover:text-blue-500 transition">À propos</a>
                 </div>
                 <div class="flex items-center gap-2">
                     <img src="assets/img/logo.webp" alt="eXtragone" class="h-6">

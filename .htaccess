@@ -19,6 +19,7 @@ RewriteRule ^categories$				categories.php [L]
 RewriteRule ^admin$						admin/dashboard.php [L]
 RewriteRule ^admin/$					admin/dashboard.php [L]
 RewriteRule ^contact$					contact.php [L]
+RewriteRule ^a-propos$                  a-propos.php [L]
 
 # Connexion centralisée
 RewriteRule ^connexion$ connexion.php [L]
