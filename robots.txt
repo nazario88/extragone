@@ -1,1 +1,28 @@
+# Robots.txt pour eXtragone
+# Site : https://www.extrag.one
+# Objectif : Référencement optimal des alternatives françaises
+
 User-agent: *
+Allow: /
+
+# Sitemap XML
+Sitemap: https://www.extrag.one/sitemap-dynamic.php
+Sitemap: https://www.extrag.one/sitemap-static.php
+
+# Bloquer les pages sans valeur SEO
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /cache/
+Disallow: /uploads/
+Disallow: /assets/js/
+Disallow: /assets/css/
+Disallow: /assets/font/
+
+# Permettre l'indexation des pages stratégiques
+Allow: /outil/
+Allow: /alternative-francaise-
+Allow: /outils/
+Allow: /categories
+Allow: /articles
+Allow: /article/
+Allow: /a-propos/
