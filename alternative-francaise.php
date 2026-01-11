@@ -3,7 +3,7 @@
 // TEMPLATE : alternative-francaise-[SLUG].php
 // Pages alternatives enrichies avec contenu DB
 // ===============================================
-
+ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
 include 'includes/config.php';
 
 // Récupération du slug depuis l'URL
@@ -41,6 +41,29 @@ $alternatives = $stmt->fetchAll();
 
 if (count($alternatives) < 3) {
     errorPage("Pas assez d'alternatives françaises pour cette page");
+}
+
+$alternative_ids = array_column($alternatives, 'id');
+
+$tool_info_by_id = []; // Par défaut vide
+
+if (!empty($alternative_ids)) {
+    $placeholders = implode(',', array_fill(0, count($alternative_ids), '?'));
+    $stmt = $pdo->prepare("
+        SELECT id, slug, logo 
+        FROM extra_tools 
+        WHERE id IN ($placeholders)
+    ");
+    $stmt->execute($alternative_ids);
+    
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    foreach ($rows as $row) {
+        $tool_info_by_id[$row['id']] = [
+            'slug' => $row['slug'],
+            'logo' => $row['logo'] 
+        ];
+    }
 }
 
 // ===============================================
@@ -84,9 +107,22 @@ if ($custom_content && !empty($custom_content['tools_details_json'])) {
 
 // --- FAQ ---
 if ($custom_content && !empty($custom_content['faq_json'])) {
-    $faq_data = json_decode($custom_content['faq_json'], true);
+    // 1. On essaie de nettoyer les backslashes superflus
+    $json_string = stripslashes($custom_content['faq_json']);
+    
+    // 2. Décodage avec gestion d'erreur
+    $faq_data = json_decode($json_string, true);
+    
+    // 3. Vérification si ça a vraiment marché
+    if (json_last_error() !== JSON_ERROR_NONE || !is_array($faq_data)) {
+        // Log l'erreur pour debug (visible dans error_log)
+        error_log("Erreur décodage FAQ pour slug {$slug_parent} : " . json_last_error_msg());
+        error_log("JSON brut reçu : " . substr($json_string, 0, 500)); // 500 premiers caractères
+        
+        // Fallback sur la FAQ par défaut
+        $faq_data = generateDefaultFAQ($tool_parent, $alternatives);
+    }
 } else {
-    // Fallback : FAQ générique
     $faq_data = generateDefaultFAQ($tool_parent, $alternatives);
 }
 
@@ -162,9 +198,14 @@ include 'includes/header.php';
                 </thead>
                 <tbody>
                     <?php foreach ($comparison_data as $item): ?>
+                    <?php
+                    $info = getToolInfoByName($item['tool'], $alternatives, $tool_info_by_id);
+                    $logo = $info['logo'];
+                    $slug = $info['slug'];
+                    ?>
                     <tr class="border-b border-slate-200 dark:border-slate-600">
                         <td class="p-3 font-semibold">
-                            <a href="outil/<?= $item['slug'] ?>" class="text-blue-500 hover:underline">
+                            <a href="outil/<?= $slug ?>" class="text-blue-500 hover:underline">
                                 <?= htmlspecialchars($item['tool']) ?>
                             </a>
                         </td>
@@ -189,19 +230,22 @@ include 'includes/header.php';
         
         <?php foreach ($tools_details as $index => $detail): ?>
         <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 mb-6">
-            
+
+            <?php
+            $info = getToolInfoByName($detail['tool_name'], $alternatives, $tool_info_by_id);
+            $logo = $info['logo'];
+            $slug = $info['slug'];
+            ?>
+
             <!-- En-tête outil -->
             <div class="flex items-center gap-4 mb-4">
-                <img src="<?= htmlspecialchars($detail['logo']) ?>" 
-                     alt="<?= htmlspecialchars($detail['name']) ?>"
+                <img src="<?= $base ?>/<?= htmlspecialchars($logo) ?>" 
+                     alt="<?= htmlspecialchars($detail['tool_name']) ?>"
                      class="w-16 h-16 object-contain rounded-lg">
                 <div>
                     <h3 class="text-xl font-bold">
-                        <?= ($index + 1) ?>. <?= htmlspecialchars($detail['name']) ?>
+                        <?= ($index + 1) ?>. <?= htmlspecialchars($detail['tool_name']) ?>
                     </h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400">
-                        <?= htmlspecialchars($detail['tagline']) ?>
-                    </p>
                 </div>
             </div>
 
@@ -241,10 +285,10 @@ include 'includes/header.php';
             </div>
 
             <!-- CTA -->
-            <a href="outil/<?= htmlspecialchars($detail['slug']) ?>" 
+            <a href="outil/<?= htmlspecialchars($slug) ?>" 
                class="inline-block px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
                 <i class="fa-solid fa-arrow-right mr-2"></i>
-                Découvrir <?= htmlspecialchars($detail['name']) ?>
+                Découvrir <?= htmlspecialchars($detail['tool_name']) ?>
             </a>
         </div>
         <?php endforeach; ?>
@@ -403,6 +447,38 @@ function generateDefaultFAQ($tool, $alternatives) {
                 ? "Oui, certaines alternatives proposent des versions gratuites ou freemium. Consultez le tableau comparatif ci-dessus pour plus de détails."
                 : "La plupart de ces alternatives sont payantes, mais offrent souvent des périodes d'essai gratuites."
         ]
+    ];
+}
+
+/*
+ * Récupère les infos d'un outil par son nom
+ */
+function getToolInfoByName(string $tool_name, array $alternatives, array $tool_info_by_id): array
+{
+    $tool_id = null;
+    
+    // Recherche case-insensitive et trim
+    foreach ($alternatives as $alt) {
+        if (strtolower(trim($alt['nom'])) === strtolower(trim($tool_name))) {
+            $tool_id = $alt['id'];
+            break;
+        }
+    }
+    
+    // Fallbacks propres
+    $default_logo = '/images/default-tool-logo.svg';
+    $default_slug = '#';
+    
+    if ($tool_id && isset($tool_info_by_id[$tool_id])) {
+        return [
+            'slug' => $tool_info_by_id[$tool_id]['slug'] ?? $default_slug,
+            'logo' => $tool_info_by_id[$tool_id]['logo'] ?? $default_logo
+        ];
+    }
+    
+    return [
+        'slug' => $default_slug,
+        'logo' => $default_logo
     ];
 }
 

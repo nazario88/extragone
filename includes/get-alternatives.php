@@ -1,4 +1,13 @@
 <?php
+/*
+Endpoint pour récupérer les alternatives d'un outil donné (plugin Chrome)
+Utilisé aussi pour l'API n8n.
+
+On doit passer en GET le paramètre "site", qui est l'URL de l'outil à vérifier
+Exemple : https://www.extrag.one/includes/get-alternatives.php?site=https://www.example.com
+——————————————————————————————————————————————————*/
+
+
 header('Content-Type: application/json');
 
 // Si on affiche la page dans le site
@@ -86,8 +95,9 @@ if($ifTool['is_french']) {
 }
 
 // Si outil, on récupère les alternatives
+// 2026/01/11 : Ajout de la descrption, + is_free + is_paid
 $sql = $pdo->prepare("
-    SELECT C.nom, C.slug FROM extra_alternatives A
+    SELECT C.nom, C.logo, C.slug, C.description, C.is_free, C.is_paid FROM extra_alternatives A
     INNER JOIN extra_tools B ON B.id=A.id_outil
     INNER JOIN extra_tools C ON C.id=A.id_alternative
     WHERE A.id_outil = :id_tool

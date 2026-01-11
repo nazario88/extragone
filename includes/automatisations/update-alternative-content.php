@@ -49,6 +49,7 @@ if ($action === 'list') {
             c.word_count,
             c.updated_at,
             t.nom as tool_name,
+            t.url as tool_url,
             DATEDIFF(NOW(), c.updated_at) as days_since_update,
             (SELECT COUNT(*) FROM extra_alternatives a 
              INNER JOIN extra_tools alt ON alt.id = a.id_alternative 
