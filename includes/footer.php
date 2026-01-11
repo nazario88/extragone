@@ -1,27 +1,164 @@
-    </main>
+</main>
 
     <!-- Footer -->
-    <footer class="bg-gray-100 dark:bg-slate-950 shadow mt-6 px-6 py-4 flex items-center justify-between">
-        <div class="container mx-auto flex flex-wrap items-center justify-between">
-            <div class="w-full md:w-1/2 md:text-center md:mb-0 mb-8">
-                <?php //"Le soleil inonde l'eXtragone ☀️, réchauffant les coeurs ❤️ !"</p> ?>
-                <p class="text-center text-xs">
-                    <img class="mx-auto w-auto h-auto inline" src="assets/img/extrag.one.png" alt="eXtragone, portail pour trouver des outils et équivalents français" title="eXtrag.one" />
-                    <a href="https://chromewebstore.google.com/detail/fjcfkhkhplfpngmffdkfekcpelkaggof?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" class="hover:underline ml-4">
-                        <i class="fa-brands fa-chrome"></i> Extension Google Chrome
+    <footer class="bg-gray-100 dark:bg-slate-950 shadow mt-6 px-6 py-8">
+        <div class="container mx-auto">
+            
+            <!-- Main Footer Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                
+                <!-- Column 1: About -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info text-blue-500"></i>
+                        À propos d'eXtragone
+                    </h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                        Plateforme de référencement des meilleurs outils numériques et alternatives françaises. 
+                        Soutiens la French Tech avec des solutions locales et conformes RGPD.
+                    </p>
+                    <a href="https://chromewebstore.google.com/detail/fjcfkhkhplfpngmffdkfekcpelkaggof?utm_source=footer" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition text-sm">
+                        <i class="fa-brands fa-chrome"></i>
+                        Extension Chrome
                     </a>
-                </p>
+                </div>
 
-                <?php // codé en 2 casses croutes ? 🥖🧀 aussi verre de vin rouge 🍷 ?>
+                <!-- Column 2: All Categories -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-folder-open text-blue-500"></i>
+                        Toutes les catégories
+                    </h3>
+                    <ul class="space-y-2 text-sm">
+                        <?php
+                        $stmt = $pdo->query('
+                            SELECT c.nom, c.slug, c.class_icon, COUNT(t.id) as nb_tools
+                            FROM extra_tools_categories c
+                            LEFT JOIN extra_tools t ON c.id = t.categorie_id AND t.is_valid = 1
+                            GROUP BY c.id
+                            ORDER BY c.nom ASC
+                        ');
+                        $all_cats = $stmt->fetchAll();
+                        
+                        foreach ($all_cats as $cat):
+                        ?>
+                        <li>
+                            <a href="outils/categorie/<?= $cat['slug'] ?>" 
+                               class="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition flex items-center gap-2 group">
+                                <i class="<?= $cat['class_icon'] ?> text-xs text-gray-400 group-hover:text-blue-500"></i>
+                                <?= htmlspecialchars($cat['nom']) ?>
+                                <span class="text-xs text-gray-400">(<?= $cat['nb_tools'] ?>)</span>
+                            </a>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Top Alternatives (Static SEO Links) -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                        <?= $flag_FR ?>
+                        Alternatives françaises
+                    </h3>
+                    <ul class="space-y-2 text-sm">
+                        <?php
+                        $top_alternatives = [
+                            'chatgpt' => 'ChatGPT',
+                            'notion' => 'Notion',
+                            'slack' => 'Slack',
+                            'google-drive' => 'Google Drive',
+                            'trello' => 'Trello',
+                            'gmail' => 'Gmail',
+                            'ideogram' => 'Ideogram',
+                            'Bubble' => 'Bubble'
+                        ];
+                        
+                        foreach ($top_alternatives as $slug => $name):
+                        ?>
+                        <li>
+                            <a href="alternative-francaise-<?= $slug ?>" 
+                            class="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition flex items-center gap-2">
+                                <i class="fa-solid fa-chevron-right text-xs"></i>
+                                Alternative à <?= htmlspecialchars($name) ?>
+                            </a>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Ecosystem & Resources -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-rocket text-blue-500"></i>
+                        Ressources
+                    </h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>
+                            <a href="articles" class="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition flex items-center gap-2">
+                                <i class="fa-solid fa-newspaper text-xs"></i>
+                                Articles & Guides
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://projets.extrag.one" class="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition flex items-center gap-2">
+                                <i class="fa-solid fa-folder-open text-xs"></i>
+                                Projets communauté
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://nomi.extrag.one" class="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition flex items-center gap-2">
+                                <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
+                                Nomi - Générateur IA
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ajouter" class="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition flex items-center gap-2">
+                                <i class="fa-solid fa-plus text-xs"></i>
+                                Proposer un outil
+                            </a>
+                        </li>
+                        <li>
+                            <a href="contact" class="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition flex items-center gap-2">
+                                <i class="fa-solid fa-envelope text-xs"></i>
+                                Contact
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="w-full md:w-1/2 md:text-center md:mb-0 mb-8">
-                <ul class="list-reset flex justify-center flex-wrap text-xs gap-3">
-                    <li class="hidden md:block"><a class="hover:text-blue-500 transition-colors duration-300" href="ajouter" rel="nofollow">Proposer un outil</a></li>
-                    <li class="hidden md:block"><a class="hover:text-blue-500 transition-colors duration-300" href="contact" rel="nofollow">Contact</a></li>
-                    &#151;
-                    <li><a class="hover:text-blue-500 transition-colors duration-300" href="https://www.innospira.fr" title="Tests et partages d'outils : Innovation & Inspiration">🟡 InnoSpira</a></li>
-                    <li><a class="hover:text-blue-500 transition-colors duration-300" href="https://dailyheroes.io" title="Découvrir le pouvoir des habitudes pour devenir un héros !">🟠 DailyHeroes</a></li>
-                </ul>
+
+            <!-- SEO-Rich Section: Expert Text -->
+            <div class="border-t border-slate-300 dark:border-slate-700 pt-6 mb-6">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h3 class="font-bold text-lg mb-3 text-gray-700 dark:text-gray-300 flex items-center justify-center gap-2">
+                        <?= $flag_FR ?>
+                        Pourquoi choisir des outils numériques français ?
+                    </h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        <strong>eXtragone</strong> référence les meilleures <strong>alternatives françaises</strong> aux outils web populaires. 
+                        En privilégiant des <strong>solutions made in France</strong>, vous soutenez l'<strong>économie locale</strong>, 
+                        bénéficiez d'un <strong>support en français</strong> et garantissez la <strong>conformité RGPD</strong> de vos données. 
+                        Nos outils français couvrent toutes les catégories : <strong>intelligence artificielle</strong>, 
+                        <strong>productivité</strong>, <strong>marketing digital</strong>, <strong>collaboration</strong>, 
+                        <strong>gestion de projet</strong> et bien plus. Découvrez des <strong>logiciels français innovants</strong>, 
+                        hébergés en France ou en Europe, pour une <strong>souveraineté numérique</strong> totale.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="border-t border-slate-300 dark:border-slate-700 pt-4 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                <div class="mb-2 md:mb-0">
+                    © <?= date('Y') ?> eXtragone - 
+                    <!-- <a href="mentions-legales" class="hover:text-blue-500 transition">Mentions légales</a> / A propos ? -->
+                </div>
+                <div class="flex items-center gap-2">
+                    <img src="assets/img/logo.webp" alt="eXtragone" class="h-6">
+                    <span>Hébergé en France par <a href="outil/ovh" class="hover:text-blue-500 transition">OVH</a></span>
+                </div>
             </div>
         </div>
     </footer>
@@ -40,7 +177,6 @@ if($page_php == 'contact.php') {
 }
 
 // Si page outil : modal Image
-// Si j'ajoute des pages : créer un fichier .js pour le script
 if($page_php == 'outil.php') {
     ?>
     <!-- Modal Popup -->

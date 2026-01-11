@@ -29,6 +29,9 @@ RewriteRule ^reglages$       reglages.php [L]
 RewriteRule ^article/(.*)$				article.php?slug=$1 [L]
 RewriteRule ^articles$					articles.php [L]
 
+# Alternative française dynamique
+RewriteRule ^alternative-francaise-(.*)$ alternative-francaise.php?outil=$1 [L]
+
 RewriteRule ^nomi$ nomi/index.php [L]
 RewriteRule ^nomi/(.*)$ nomi/$1 [L]
 
