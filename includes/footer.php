@@ -57,32 +57,40 @@
                     </ul>
                 </div>
 
-                <!-- Column 3: Top Alternatives (Static SEO Links) -->
+                <!-- Column 3: Top Alternatives (Dynamic SEO Links) -->
                 <div>
                     <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
                         <?= $flag_FR ?>
                         Alternatives françaises
                     </h3>
-                    <ul class="space-y-2 text-sm">
+                    <ul class="text-sm space-y-2">
                         <?php
-                        $top_alternatives = [
-                            'chatgpt' => 'ChatGPT',
-                            'notion' => 'Notion',
-                            'slack' => 'Slack',
-                            'google-drive' => 'Google Drive',
-                            'trello' => 'Trello',
-                            'gmail' => 'Gmail',
-                            'ideogram' => 'Ideogram',
-                            'Bubble' => 'Bubble'
-                        ];
+                      
+                        $stmt = $pdo->query("
+                            SELECT 
+                            t.nom,
+                            t.slug
+                        FROM extra_tools t
+                        INNER JOIN extra_alternatives a ON a.id_outil = t.id
+                        INNER JOIN extra_tools alt ON alt.id = a.id_alternative
+                        INNER JOIN extra_alternatives_content ac ON ac.slug = t.slug
+                        WHERE alt.is_french = 1
+                        AND t.is_valid = 1
+                        AND ac.is_active = 1
+                        AND ac.intro_text IS NOT NULL  -- Contenu généré
+                        GROUP BY t.id, t.slug, t.nom
+                        ORDER BY RAND()
+                        LIMIT 8
+                        ");
+                        $alternatives = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         
-                        foreach ($top_alternatives as $slug => $name):
+                        foreach ($alternatives as $alt):
                         ?>
                         <li>
-                            <a href="alternative-francaise-<?= $slug ?>" 
+                            <a href="alternative-francaise-<?= htmlspecialchars($alt['slug']) ?>" 
                             class="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition flex items-center gap-2">
                                 <i class="fa-solid fa-chevron-right text-xs"></i>
-                                Alternative à <?= htmlspecialchars($name) ?>
+                                Alternatives à <?= htmlspecialchars($alt['nom']) ?>
                             </a>
                         </li>
                         <?php endforeach; ?>

@@ -11,7 +11,7 @@ error_reporting(E_ALL);
 set_time_limit(0);
 ini_set('memory_limit', '512M');
 
-include __DIR__ . '/config.php';
+include __DIR__ . '/../config.php';
 
 // --- CONFIGURATION ---
 $apiKey = $_ENV['CHATGPT_API_KEY'] ?? getenv('CHATGPT_API_KEY') ?? null;

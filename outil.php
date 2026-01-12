@@ -16,7 +16,7 @@ $sql->execute(array($nom));
 $data_outil = $sql->fetch();
 if(!$data_outil) {
     http_response_code(410);
-    errorPage("Les informations de l'outil n'ont pas pu être récupérées ☹️");
+    errorPage("Les informations de l'outil n'ont pas pu être récupérées ☹️", 410);
     exit;
 }
 
