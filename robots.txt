@@ -6,8 +6,8 @@ User-agent: *
 Allow: /
 
 # Sitemap XML
-Sitemap: https://www.extrag.one/sitemap-dynamic.php
-Sitemap: https://www.extrag.one/sitemap-static.php
+Sitemap: https://www.extrag.one/sitemaps/sitemap-dynamic.php
+Sitemap: https://www.extrag.one/sitemaps/sitemap-static.php
 
 # Bloquer les pages sans valeur SEO
 Disallow: /admin/

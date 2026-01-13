@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 /* SEO
 —————————————————————————————————————————————*/
 $title = "Ajouter un nouvel outil";
-$description = "Proposer un nouvel outil à ajouter dans la liste eXtragone.";
+$description = "Proposer un nouvel outil à ajouter dans la liste des outils eXtragone. Qu'il s'agisse d'un outil français, d'une alternative à un outil existant. ou autre.";
 
 $url_canon = 'https://www.extrag.one/ajouter';
 

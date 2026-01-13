@@ -138,7 +138,7 @@ $description = ($custom_content && $custom_content['meta_description'])
     ? $custom_content['meta_description']
     : "Découvrez " . count($alternatives) . " alternatives françaises à " . $tool_parent['nom'] . " : " . implode(', ', array_slice(array_column($alternatives, 'nom'), 0, 3));
 
-$url_canon = 'https://www.extrag.one/alternative-francaise/' . $slug_parent;
+$url_canon = 'https://www.extrag.one/alternative-francaise-' . $slug_parent;
 $image_seo = $tool_parent['screenshot'] ?: $tool_parent['logo'];
 
 include 'includes/header.php';

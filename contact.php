@@ -52,8 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 /* SEO
 —————————————————————————————————————————————*/
-$title = "À propos d'eXtragone";
-$description = "Une question, suggestion ? N'hésite pas à prendre contact avec l'équipe eXtragone.";
+$title = "Prendre contact avec l'équipe eXtragone";
+$description = "Une question, une demande d'informations ou une demande de sponsoring ? Nous sommes à votre écoute, n'hésitez pas à prendre contact avec l'équipe eXtragone.";
 
 $url_canon = 'https://www.extrag.one/contact';
 
@@ -61,23 +61,82 @@ include 'includes/header.php';
 ?>
 
 <div class="w-full p-5">
-    <p class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">&rarr; a propos</p>
+    <p class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">&rarr; contact</p>
     <h1 class="my-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
-        En savoir + sur eXtragone
+        Demande d'informations et contact
     </h1>
     <?=$message?>
 
-    <!-- A propos -->
+    <!-- Section Contact -->
     <div class="w-full px-5 py-5 bg-slate-100 rounded-xl shadow border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
-        <p class="p-2 m-2">
-            Le projet vise à mettre en avant les outils web français, qui peuvent constituer des alternatives sérieuses. L'idée n'est pas de remplacer l'ensemble de vos outils par des solutions 100 % françaises, mais plutôt de vous faire découvrir nos propres outils. Se tourner vers des sites français dans un premier temps nous semble être une bonne démarche. Ces outils seront conformes aux exigences réglementaires (RGPD, etc.) et contribueront à renforcer le marché local.
-        </p>
-        <p class="p-2 m-2">
-            &rarr; Dans le même registre, le site <a href="https://european-alternatives.eu" target="_blank" class="border-b-2 border-blue-500 hover:border-dotted">european-alternatives.eu</a> recense les outils européens.
-        </p>
-        <p class="p-2 m-2">
-            Ah, et l'outil a été conçu à Nantes, en France 😅. Il est hébergé sur les serveurs français d'<a href="outil/ovh">OVH</a>.
-        </p>
+        <h2 class="text-2xl font-bold mb-4">Pourquoi nous contacter ?</h2>
+        
+        <div class="space-y-4">
+            <!-- Proposer un outil -->
+            <div class="flex gap-4 items-start">
+                <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center">
+                    <i class="fa-solid fa-plus text-blue-500 text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-1">Proposer un outil français</h3>
+                    <p class="text-sm">
+                        Vous connaissez ou développez un outil français qui mérite d'être référencé ? 
+                        Faites-le nous savoir ! Nous sommes toujours à la recherche de nouvelles pépites de la French Tech.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Partenariats -->
+            <div class="flex gap-4 items-start">
+                <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center">
+                    <i class="fa-solid fa-handshake text-blue-500 text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-1">Partenariats & sponsoring</h3>
+                    <p class="text-sm">
+                        Intéressé par une collaboration ou un partenariat ? 
+                        Contactez-nous pour discuter des opportunités de mise en avant de votre solution.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Corrections -->
+            <div class="flex gap-4 items-start">
+                <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center">
+                    <i class="fa-solid fa-flag text-blue-500 text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-1">Signaler une erreur</h3>
+                    <p class="text-sm">
+                        Une information incorrecte ? Un lien cassé ? Aidez-nous à améliorer la qualité 
+                        du catalogue en nous signalant toute erreur ou incohérence.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Questions générales -->
+            <div class="flex gap-4 items-start">
+                <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center">
+                    <i class="fa-solid fa-envelope text-blue-500 text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-1">Questions & suggestions</h3>
+                    <p class="text-sm">
+                        Une question sur le projet ? Une idée d'amélioration ? 
+                        N'hésitez pas à nous écrire, nous répondons à tous les messages !
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+            <p class="text-sm">
+                <i class="fa-solid fa-info-circle mr-2"></i>
+                <strong>Pour en savoir plus sur notre mission et nos valeurs,</strong> 
+                consultez notre page 
+                <a href="a-propos" class="border-b-2 border-blue-500 hover:border-dotted font-medium">À propos d'eXtragone</a>.
+            </p>
+        </div>
     </div>
 
     <!-- Separateur -->
@@ -85,7 +144,7 @@ include 'includes/header.php';
 
     <p class="flex items-center gap-2 font-mono text-xs/6 font-medium tracking-widest text-gray-500 uppercase dark:text-gray-400">&rarr; envoyer un message</p>
     <h2 class="my-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white">
-        Prendre contact avec nous
+        Prise de contact avec l'équipe
     </h2>
     <script>
     function validForm() {
@@ -122,9 +181,9 @@ include 'includes/header.php';
                 </div>
 
                 <!-- Submit Button -->
-                <div>
+                <div class="flex items-center justify-center">
                     <input type="hidden" name="recaptcha_token" id="recaptcha-token">
-                    <button type="button" onclick="validForm()" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-700 transition"><i class="fa-solid fa-check"></i> Valider</button>
+                    <button type="button" onclick="validForm()" class="w-200 bg-blue-600 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-700 transition"><i class="fa-solid fa-check"></i> Valider</button>
                 </div>
 
             </form>

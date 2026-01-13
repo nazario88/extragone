@@ -1,7 +1,7 @@
 <?php
 /**
  * Page de profil utilisateur
- * URL : www.extrag.one/profil/username
+ * URL : www.extrag.one/membre/username
  */
 
 include 'includes/config.php';
@@ -39,7 +39,7 @@ $user_projects = getUserProjects($user['id'], $include_drafts);
 ——————————————————————————————————————————————————*/
 $title = htmlspecialchars($user['display_name']) . " — Profil eXtragone";
 $description = "Profil de " . htmlspecialchars($user['display_name']) . " sur eXtragone.";
-$url_canon = 'https://www.extrag.one/profil/' . htmlspecialchars($username);
+$url_canon = 'https://www.extrag.one/membre/' . htmlspecialchars($username);
 $image_seo = $user['avatar'] ?: 'https://www.extrag.one/uploads/avatars/' . urlencode($user['display_name']);
 
 include 'includes/header.php';
