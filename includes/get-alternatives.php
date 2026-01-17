@@ -34,6 +34,8 @@ $exclusions = [
     'keep.google.com',
     'drive.google.com',
     'maps.google.com',
+    'gemini.google.com',
+    'euria.infomaniak.com',
 ];
 
 // 1. Cas particulier : Google Maps (google.com/maps/...)
