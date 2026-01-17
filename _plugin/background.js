@@ -2,10 +2,11 @@ function checkIfSiteHasAlternative(url, tabId) {
   fetch(`https://extrag.one/includes/get-alternatives.php?site=${encodeURIComponent(url)}`)
     .then(response => response.json())
     .then(data => {
-      if (data.alternatives && data.alternatives.length > 0) { // Si alternative trouvée
-        // On démarre le clignotement
+      if (data.alternatives && data.alternatives.length > 0) {
+        // Alternative trouvée → clignotement
         startIconBlink(tabId);
-      } else if(data.is_french && data.is_french.length > 0) { // Si outil français
+      } else if (data.is_french && data.is_french.length > 0) {
+        // Outil français → icône verte fixe
         stopIconBlink();
         chrome.action.setIcon({
           tabId: tabId,
@@ -15,7 +16,8 @@ function checkIfSiteHasAlternative(url, tabId) {
             "48": "icons/icon48-active.png"
           }
         });
-      } else { // Pas d'alternative trouvée
+      } else {
+        // Pas d'alternative → icône grise
         stopIconBlink();
         chrome.action.setIcon({
           tabId: tabId,
@@ -28,18 +30,18 @@ function checkIfSiteHasAlternative(url, tabId) {
       }
     })
     .catch(error => {
-      //console.error("Erreur lors de l'appel à l'API eXtragone :", error);
+      console.error("Erreur API eXtragone:", error);
     });
 }
 
-// Suivre les changements de page
+// Écoute des changements de page
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete') {
     checkIfSiteHasAlternative(tab.url, tabId);
   }
 });
 
-// Suivre les changements d'onglet actif
+// Écoute des changements d'onglet actif
 chrome.tabs.onActivated.addListener(activeInfo => {
   chrome.tabs.get(activeInfo.tabId, tab => {
     if (tab.status === "complete") {
@@ -48,9 +50,7 @@ chrome.tabs.onActivated.addListener(activeInfo => {
   });
 });
 
-/* Blink
-—————————————————————————*/
-
+/* Gestion du clignotement */
 let blinkInterval = null;
 
 function startIconBlink(tabId) {
@@ -67,8 +67,6 @@ function startIconBlink(tabId) {
   };
 
   let toggle = false;
-
-  // Nettoie tout clignotement précédent
   stopIconBlink();
 
   blinkInterval = setInterval(() => {
@@ -77,7 +75,7 @@ function startIconBlink(tabId) {
       path: toggle ? icon1 : icon2
     });
     toggle = !toggle;
-  }, 500); // change toutes les 500ms
+  }, 500);
 }
 
 function stopIconBlink() {

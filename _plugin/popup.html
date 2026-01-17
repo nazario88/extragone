@@ -4,67 +4,521 @@
   <meta charset="UTF-8" />
   <title>eXtragone</title>
   <style>
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+    
     body {
-      font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-      font-size:14px;
-      min-width: 285px;
-      padding: 0px;
-      margin: 0px;
-      background: #f4f4f4;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      width: 360px;
+      max-height: 580px;
+      background: #f7fafc;
+      color: #2d3748;
     }
-    .alt-link {
-      display: block;
-      padding: 5px;
-      color: #0056d6;
-      text-decoration: none;
+
+    /* HEADER COMPACT */
+    .header {
+      background: white;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #e2e8f0;
     }
-    .alt-link:hover {
-      background: #C0D9FF;
+    
+    .header img {
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      transition: transform 0.2s;
     }
-    .empty {
-      margin: 5px;
+    
+    .header img:hover {
+      transform: scale(1.1);
+    }
+        
+    .header h3 {
       font-size: 14px;
-      color: #777;
+      font-weight: 700;
+      color: #1a202c;
+      margin: 0;
+      line-height: 1;
+    }
+
+    /* Conteneur titre + sous-titre sur même ligne */
+    .header-title {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    /* Sous-titre en gris */
+    .header-subtitle {
+      font-size: 11px;
+      color: #718096;
+      font-weight: 500;
+    }
+    
+    /* SEARCH BAR COMPACTE */
+    #searchForm {
+      display: flex;
+      gap: 6px;
+      flex: 1;
+    }
+    
+    #searchInput {
+      flex: 1;
+      padding: 7px 10px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 13px;
+      background: #f7fafc;
+      transition: all 0.2s;
+    }
+    
+    #searchInput:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+    }
+    
+    #searchForm button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 7px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    #searchForm button:hover {
+      background: #5a67d8;
+    }
+
+    /* ALTERNATIVES GRID - PLUS COMPACT */
+    .alternatives-grid {
+      padding: 10px;
+      max-height: 420px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    /* CARDS OPTIMISÉES */
+    .alt-card {
+      background: white;
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      border: 1px solid #e2e8f0;
+      transition: all 0.2s;
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    .alt-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+      border-color: #667eea;
+    }
+    
+    .alt-card img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    
+    .alt-info {
+      flex: 1;
+      min-width: 0; /* Pour le text-overflow */
+    }
+    
+    .alt-info h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 3px;
+      color: #667eea;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .alt-info p {
+      font-size: 11.5px;
+      color: #718096;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    /* BADGES COMPACTS */
+    .alt-badges {
+      display: flex;
+      gap: 4px;
+      margin-top: 5px;
+      flex-wrap: wrap;
+    }
+    
+    .badge {
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    
+    .badge i {
+      font-size: 8px;
+    }
+    
+    .badge.free {
+      background: #c6f6d5;
+      color: #22543d;
+    }
+    
+    .badge.paid {
+      background: #bee3f8;
+      color: #2c5282;
+    }
+
+    /* MESSAGES */
+    .message {
+      text-align: center;
+      padding: 20px;
+      background: white;
+      margin: 10px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .message i {
+      font-size: 28px;
       margin-bottom: 10px;
     }
-    button {
-      padding: 6px 10px;
-      border: none;
-      background-color: #0056d6;
+    
+    .message.success {
+      background: #f0fff4;
+      border-color: #9ae6b4;
+    }
+    
+    .message.success i {
+      color: #48bb78;
+    }
+    
+    .message.empty i {
+      color: #cbd5e0;
+    }
+    
+    .message p {
+      font-size: 13px;
+      color: #718096;
+      margin-bottom: 8px;
+    }
+    
+    .message button {
+      margin-top: 8px;
+      padding: 7px 14px;
+      background: #667eea;
       color: white;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
-      border-radius: 4px;
+      font-size: 12px;
+      transition: background 0.2s;
     }
-    h3 {
-      margin: 10px;
-      font-weight: 600;
-      font-size: 16px;
-      margin-bottom: 5px;
+    
+    .message button:hover {
+      background: #5a67d8;
     }
-    .center { text-align: center }
-    #is-french {
-      display: none;
-      padding: 5px;
+
+    /* FOOTER COMPACT */
+    .footer {
+      background: white;
+      padding: 10px;
       text-align: center;
+      border-top: 1px solid #e2e8f0;
     }
-    #logo { cursor: pointer }
+    
+    .footer a {
+      color: #667eea;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.2s;
+    }
+    
+    .footer a:hover {
+      color: #5a67d8;
+    }
+
+    /* SCROLLBAR FINE */
+    .alternatives-grid::-webkit-scrollbar {
+      width: 5px;
+    }
+    
+    .alternatives-grid::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .alternatives-grid::-webkit-scrollbar-thumb {
+      background: #cbd5e0;
+      border-radius: 10px;
+    }
+    
+    .alternatives-grid::-webkit-scrollbar-thumb:hover {
+      background: #a0aec0;
+    }
+    /* ============================================
+    CARD "OUTIL FRANÇAIS"
+    ============================================ */
+    .french-card {
+      background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+      border: 2px solid #48bb78;
+      border-radius: 12px;
+      margin: 10px;
+      padding: 0;
+      overflow: hidden;
+      animation: slideInScale 0.4s ease-out;
+    }
+
+    @keyframes slideInScale {
+      from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .french-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: white;
+    }
+
+    .french-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(72, 187, 120, 0.5);
+      }
+    }
+
+    .french-icon i {
+      font-size: 24px;
+      color: white;
+    }
+
+    .french-header h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #22543d;
+      margin: 0 0 4px 0;
+    }
+
+    .french-header p {
+      font-size: 12px;
+      color: #2f855a;
+      margin: 0;
+    }
+
+    /* STATS GAMIFICATION */
+    .french-stats {
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.7);
+      border-top: 1px solid rgba(72, 187, 120, 0.2);
+    }
+
+    .stat-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-badge i {
+      font-size: 24px;
+      color: #f6ad55;
+    }
+
+    .stat-badge strong {
+      display: block;
+      font-size: 20px;
+      font-weight: 700;
+      color: #2d3748;
+      line-height: 1;
+    }
+
+    .stat-badge span {
+      display: block;
+      font-size: 11px;
+      color: #718096;
+      margin-top: 2px;
+    }
+
+    /* ============================================
+      FOOTER AMÉLIORÉ
+      ============================================ */
+    .footer {
+      background: white;
+      padding: 12px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .footer-link.primary {
+      background: linear-gradient(135deg, #667eea 0%, #5a67d8 100%);
+      color: white;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+    }
+
+    .footer-link.primary:hover {
+      transform: translateY(-1px);
+      color: white;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .footer-link.secondary {
+      background: #f7fafc;
+      color: #667eea;
+      border: 1px solid #e2e8f0;
+    }
+
+    .footer-link.secondary:hover {
+      background: #edf2f7;
+      border-color: #667eea;
+    }
+
+    .footer-link i {
+      font-size: 14px;
+    }
+
+    .footer-divider {
+      height: 1px;
+      background: #e2e8f0;
+      margin: 0 -12px;
+    }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <h3><img id="logo" src="icons/icon16.png" title="Aller sur le portail eXtragone" alt="" />&nbsp; Alternatives françaises </h3>
-  
-  <!-- Alternatives -->
-  <div id="alternatives"></div>
-  
-  <!-- Si français -->
-  <div id="is-french">Cet outil est une alternative française ✅.</div>
-
-  <!-- Pas d'alternative -->
-  <div id="no-alternative" class="empty center" style="display: none;">
-    Aucune alternative connue pour ce site ☹️.
+  <!-- HEADER -->
+  <div class="header">
+    <img id="logo" src="icons/icon48.png" alt="eXtragone">
+    <div style="flex: 1;">
+      <div class="header-title">
+        <h3>eXtragone</h3>
+        <span class="header-subtitle">Alternatives françaises</span>
+      </div>
+      <form id="searchForm">
+        <input type="text" id="searchInput" placeholder="Chercher un outil...">
+        <button type="submit"><i class="fa fa-search"></i></button>
+      </form>
+    </div>
   </div>
-  
-  <p class="center"><button id="suggest-btn" style="display: none;">Proposer une alternative</button></p>
+
+  <!-- ALTERNATIVES (rempli par JS) -->
+  <div id="alternatives" class="alternatives-grid"></div>
+
+  <!-- MESSAGE SI OUTIL FRANÇAIS -->
+  <div id="is-french" class="french-card" style="display: none;">
+    <div class="french-header">
+      <div class="french-icon">
+        <i class="fa fa-check-circle"></i>
+      </div>
+      <div>
+        <h3>Outil français détecté !</h3>
+        <p>Vous utilisez déjà une solution française.</p>
+      </div>
+    </div>
+    
+    <div class="french-stats">
+      <div class="stat-badge">
+        <i class="fa fa-trophy"></i>
+        <div>
+          <strong id="french-count">0</strong>
+          <span>outils français découverts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MESSAGE SI AUCUNE ALTERNATIVE -->
+  <div id="no-alternative" class="message empty" style="display: none;">
+    <i class="fa fa-inbox"></i>
+    <p>Aucune alternative connue</p>
+    <button id="suggest-btn">Proposer une alternative</button>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <a href="https://www.extrag.one/outils" target="_blank" class="footer-link primary">
+      <i class="fa fa-arrow-right"></i>
+      <span>Découvrir d'autres outils</span>
+    </a>
+    <div class="footer-divider"></div>
+    <a href="https://www.extrag.one/ajouter" target="_blank" class="footer-link secondary">
+      <i class="fa fa-plus-circle"></i>
+      <span>Proposer un outil</span>
+    </a>
+  </div>
+
   <script src="popup.js"></script>
 </body>
 </html>

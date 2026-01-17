@@ -31,8 +31,9 @@ assets/fontawesome/
 !uploads/.htaccess
 !uploads/*.php
 
-# Fichier Google
+# Fichier Google & plugin
 googledc3aeeb7e638e301.html
+_plugin/_save/
 
 # Système d'exploitation
 .DS_Store

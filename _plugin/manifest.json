@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "eXtragone - Alternatives françaises",
   "description": "Propose des alternatives françaises quand tu navigues sur un site étranger.",
-  "version": "1.0",
+  "version": "2.0",
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
