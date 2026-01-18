@@ -36,6 +36,7 @@ $exclusions = [
     'maps.google.com',
     'gemini.google.com',
     'euria.infomaniak.com',
+    'docs.google.com'
 ];
 
 // 1. Cas particulier : Google Maps (google.com/maps/...)
@@ -63,6 +64,7 @@ if($domain == "google.com") $domain = "google.fr";
 if($domain == "notion.com") $domain = "notion.so";
 if($domain == "bubbleapps.io") $domain = "bubble.io";
 if($domain == "openai.com") $domain = "chatgpt.com";
+if(($domain == "ovh.net") || ($domain == "ovhcloud.com")) $domain = "ovh.com";
 
 
 // Si on a un domaine, c'est OK
