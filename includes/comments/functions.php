@@ -259,3 +259,17 @@ function timeAgoTool($datetime) {
         return date('d/m/Y', $timestamp);
     }
 }
+
+/**
+ * Convertir une URL automatiquement
+ * Version minimaliste qui détecte uniquement http:// et https://
+ */
+function convertUrlsToLinksSimple($text) {
+    // Détecter http:// et https:// en excluant la ponctuation de fin
+    return preg_replace(
+        '#(https?://[^\s<]+?)([.,;:!?\)]*)([\s<]|$)#i',
+        '<a href="$1" target="_blank" rel="noopener noreferrer nofollow" class="border-b-2 border-blue-500 hover:border-dotted hover:text-blue-500 transition-colors duration-300 break-words">$1</a>$2$3',
+        $text
+    );
+}
+

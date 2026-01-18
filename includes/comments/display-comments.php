@@ -37,7 +37,7 @@
                         </div>
                         <span class="text-sm text-gray-500">(<?= $user_comment['rating'] ?>/5)</span>
                     </div>
-                    <p class="text-gray-700 dark:text-gray-300"><?= nl2br(htmlspecialchars($user_comment['comment'])) ?></p>
+                    <p class="text-gray-700 dark:text-gray-300"><?= nl2br(convertUrlsToLinksSimple(htmlspecialchars($user_comment['comment']))) ?></p>
                     <?php if ($user_comment['is_edited']): ?>
                     <p class="text-xs text-gray-500 mt-2">
                         <i class="fa-solid fa-clock mr-1"></i>
@@ -187,7 +187,7 @@
                         </div>
                         
                         <p class="text-gray-700 dark:text-gray-300">
-                            <?= nl2br(htmlspecialchars($comment['comment'])) ?>
+                            <?= nl2br(convertUrlsToLinksSimple(htmlspecialchars($comment['comment']))) ?>
                         </p>
                     </div>
                 </div>
