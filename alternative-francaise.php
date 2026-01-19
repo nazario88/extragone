@@ -107,19 +107,23 @@ if ($custom_content && !empty($custom_content['tools_details_json'])) {
 
 // --- FAQ ---
 if ($custom_content && !empty($custom_content['faq_json'])) {
-    // 1. On essaie de nettoyer les backslashes superflus
+    // 1. Nettoyer les backslashes
     $json_string = stripslashes($custom_content['faq_json']);
     
-    // 2. Décodage avec gestion d'erreur
+    // 2. Décoder les séquences Unicode (\u00e7 → ç)
+    $json_string = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
+        return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
+    }, $json_string);
+    
+    // 3. Décodage final
     $faq_data = json_decode($json_string, true);
     
-    // 3. Vérification si ça a vraiment marché
+    // 4. Vérification
     if (json_last_error() !== JSON_ERROR_NONE || !is_array($faq_data)) {
-        // Log l'erreur pour debug (visible dans error_log)
-        error_log("Erreur décodage FAQ pour slug {$slug_parent} : " . json_last_error_msg());
-        error_log("JSON brut reçu : " . substr($json_string, 0, 500)); // 500 premiers caractères
+        error_log("❌ Erreur FAQ pour slug {$slug_parent} : " . json_last_error_msg());
+        error_log("JSON problématique : " . substr($custom_content['faq_json'], 0, 500));
         
-        // Fallback sur la FAQ par défaut
+        // Fallback
         $faq_data = generateDefaultFAQ($tool_parent, $alternatives);
     }
 } else {
@@ -322,23 +326,28 @@ include 'includes/header.php';
 <!-- ===============================================
      SCHEMA.ORG - FAQ PAGE
      =============================================== -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    <?php foreach ($faq_data as $i => $faq): ?>
-    {
-      "@type": "Question",
-      "name": "<?= addslashes($faq['question']) ?>",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "<?= addslashes(strip_tags($faq['answer'])) ?>"
-      }
-    }<?= $i < count($faq_data) - 1 ? ',' : '' ?>
-    <?php endforeach; ?>
-  ]
+<?php
+// Préparation du tableau de données structurées
+$faq_schema = [
+    "@context" => "https://schema.org",
+    "@type" => "FAQPage",
+    "mainEntity" => []
+];
+
+foreach ($faq_data as $faq) {
+    $faq_schema["mainEntity"][] = [
+        "@type" => "Question",
+        "name" => strip_tags($faq['question']), // au cas où il y aurait du HTML, on le retire
+        "acceptedAnswer" => [
+            "@type" => "Answer",
+            "text" => strip_tags($faq['answer'])
+        ]
+    ];
 }
+?>
+
+<script type="application/ld+json">
+<?= json_encode($faq_schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) ?>
 </script>
 
 <?php
