@@ -67,10 +67,13 @@ $articles = $stmt->fetchAll();
     </div>
 </div>
 
+    <!-- Derniers outils ajoutés -->
+    <?php include 'includes/index/recent-tools.php'; ?>
 
     <!-- Separateur -->
     <hr class="my-8 h-[1px] border-0 bg-gradient-to-r from-primary via-white to-secondary">
 
+    <!-- Ecosysteme des outils -->
     <?php include 'includes/index/tools.php'; ?>
     
     <!-- Explications -->
