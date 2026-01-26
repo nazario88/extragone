@@ -66,7 +66,7 @@ include 'includes/header.php';
     <div class="max-w-4xl mx-auto text-center">
 
         <!-- Icône principale -->
-        <img src="assets/img/logo.webp" class="w-[100px] h-[100px] mx-auto" alt="Logo d'Extragone">
+        <img src="assets/img/logo.webp" class="w-24 h-24 mx-auto mb-6" alt="Logo d'Extragone">
         
         <!-- Titre -->
         <h1 class="text-xl md:text-4xl font-bold mb-4 tracking-tight">
