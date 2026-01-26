@@ -4,7 +4,7 @@
 // À exécuter quotidiennement (ex: 3h du matin)
 // Cron: 0 3 * * * /usr/bin/php /home/innospy/eXtragone/includes/cronAutoDetectAlternatives.php
 // ===============================================
-
+//ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
 include __DIR__ . '/../config.php';
 
 // ===============================================
@@ -61,7 +61,7 @@ foreach ($newTools as $tool) {
     // Créer l'entrée avec une date old (NOW() - 100 jours)
     $insert = $pdo->prepare("
         INSERT INTO extra_alternatives_content 
-        (slug, tool_id, intro_text, comparison_table_json, tools_details_json, faq_json, is_active, word_count, last_updated_by, last_updated_at)
+        (slug, tool_id, intro_text, comparison_table_json, tools_details_json, faq_json, is_active, word_count, last_updated_by, updated_at)
         VALUES (?, ?, NULL, NULL, NULL, NULL, 1, 0, 'cron_auto_detect', DATE_SUB(NOW(), INTERVAL 100 DAY))
     ");
     
