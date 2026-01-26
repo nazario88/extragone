@@ -158,7 +158,7 @@ include 'includes/header.php';
     <nav class="text-sm mb-6 text-gray-600 dark:text-gray-400">
         <a href="<?=$base?>" class="hover:text-blue-500">Accueil</a>
         <i class="fa-solid fa-chevron-right text-xs mx-2"></i>
-        <a href="outils" class="hover:text-blue-500">Outils</a>
+        <a href="alternatives" class="hover:text-blue-500">Alternatives</a>
         <i class="fa-solid fa-chevron-right text-xs mx-2"></i>
         <span>Alternatives à <?= htmlspecialchars($tool_parent['nom']) ?></span>
     </nav>
