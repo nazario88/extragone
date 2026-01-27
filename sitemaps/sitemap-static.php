@@ -52,7 +52,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
 
 	<!-- Page Contact -->
     <url>
-        <loc>https://www.extrag.one/contact</loc>
+        <loc><?= $base ?>/contact</loc>
         <lastmod><?= $lastmod_site ?></lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
