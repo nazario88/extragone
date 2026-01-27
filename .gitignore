@@ -19,9 +19,6 @@ admin/
 # Fichiers contenant les fichiers cache
 cache/
 
-# Dossiers contenant les sitemaps
-sitemaps/
-
 # Ignorer les fichiers uploadés
 projets/uploads/projects/
 projets/assets/fontawesome/
