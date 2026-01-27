@@ -77,6 +77,12 @@ if (!empty($categorie_slug)) {
 $outils = $stmt->fetchAll();
 $nombre_outils = count($outils);
 
+// Si aucun outil dans une catégorie spécifique, retourner 404
+if ($nombre_outils === 0 && (!empty($categorie_slug)) && empty($recherche)) {
+    http_response_code(404);
+    $noindex = true; // Indiquer aux moteurs de recherche de ne pas indexer cette page
+}
+
 // ============================================
 // 5. LOG SI AUCUN RÉSULTAT
 // ============================================
@@ -101,7 +107,7 @@ function buildPaginationUrl($page, $categorie_slug = null) {
     unset($currentParams['page']); // On retire page pour le remplacer
     $params = array_merge($currentParams, $params);
     
-    return 'outils?' . http_build_query($params);
+    return 'outils/' . http_build_query($params);
 }
 
 // ============================================
@@ -128,8 +134,8 @@ if (!empty($categorie_slug)) {
 }
 
 $url_canon = 'https://www.extrag.one/outils';
-if (!empty($_GET)) {
-    $url_canon .= '?' . http_build_query($_GET);
+if (!empty($categorie_slug)) {
+    $url_canon .= '/categorie/' . $categorie_slug;
 }
 
 // ============================================

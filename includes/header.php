@@ -3,6 +3,7 @@ if(!isset($base)) $base = "https://www.extrag.one";
 if(!isset($url_canon)) $url_canon = "https://www.extrag.one";
 if(!isset($recherche)) $recherche = "";
 if(!isset($image_seo)) $image_seo = "$base/assets/img/image-og.png";
+if(!isset($noindex)) $noindex = FALSE;
 
 if(substr($image_seo, 0,5) !== 'https') {
   $new_url = 'https://extrag.one';
@@ -25,6 +26,8 @@ $current_user = getCurrentUser();
     <meta name="author"           content="InnoSpira"/>
     <meta name="description"      content="<?=$description?>"/>
     <meta name="viewport"         content="width=device-width, initial-scale=1">
+    
+    <?php if ($noindex) echo '<meta name="robots" content="noindex">'; ?>
 
     <meta property="og:site_name"   content="eXtragone">
     <meta property="og:title"       content="<?=$title?>">

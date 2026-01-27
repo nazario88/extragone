@@ -11,6 +11,10 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
 RewriteCond %{HTTP_HOST} ^extrag\.one$ [NC]
 RewriteRule ^(.*)$ https://www.extrag.one/$1 [L,R=301]
 
+# Redirection des anciennes URLs avec ?categorie= vers /outils/categorie/slug
+RewriteCond %{THE_REQUEST} \s/+outils\?categorie=([^&\s]+) [NC]
+RewriteRule ^outils$ /outils/categorie/%1? [R=301,L]
+
 RewriteRule ^outils$ 					outils.php [L]
 RewriteRule ^outils/categorie/(.*)		outils.php?categorie=$1 [L]
 RewriteRule ^outil/(.*)$ 				outil.php?nom=$1 [L]
