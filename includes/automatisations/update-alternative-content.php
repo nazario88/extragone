@@ -10,6 +10,11 @@ header('Access-Control-Allow-Origin: *');
 
 include('../config.php');
 
+function ensureJsonString($value) {
+    if ($value === null) return null;
+    return is_string($value) ? $value : json_encode($value);
+}
+
 // ===============================================
 // 1. AUTHENTIFICATION (clé API)
 // ===============================================
@@ -125,10 +130,15 @@ if ($action === 'update' && $slug) {
             $slug,
             $tool_id,
             $data['intro_text'] ?? null,
-            isset($data['comparison_table']) ? json_encode($data['comparison_table']) : null,
-            isset($data['tools_details']) ? json_encode($data['tools_details']) : null,
-            isset($data['faq']) ? json_encode($data['faq']) : null
+            ensureJsonString($data['comparison_table'] ?? null),
+            ensureJsonString($data['tools_details'] ?? null),
+            ensureJsonString($data['faq'] ?? null)
         ]);
+        /*
+        isset($data['comparison_table']) ? (is_string($data['comparison_table']) ? $data['comparison_table'] : json_encode($data['comparison_table'])) : null,
+        isset($data['tools_details']) ? (is_string($data['tools_details']) ? $data['tools_details'] : json_encode($data['tools_details'])) : null,
+        isset($data['faq']) ? (is_string($data['faq']) ? $data['faq'] : json_encode($data['faq'])) : null
+        */
         
         $page_id = $pdo->lastInsertId();
         
@@ -148,11 +158,16 @@ if ($action === 'update' && $slug) {
         
         $stmt->execute([
             $data['intro_text'] ?? null,
-            isset($data['comparison_table']) ? json_encode($data['comparison_table']) : null,
-            isset($data['tools_details']) ? json_encode($data['tools_details']) : null,
-            isset($data['faq']) ? json_encode($data['faq']) : null,
+            ensureJsonString($data['comparison_table'] ?? null),
+            ensureJsonString($data['tools_details'] ?? null),
+            ensureJsonString($data['faq'] ?? null),
             $slug
         ]);
+        /*
+        isset($data['comparison_table']) ? json_encode($data['comparison_table']) : null,
+        isset($data['tools_details']) ? json_encode($data['tools_details']) : null,
+        isset($data['faq']) ? json_encode($data['faq']) : null,
+        */
         
         $page_id = $existing['id'];
     }
@@ -239,12 +254,16 @@ if ($action === 'bulk_update') {
             $stmt->execute([
                 $page['slug'],
                 $page['intro_text'] ?? null,
-                isset($page['comparison_table']) ? json_encode($page['comparison_table']) : null,
-                isset($page['tools_details']) ? json_encode($page['tools_details']) : null,
-                isset($page['faq']) ? json_encode($page['faq']) : null,
+                ensureJsonString($data['comparison_table'] ?? null),
+                ensureJsonString($data['tools_details'] ?? null),
+                ensureJsonString($data['faq'] ?? null),
                 $page['slug']
             ]);
-            
+            /*
+            isset($page['comparison_table']) ? json_encode($page['comparison_table']) : null,
+            isset($page['tools_details']) ? json_encode($page['tools_details']) : null,
+            isset($page['faq']) ? json_encode($page['faq']) : null,
+            */
             $updated++;
             
         } catch (Exception $e) {

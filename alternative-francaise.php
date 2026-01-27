@@ -107,23 +107,25 @@ if ($custom_content && !empty($custom_content['tools_details_json'])) {
 
 // --- FAQ ---
 if ($custom_content && !empty($custom_content['faq_json'])) {
-    // 1. Nettoyer les backslashes
-    $json_string = stripslashes($custom_content['faq_json']);
+    $json_string = $custom_content['faq_json'];
     
-    // 2. Décoder les séquences Unicode (\u00e7 → ç)
-    $json_string = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
-        return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
-    }, $json_string);
-    
-    // 3. Décodage final
+    // 1ère tentative : décodage direct (au cas où ce serait du JSON simple)
     $faq_data = json_decode($json_string, true);
     
-    // 4. Vérification
-    if (json_last_error() !== JSON_ERROR_NONE || !is_array($faq_data)) {
-        error_log("❌ Erreur FAQ pour slug {$slug_parent} : " . json_last_error_msg());
-        error_log("JSON problématique : " . substr($custom_content['faq_json'], 0, 500));
+    // Si échec ET que ça ressemble à du JSON double-encodé
+    if (json_last_error() !== JSON_ERROR_NONE && is_string($json_string) && $json_string[0] === '"') {
+        // Décoder une première fois pour enlever la chaîne externe
+        $json_string = json_decode($json_string, true);
         
-        // Fallback
+        // Puis décoder le vrai JSON
+        if (is_string($json_string)) {
+            $faq_data = json_decode($json_string, true);
+        }
+    }
+    
+    // Vérification finale
+    if (json_last_error() !== JSON_ERROR_NONE || !is_array($faq_data) || empty($faq_data)) {
+        error_log("❌ Erreur FAQ pour slug {$slug_parent} : " . json_last_error_msg());
         $faq_data = generateDefaultFAQ($tool_parent, $alternatives);
     }
 } else {
