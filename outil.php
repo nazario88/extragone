@@ -6,6 +6,7 @@ include 'includes/auth.php';
 // Inclure les systèmes de notes et commentaires
 require_once 'includes/notes/functions.php';
 require_once 'includes/comments/functions.php';
+require_once 'includes/guides/functions.php';
 
 /* Récupération des informations de l'outil
 ——————————————————————————————————————————————————*/
@@ -266,7 +267,59 @@ if($data_outil['tags']) {
                 </div>
             </div>
         </div>
-        
+
+        <!-- Guides communauté -->
+        <?php 
+        $guides = getApprovedToolGuides($data_outil['id']); 
+        if (!empty($guides) || isLoggedIn()):
+        ?>
+        <div class="bg-white dark:bg-slate-800 rounded-xl shadow mb-4 p-4 border border-slate-200 dark:border-slate-700">
+            <h3 class="text-sm font-bold mb-3 uppercase tracking-wider">
+                <i class="fa-solid fa-book-open mr-2"></i>Guides
+            </h3>
+            
+            <?php if (!empty($guides)): ?>
+                <div class="space-y-2 mb-3">
+                    <?php foreach ($guides as $guide): ?>
+                    <a href="<?= htmlspecialchars($guide['url']) ?>" 
+                    target="_blank" 
+                    rel="noopener"
+                    class="block p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-slate-700 transition text-sm group">
+                        <div class="flex items-start gap-2">
+                            <i class="fa-solid fa-external-link text-blue-500 text-xs mt-1"></i>
+                            <div class="flex-1 min-w-0">
+                                <div class="font-medium group-hover:text-blue-600 line-clamp-2">
+                                    <?= htmlspecialchars($guide['title']) ?>
+                                </div>
+                                <div class="text-xs text-gray-500 mt-0.5">
+                                    Par <?= htmlspecialchars($guide['display_name']) ?>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+            
+            <?php if (isLoggedIn()): ?>
+                <button onclick="openAddGuideModal()" 
+                        class="w-full px-3 py-2 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-plus"></i>
+                    Proposer un guide
+                </button>
+            <?php else: ?>
+                <a href="connexion?redirect=outil/<?= $data_outil['slug'] ?>" 
+                class="block text-center text-sm text-blue-500 hover:underline">
+                    Connectez-vous pour proposer un guide
+                </a>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
+
+        <?php if (isLoggedIn()): ?>
+            <?php include 'includes/guides/display-modal.php'; ?>
+        <?php endif; ?>
+
         <!-- Notation -->
         <div class="bg-white rounded-xl shadow mb-4 p-4 border border-slate-200 dark:bg-slate-800 dark:border-slate-700">
             <h3 class="text-sm font-bold mb-3 uppercase tracking-wider">
