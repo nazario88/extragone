@@ -92,9 +92,6 @@ include 'includes/header.php';
  // Si pas d'image de logo, on en met une par défaut
 if(empty($data_outil['logo'])) $data_outil['logo'] = 'assets/link.jpg';
 
-// Consolidation du lien de l'article
-$link_article = (!empty($data_outil['url_article'])) ? '<a class="w-full sm:w-auto px-3 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded transition-all duration-300 transform" href="'.$data_outil['url_article'].'" target="_blank" title="Cliquer pour lire l\'article sur InnoSpira.fr"><i class="fa-solid fa-book-open mr-2"></i> Lire le guide complet</a>':'';
-
 // Label
 $is_french = (isset($data_outil['is_french']) && $data_outil['is_french']) 
     ? '<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
